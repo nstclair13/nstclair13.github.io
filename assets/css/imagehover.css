@@ -13,7 +13,7 @@
   display: inline-block;
   margin: 0px;
   max-width: 100%;
-  background-color: #2266a5;
+  background-color: #ffffff;
   color: #fff;
   overflow: hidden;
   -webkit-backface-visibility: hidden;
@@ -29,7 +29,7 @@
 }
 [class^='imghvr-'] figcaption,
 [class*=' imghvr-'] figcaption {
-  background-color: #135796;
+  background-color: #ffffff;
   padding: 30px;
   position: absolute;
   top: 0;
@@ -237,7 +237,7 @@
   left: 0;
   right: 0;
   content: '';
-  background-color: #135796;
+  background-color: #ffffff;
 }
 [class^='imghvr-reveal-'] figcaption,
 [class*=' imghvr-reveal-'] figcaption {
@@ -1067,3 +1067,13 @@
   -webkit-transition-delay: 0.21s;
   transition-delay: 0.21s;
 }
+
+
+
+
+
+
+
+
+
+

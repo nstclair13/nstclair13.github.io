@@ -12,10 +12,18 @@
         <meta name="description" content="The animation portfolio website of Nicholas St. Clair. Check out his latest Demo Reel, Resume, and other work in the Animation Archive." />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
+        <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        
         <!-- This CSS is for the image hover effects -->
         <link rel="stylesheet" href="assets/css/imagehover.min.css">
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        
+        <!-- VideoLightBox.com HEAD section -->
+        <link rel="stylesheet" href="assets/videolightbox.css" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/overlay-minimal.css"/>
+		<script src="assets/js/jquery.js" type="text/javascript"></script>
+		<script src="assets/js/swfobject.js" type="text/javascript"></script>
+		
 	</head>
 	<body>
 
@@ -43,9 +51,11 @@
                              <p>Website is currently under development. Some parts might be broken.</p>
                             
                             
+                            
+                            
 							<ul class="actions">
-								<li><a href="#two" class="button scrolly">VFX Creature Reel <i class="fa fa-film" aria-hidden="true"></i></a></li>
-                                <li><a href="#two" class="button scrolly">Character Reel <i class="fa fa-film" aria-hidden="true"></i></a></li>
+								<li><a href="http://vimeo.com/moogaloop.swf?clip_id=95333484&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;autoplay=0" class="voverlay button scrolly">VFX Creature Reel <i class="fa fa-film" aria-hidden="true"></i></a></li>
+                                <li><a href="http://vimeo.com/moogaloop.swf?clip_id=96932289&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;autoplay=0" class="voverlay button scrolly">Character Reel <i class="fa fa-film" aria-hidden="true"></i></a></li>
                                 <li><a href="https://dl.dropboxusercontent.com/u/5430334/Nicholas_St_Clair_REEL_BREAKDOWN.pdf" target="_blank" class="button scrolly">Reel Breakdowns <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></li>
 							</ul>
                         </div>
@@ -356,6 +366,11 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+        
+            <script src="assets/js/jquery.tools.min.js" type="text/javascript"></script>
+	        <script src="assets/js/videolightbox.js" type="text/javascript"></script>
+	   <!-- End VideoLightBox.com BODY section -->
+        
             <script>
                 var contactform =  document.getElementById('contactform');
                 contactform.setAttribute('action', '//formspree.io/' + 'your' + '@' + 'email' + '.' + 'com');
@@ -366,6 +381,7 @@
                 alert("Your Message Has Been Sent. Thank you for contacting me, I will get back to you shortly!");
                 }
             </script>
+        
 
 
 	</body>
