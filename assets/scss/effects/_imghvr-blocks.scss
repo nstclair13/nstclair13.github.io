@@ -1,0 +1,430 @@
+/* imghvr-blocks*
+   ----------------------------- */
+[class^='imghvr-blocks'], [class*=' imghvr-blocks'] {
+	&:before, &:after, figcaption:before, figcaption:after {
+		background-color: $figcaption-bg;
+		opacity: 0;
+		position: absolute;
+		content: '';
+		height: 50%;
+		width: 50%;
+	}
+	&:before, &:after {
+		z-index: 1;
+	}
+	&:before {
+		top: 0;
+		right: 0;
+	}
+	&:after {
+		bottom: 0;
+		left: 0;
+	}
+
+	figcaption {
+		z-index: 3;
+		background-color: transparent;
+		* {
+			opacity: 0;
+			@include transition-delay(0s);
+		}
+		&:before, &:after {
+			z-index: -1;
+		}
+		&:before {
+			top: 0;
+			left: 0;
+		}
+		&:after {
+			bottom: 0;
+			right: 0;
+		}
+	}
+	a {
+		z-index: 3;
+	}
+	&:hover {
+		&:before, &:after, figcaption:before, figcaption:after {
+			@include transform(translate(0,0) scale(1));
+			opacity: 1;
+		}
+		figcaption {
+			* {
+				opacity: 1;
+				@include transition-delay($transition-duration);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-rotate-left
+   ----------------------------- */
+.imghvr-blocks-rotate-left {
+	&:before {
+		@include transform(translateY(100%));
+	}
+	&:after {
+		@include transform(translateY(-100%));
+	}
+	figcaption {
+		&:before {
+			@include transform(translateX(100%));
+		}
+		&:after {
+			@include transform(translateX(-100%));
+		}
+	}
+}
+ /* imghvr-blocks-rotate-right
+   ----------------------------- */
+.imghvr-blocks-rotate-right {
+	&:before {
+		@include transform(translateX(-100%));
+	}
+	&:after {
+		@include transform(translateX(100%));
+	}
+	figcaption {
+		&:before {
+			@include transform(translateY(100%));
+		}
+		&:after {
+			@include transform(translateY(-100%));
+		}
+	}
+}
+ /* imghvr-blocks-rotate-in-left
+   ----------------------------- */
+.imghvr-blocks-rotate-in-left {
+	&:before {
+		@include transform(translateY(-100%));
+	}
+	&:after {
+		@include transform(translateY(100%));
+	}
+	figcaption {
+		&:before {
+			@include transform(translateX(-100%));
+		}
+		&:after {
+			@include transform(translateX(100%));
+		}
+	}
+}
+ /* imghvr-blocks-rotate-in-right
+   ----------------------------- */
+.imghvr-blocks-rotate-in-right {
+	&:before {
+		@include transform(translateX(100%));
+	}
+	&:after {
+		@include transform(translateX(-100%));
+	}
+	figcaption {
+		&:before {
+			@include transform(translateY(-100%));
+		}
+		&:after {
+			@include transform(translateY(100%));
+		}
+	}
+}
+ /* imghvr-blocks-in
+   ----------------------------- */
+.imghvr-blocks-in {
+	&:before {
+		@include transform(translate(100%,-100%));
+	}
+	&:after {
+		@include transform(translate(-100%,100%));
+	}
+	figcaption {
+		&:before {
+			@include transform(translate(-100%,-100%));
+		}
+		&:after {
+			@include transform(translate(100%,100%));
+		}
+	}
+}
+ /* imghvr-blocks-out
+   ----------------------------- */
+.imghvr-blocks-out {
+	&:before {
+		@include transform(translate(-100%,100%));
+	}
+	&:after {
+		@include transform(translate(100%,-100%));
+	}
+	figcaption {
+		&:before {
+			@include transform(translate(100%,100%));
+		}
+		&:after {
+			@include transform(translate(-100%,-100%));
+		}
+	}
+}
+ /* imghvr-blocks-float-up
+   ----------------------------- */
+.imghvr-blocks-float-up {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(translate(0,200%));
+	}
+	&:before {
+		@include transition-delay($transition-duration);
+	}
+	&:after {
+		@include transition-delay(0.0s);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.6);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.4);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration * 0.4);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.6);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay(0.0s);
+			}
+			&:after {
+				@include transition-delay($transition-duration);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-float-down
+   ----------------------------- */
+.imghvr-blocks-float-down {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(translate(0,-200%));
+	}
+	&:before {
+		@include transition-delay(0.0s);
+	}
+	&:after {
+		@include transition-delay($transition-duration);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.4);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.6);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration * 0.6);
+			}
+			&:after {
+				@include transition-delay($transition-duration * 0.4);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-float-left
+   ----------------------------- */
+.imghvr-blocks-float-left {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(translate(200%,0));
+	}
+	&:before {
+		@include transition-delay(0.0s);
+	}
+	&:after {
+		@include transition-delay($transition-duration);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.3);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.6);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration * 0.6);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.4);
+		}
+		figcaption {
+			&:before {
+			@include transition-delay(0.0s);
+			}
+			&:after {
+			@include transition-delay($transition-duration);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-float-right
+   ----------------------------- */
+.imghvr-blocks-float-right {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(translate(-200%,0));
+	}
+	&:before {
+		@include transition-delay($transition-duration);
+	}
+	&:after {
+		@include transition-delay(0.0s);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.6);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.3);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration * 0.6);
+			}
+			&:after {
+				@include transition-delay($transition-duration * 0.4);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-zoom-top-left
+   ----------------------------- */
+.imghvr-blocks-zoom-top-left {
+   	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(scale(0.05));
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration * 0.5);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.5);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay(0.0s);
+			}
+			&:after {
+				@include transition-delay($transition-duration);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-zoom-top-right
+   ----------------------------- */
+.imghvr-blocks-zoom-top-right {
+   	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(scale(0.05));
+	}
+	&:hover {
+		&:before {
+			@include transition-delay(0,0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration * 0.5);
+			}
+			&:after {
+				@include transition-delay($transition-duration * 0.5);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-zoom-bottom-left
+   ----------------------------- */
+.imghvr-blocks-zoom-bottom-left {
+   	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(scale(0.05));
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration * 0.5);
+			}
+			&:after {
+				@include transition-delay($transition-duration * 0.5);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}
+ /* imghvr-blocks-zoom-bottom-right
+   ----------------------------- */
+.imghvr-blocks-zoom-bottom-right {
+   	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(scale(0.05));
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration * 0.5);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.5);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration);
+			}
+			&:after {
+				@include transition-delay(0.0s);
+			}
+			* {
+				@include transition-delay($transition-duration * 1.4);
+			}
+		}
+	}
+}

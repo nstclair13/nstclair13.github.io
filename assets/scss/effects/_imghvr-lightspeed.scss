@@ -1,0 +1,183 @@
+
+
+ /* imghvr-lightspeed-in-left
+   ----------------------------- */
+.imghvr-lightspeed-in-left {
+	figcaption {
+        @include transform(translate(100%,0));
+        @include transform-origin(50% 100%);
+        opacity: 0;
+    }
+    &:hover {
+        figcaption{
+            @include animation(imghvr-lightspeed-in-left ($transition-duration * 1.15) ease-in forwards);
+            opacity: 1;
+        }
+    }
+}
+
+@-webkit-keyframes imghvr-lightspeed-in-left {
+  from {
+    @include transform(translate(100%,0) skewX(-20deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(-20deg));
+  }
+  75% {
+    @include transform(translate(0,0) skewX(10deg));
+  }
+  to {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+}
+
+@keyframes imghvr-lightspeed-in-left {
+  from {
+    @include transform(translate(100%,0) skewX(-20deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(-20deg));
+  }
+  75% {
+    @include transform(translate(0,0) skewX(10deg));
+  }
+  to {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+}
+ /* imghvr-lightspeed-in-right
+   ----------------------------- */
+.imghvr-lightspeed-in-right {
+	figcaption {
+        @include transform(translate(-100%,0));
+        @include transform-origin(50% 100%);
+        opacity: 0;
+    }
+    &:hover {
+        figcaption{
+            @include animation(imghvr-lightspeed-in-right ($transition-duration * 1.15) ease-in forwards);
+            opacity: 1;
+        }
+    }
+}
+
+@-webkit-keyframes imghvr-lightspeed-in-right {
+  from {
+    @include transform(translate(-100%,0) skewX(20deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(20deg));
+  }
+  75% {
+    @include transform(translate(0,0) skewX(-10deg));
+  }
+  to {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+}
+
+@keyframes imghvr-lightspeed-in-right {
+  from {
+    @include transform(translate(-100%,0) skewX(20deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(20deg));
+  }
+  75% {
+    @include transform(translate(0,0) skewX(-10deg));
+  }
+  to {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+}
+
+ /* imghvr-lightspeed-out-left
+   ----------------------------- */
+.imghvr-lightspeed-out-left {
+	figcaption {
+        z-index: -1;
+        opacity: 1;
+    }
+    &:hover {
+        > img {
+            @include animation(imghvr-lightspeed-out-left ($transition-duration * 1.15) ease-in forwards);
+            @include transform-origin(50% 100%);
+            opacity: 1;
+        }
+    }
+}
+
+@-webkit-keyframes imghvr-lightspeed-out-left {
+  from {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+  25% {
+    @include transform(translate(10%,0) skewX(0deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(-20deg));
+  }
+  to {
+    @include transform(translate(-150%,0) skewX(-20deg));
+  }
+}
+
+@keyframes imghvr-lightspeed-out-left {
+  from {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+  25% {
+    @include transform(translate(10%,0) skewX(0deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(-20deg));
+  }
+  to {
+    @include transform(translate(-150%,0) skewX(-20deg));
+  }
+}
+ /* imghvr-lightspeed-out-right
+   ----------------------------- */
+.imghvr-lightspeed-out-right {
+	figcaption {
+        z-index: -1;
+        opacity: 1;
+    }
+    &:hover {
+        > img {
+            @include animation(imghvr-lightspeed-out-right ($transition-duration * 1.15) ease-in forwards);
+            @include transform-origin(50% 100%);
+            opacity: 1;
+        }
+    }
+}
+
+@-webkit-keyframes imghvr-lightspeed-out-right {
+  from {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+  25% {
+    @include transform(translate(10%,0) skewX(0deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(-20deg));
+  }
+  to {
+    @include transform(translate(-150%,0) skewX(-20deg));
+  }
+}
+
+@keyframes imghvr-lightspeed-out-right {
+  from {
+    @include transform(translate(0,0) skewX(0deg));
+  }
+  25% {
+    @include transform(translate(-10%,0) skewX(0deg));
+  }
+  50% {
+    @include transform(translate(0,0) skewX(20deg));
+  }
+  to {
+    @include transform(translate(150%,0) skewX(20deg));
+  }
+}

@@ -1,0 +1,59 @@
+ /* imghvr-modal-slide-*
+   ----------------------------- */
+[class^='imghvr-modal'], [class*=' imghvr-modal'] {
+	figcaption {
+        opacity: 1;
+        
+	}
+	&:hover {
+		> img {
+			opacity: 0.7;
+		}
+		figcaption {
+			@include transform(translate(0, 0));
+		}
+	}
+}
+
+ /* imghvr-modal-slide-up
+   ----------------------------- */
+.imghvr-modal-slide-up {
+	figcaption {
+		top: auto;
+		padding-top: ($figcaption-padding / 2);
+        padding-bottom: ($figcaption-padding / 2);
+		@include transform(translate(0, 100%));
+	}
+}
+ /* imghvr-modal-slide-down
+   ----------------------------- */
+.imghvr-modal-slide-down {
+	figcaption {
+		bottom: auto;
+		padding-top: ($figcaption-padding / 2);
+        padding-bottom: ($figcaption-padding / 2);
+		@include transform(translate(0, -100%));
+	}
+}
+ /* imghvr-modal-slide-left
+   ----------------------------- */
+.imghvr-modal-slide-left {
+	figcaption {
+		left: auto;
+		max-width: 70%;
+		padding-left: ($figcaption-padding / 2);
+        padding-right: ($figcaption-padding / 2);
+		@include transform(translate(100%, 0%));
+	}
+}
+ /* imghvr-modal-slide-right
+   ----------------------------- */
+.imghvr-modal-slide-right {
+	figcaption {
+		right: auto;
+		max-width: 70%;
+		padding-left: ($figcaption-padding / 2);
+        padding-right: ($figcaption-padding / 2);
+		@include transform(translate(-100%, 0%));
+	}
+}

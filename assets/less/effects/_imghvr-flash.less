@@ -1,0 +1,84 @@
+ /* imghvr-flash-*
+   ----------------------------- */
+[class^='imghvr-flash-'], [class*=' imghvr-flash-'] {
+    &:before, &:after {
+        opacity: 0.75;
+        background-color: @figcaption-bg;
+        .fill(-50%);
+        content: '';
+    }
+    &:after {
+        .transition-delay(@transition-duration * 0.5)
+    }
+    figcaption {
+        opacity: 0;
+        z-index: 1;
+    }
+    &:hover {
+        figcaption {
+            .transition-delay(@transition-duration);
+            opacity: 1;
+        }
+    }
+}
+ /* imghvr-flash-top-left
+   ----------------------------- */
+.imghvr-flash-top-left{
+    &:before, &:after {
+            .transform(rotate(-45deg) translateY(-100%));
+        }
+    &:hover {
+        &:before {
+            .transform(rotate(-45deg) translateY(100%));
+        }
+        &:after {
+            .transform(rotate(-45deg) translateY(0%));
+        }
+    }
+}
+ /* imghvr-flash-top-right
+   ----------------------------- */
+.imghvr-flash-top-right {
+    &:before, &:after {
+            .transform(rotate(45deg) translateY(-100%));
+        }
+    &:hover {
+        &:before {
+            .transform(rotate(45deg) translateY(100%));
+        }
+        &:after {
+            .transform(rotate(45deg) translateY(0%));
+        }
+    }
+}
+ /* imghvr-flash-bottom-left
+   ----------------------------- */
+.imghvr-flash-bottom-left {
+    &:before, &:after {
+            .transform(rotate(45deg) translateY(100%));
+        }
+    &:hover {
+        &:before {
+            .transform(rotate(45deg) translateY(-100%));
+        }
+        &:after {
+            .transform(rotate(45deg) translateY(0%));
+        }
+    }
+}
+ /* imghvr-flash-bottom-right
+   ----------------------------- */
+.imghvr-flash-bottom-right {
+    &:before, &:after {
+            .transform(rotate(-45deg) translateY(100%));
+        }
+    &:hover {
+        &:before {
+            .transform(rotate(-45deg) translateY(-100%));
+        }
+        &:after {
+            .transform(rotate(-45deg) translateY(0%));
+        }
+    }
+}
+

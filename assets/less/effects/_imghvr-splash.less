@@ -1,0 +1,110 @@
+ /* imghvr-splash*
+   ----------------------------- */
+[class^='imghvr-splash'], [class*=' imghvr-splash'] {
+	figcaption {
+        background-color: transparent;
+        z-index: 1;
+        * {
+            opacity: 0;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            .transition(all @transition-duration ease-in @transition-duration, width @transition-duration ease-out, height @transition-duration ease-out);
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: @figcaption-bg;
+            z-index: -1;
+        }
+	}
+	&:hover, &.hover {
+		figcaption {
+            background-color: @figcaption-bg;
+            .transition-delay(@transition-duration * 1.4);
+			* {
+                opacity: 1;
+                .transition-delay(@transition-duration * 1.4);
+            }
+			
+            &:after {
+                .transition(all @transition-duration ease-in, width @transition-duration ease-out @transition-duration, height @transition-duration ease-out @transition-duration);
+                width: 400px;
+                height: 400px;
+            }
+		}
+	}
+}
+
+ /* imghvr-splash-up
+   ----------------------------- */
+.imghvr-splash-up {
+    figcaption {
+        &:after {
+            left: 50%;
+            top: 120%;
+        }
+    }
+    &:hover, &.hover {
+        figcaption {
+            &:after {
+                top: 50%;
+            }
+        }
+    }
+}
+
+ /* imghvr-splash-down
+   ----------------------------- */
+.imghvr-splash-down {
+    figcaption {
+        &:after {
+            left: 50%;
+            top: -20px;
+        }
+    }
+    &:hover, &.hover {
+        figcaption {
+            &:after {
+                top: 50%;
+            }
+        }
+    }
+}
+
+ /* imghvr-splash-left
+   ----------------------------- */
+.imghvr-splash-left {
+    figcaption {
+        &:after {
+            top: 50%;
+            left: 120%;
+        }
+    }
+    &:hover, &.hover {
+        figcaption {
+            &:after {
+                left: 50%;
+            }
+        }
+    }
+}
+
+ /* imghvr-splash-right
+   ----------------------------- */
+.imghvr-splash-right {
+    figcaption {
+        &:after {
+            top: 50%;
+            left: -20px;
+        }
+    }
+    &:hover, &.hover {
+        figcaption {
+            &:after {
+                left: 50%;
+            }
+        }
+    }
+}

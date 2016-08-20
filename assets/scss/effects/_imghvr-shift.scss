@@ -1,0 +1,50 @@
+/* imghvr-shift-*
+   ----------------------------- */
+[class^='imghvr-shift'], [class*=' imghvr-shift'] {
+	overflow: visible;
+	figcaption {
+		background-color: $figcaption-bg;
+		opacity: 0;
+	}
+}
+
+/* imghvr-shift-top-left
+   ----------------------------- */
+.imghvr-shift-top-left {
+	&:hover {
+		figcaption {
+			opacity: 1;
+			@include transform(translate(- $shift-distance, - $shift-distance));
+		}
+	}
+}
+/* imghvr-shift-top-right
+   ----------------------------- */
+.imghvr-shift-top-right {
+	&:hover {
+		figcaption {
+			opacity: 1;
+			@include transform(translate($shift-distance, - $shift-distance));
+		}
+	}
+}
+/* imghvr-shift-bottom-left
+   ----------------------------- */
+.imghvr-shift-bottom-left {
+	&:hover {
+		figcaption {
+			opacity: 1;
+			@include transform(translate(- $shift-distance, $shift-distance));
+		}
+	}
+}
+/* imghvr-shift-bottom-right
+   ----------------------------- */
+.imghvr-shift-bottom-right {
+	&:hover {
+		figcaption {
+			opacity: 1;
+			@include transform(translate($shift-distance, $shift-distance));
+		}
+	}
+}

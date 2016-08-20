@@ -1,0 +1,192 @@
+ /* imghvr-book-open-*
+   ----------------------------- */
+*[class^='imghvr-book-open-'],*[class*=' imghvr-book-open-'] {
+	overflow: visible;
+	figcaption {
+		background-color: transparent;
+		border: none;
+		&:before, &:after {
+			z-index: -1;
+			background-color: darken($figcaption-bg, 40%);
+			content: '';
+			position: absolute;
+			opacity: 0;
+			@include transition (all 0.45s ease);
+		}
+	}
+	&:hover {
+		figcaption {
+			&:before, &:after {
+				opacity: 1;
+				background-color: $figcaption-bg;
+				@include transform(rotateY(0deg));
+			}
+		}
+	}
+}
+ /* imghvr-book-open-horiz
+   ----------------------------- */
+.imghvr-book-open-horiz {
+	figcaption {
+		@include perspective(50em);
+		* {
+			opacity: 0;
+		}
+		&:before, &:after {
+			height: 100%;
+			width: 50%;
+			top: 0;
+		}
+		&:before {
+			@include background-image(linear-gradient(to right, transparent 60%, rgba(0, 0, 0, 0.1) 99%, rgba(0, 0, 0, 0.15) 100%));
+			left: 0;
+			@include transform(rotateY(90deg));
+			@include transform-origin(100% 50%);
+		}
+		&:after {
+			@include background-image(linear-gradient(to left, transparent 60%, rgba(0, 0, 0, 0.12) 99%, rgba(0, 0, 0, 0.15) 100%));
+			right: 0;
+			@include transform(rotateY(-90deg));
+			@include transform-origin(0% 50%);
+		}
+	}
+	&:hover {
+		figcaption {
+			* {
+				opacity: 1;
+				@include transition-delay($transition-duration * 0.6);
+			}
+		}
+	}
+}
+/* imghvr-book-open-vert
+   ----------------------------- */
+.imghvr-book-open-vert {
+	figcaption {
+		@include perspective(50em);
+		* {
+			opacity: 0;
+		}
+		&:before, &:after {
+			height: 50%;
+			width: 100%;
+			left: 0;
+		}
+		&:before {
+			@include background-image(linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.1) 99%, rgba(0, 0, 0, 0.15) 100%));
+			top: 0;
+			@include transform(rotateX(-90deg));
+			@include transform-origin(50% 100%);
+		}
+		&:after {
+			@include background-image(linear-gradient(to top, transparent 60%, rgba(0, 0, 0, 0.13) 99%, rgba(0, 0, 0, 0.15) 100%));
+			bottom: 0;
+			@include transform(rotateX(90deg));
+			@include transform-origin(50% 0%);
+		}
+	}
+	&:hover {
+		figcaption {
+			* {
+				opacity: 1;
+				@include transition-delay($transition-duration * 0.6);
+			}
+		}
+	}
+}
+ /* imghvr-book-open-up
+   ----------------------------- */
+.imghvr-book-open-up {
+	@include perspective(50em);
+	> img {
+		@include transform-origin(50% 0%);
+	}
+	figcaption {
+		z-index: -1;
+		* {
+			opacity: 1;
+		}
+		&:after {
+			@include fill;
+			@include background-image(linear-gradient(to top, transparent 80%, rgba(0, 0, 0, 0.2) 99%, rgba(0, 0, 0, 0.3) 100%));
+			left: 0;
+		}
+	}
+	&:hover {
+		> img {
+			@include transform(rotateX(86deg));	
+		}
+	}
+}
+ /* imghvr-book-open-down
+   ----------------------------- */
+.imghvr-book-open-down {
+	@include perspective(50em);
+	> img {
+		@include transform-origin(50% 100%);
+	}
+	figcaption {
+		z-index: -1;
+		* {
+			opacity: 1;
+		}
+		&:after {
+			@include fill;
+			@include background-image(linear-gradient(to bottom, transparent 80%, rgba(0, 0, 0, 0.2) 99%, rgba(0, 0, 0, 0.3) 100%));
+			left: 0;
+		}
+	}
+	&:hover {
+		> img {
+			@include transform(rotateX(-86deg));	
+		}
+	}
+}
+ /* imghvr-book-open-left
+   ----------------------------- */
+.imghvr-book-open-left {
+	@include perspective(50em);
+	> img {
+		@include transform-origin(0% 50%);
+	}
+	figcaption {
+		z-index: -1;
+		* {
+			opacity: 1;
+		}
+		&:after {
+			@include fill;
+			@include background-image(linear-gradient(to left, transparent 80%, rgba(0, 0, 0, 0.2) 99%, rgba(0, 0, 0, 0.3) 100%));
+			left: 0;
+		}
+	}
+	&:hover {
+		> img {
+			@include transform(rotateY(-86deg));	
+		}
+	}
+}
+ /* imghvr-book-open-right
+   ----------------------------- */
+.imghvr-book-open-right {
+	@include perspective(50em);
+	> img {
+		@include transform-origin(100% 50%);
+	}
+	figcaption {
+		z-index: -1;
+		* {
+			opacity: 1;
+		}
+		&:after {
+			@include fill;
+			@include background-image(linear-gradient(to right, transparent 80%, rgba(0, 0, 0, 0.2) 99%, rgba(0, 0, 0, 0.3) 100%));
+			left: 0;
+		}
+	}
+	&:hover {
+		> img {
+			@include transform(rotateY(86deg));	
+		}
+	}
+}

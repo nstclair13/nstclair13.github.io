@@ -1,0 +1,62 @@
+ /* imghvr-switch-*
+   ----------------------------- */
+[class^='imghvr-switch-'], [class*=' imghvr-switch-'] {
+	> img, figcaption {
+		@include transition-timing-function(cubic-bezier(0.645, 0.045, 0.355, 1));
+	}
+	&:hover {
+		> img {
+		}
+		figcaption {
+			@include transform(translate(0 0));
+		}
+	}
+}
+ /* imghvr-switch-up
+   ----------------------------- */
+.imghvr-switch-up {
+	figcaption {
+		@include transform(translateY(100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateY(100%));
+		}
+	}
+}
+ /* imghvr-switch-down
+   ----------------------------- */
+.imghvr-switch-down {
+	figcaption {
+		@include transform(translateY(-100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateY(-100%));
+		}
+	}
+}
+ /* imghvr-switch-left
+   ----------------------------- */
+.imghvr-switch-left {
+	figcaption {
+		@include transform(translateX(100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateX(100%));
+		}
+	}
+}
+ /* imghvr-switch-right
+   ----------------------------- */
+.imghvr-switch-right {
+	figcaption {
+		@include transform(translateX(-100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateX(-100%));
+		}
+	}
+}

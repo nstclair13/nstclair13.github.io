@@ -1,0 +1,76 @@
+ /* imghvr-cube-*
+   ----------------------------- */
+[class^='imghvr-cube-'], [class*=' imghvr-cube-'] {
+	@include perspective(50em);
+	@include transform-style(preserve-3d);
+	overflow: visible;
+	background-color: transparent;
+	> img {
+		@include transition-delay(0.05s);
+	}
+	figcaption {
+		opacity: 0;
+		@include transition-delay(0s);
+		background-color: $figcaption-bg;
+	}
+	&:hover {
+		> img {
+			opacity: 0;
+			@include transition-delay(0s);
+		}
+		figcaption {
+			@include transform(translateY(0%) rotateX(0deg));
+			opacity: 1;
+			@include transition-delay(0.05s);
+		}
+	}
+}
+
+ /* imghvr-cube-up
+   ----------------------------- */
+.imghvr-cube-up {
+	figcaption {
+		@include transform(translateY(50%) rotateX(-90deg));
+	}
+	&:hover {
+		> img {
+			@include transform(translateY(-50%) rotateX(90deg));
+		}
+	}
+}
+ /* imghvr-cube-down
+   ----------------------------- */
+.imghvr-cube-down {
+	figcaption {
+		@include transform(translateY(-50%) rotateX(90deg));
+	}
+	&:hover {
+		> img {
+			@include transform(translateY(50%) rotateX(-90deg));
+		}
+	}
+}
+ /* imghvr-cube-left
+   ----------------------------- */
+.imghvr-cube-left {
+	figcaption {
+		@include transform(translateX(-50%) rotateY(-90deg));
+	}
+	&:hover {
+		> img {
+			@include transform(translateX(50%) rotateY(90deg));
+		}
+	}
+}
+ /* imghvr-cube-right
+   ----------------------------- */
+.imghvr-cube-right {
+	figcaption {
+		@include transform(translateX(50%) rotateY(90deg));
+	}
+	&:hover {
+		> img {
+			@include transform(translateX(-50%) rotateY(-90deg));
+		}
+	}
+}

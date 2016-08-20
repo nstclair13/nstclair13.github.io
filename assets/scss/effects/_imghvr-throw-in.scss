@@ -1,0 +1,68 @@
+/* imghvr-throw-in-*
+   ----------------------------- */
+[class^='imghvr-throw-in'], [class*=' imghvr-throw-in'] { 
+	figcaption {
+		background-color: $figcaption-bg;
+	}
+	&:hover {
+		figcaption {
+			@include transform(rotate(0deg));
+		}
+	}
+}
+
+
+/* imghvr-throw-in-up
+   ----------------------------- */
+.imghvr-throw-in-up {
+	figcaption {
+		@include transform(rotate(90deg));
+		@include transform-origin(0 100%);
+	}
+	&:hover {
+		figcaption {
+			@include transform-origin(100% 0);
+		}
+	}
+}
+
+/* imghvr-throw-in-down
+   ----------------------------- */
+.imghvr-throw-in-down {
+	figcaption {
+		@include transform(rotate(90deg));
+		@include transform-origin(100% 0%);
+	}
+	&:hover {
+		figcaption {
+			@include transform-origin(0 100%);
+		}
+	}
+}
+/* imghvr-throw-in-left
+   ----------------------------- */
+.imghvr-throw-in-left {
+	figcaption {
+		@include transform(rotate(-90deg));
+		@include transform-origin(100% 0%);
+	}
+	&:hover {
+		figcaption {
+			@include transform-origin(0% 100%);
+		}
+	}
+}
+
+/* imghvr-throw-in-right
+   ----------------------------- */
+.imghvr-throw-in-right {
+	figcaption {
+		@include transform(rotate(90deg));
+		@include transform-origin(0 0%);
+	}
+	&:hover {
+		figcaption {
+			@include transform-origin(100% 100%);
+		}
+	}
+}

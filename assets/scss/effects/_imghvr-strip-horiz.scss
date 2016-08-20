@@ -1,0 +1,156 @@
+/* imghvr-strip-horiz-*
+   ----------------------------- */
+[class^='imghvr-strip-horiz'], [class*=' imghvr-strip-horiz'] { 
+	&:before, &:after, figcaption:before, figcaption:after {
+		background-color: $figcaption-bg;
+		opacity: 0;
+		position: absolute;
+		content: '';
+		height: 26%;
+		width: 100%;
+		@include transform(scaleX(0));
+		left: 0;
+	}
+	&:before, &:after {
+		z-index: 1;
+	}
+	&:before {
+		top: 0;
+	}
+	&:after {
+		top: 25%;
+	}
+	figcaption {
+		z-index: 3;
+		background-color: transparent;
+		* {
+			opacity: 0;
+		}
+		&:before, &:after {
+			z-index: -1;
+		}
+		&:before {
+			top: 50%;
+		}
+		&:after {
+			top:75%;
+		}
+	}
+	a {
+		z-index: 3;
+	}
+	&:hover {
+		&:before, &:after, figcaption:before, figcaption:after {
+			@include transform(scale(1));
+			opacity: 1;
+		}
+		figcaption {
+			* {
+				opacity: 1;
+				@include transition-delay($transition-duration);
+			}
+		}
+	}
+}
+ /* imghvr-strip-horiz-up
+   ----------------------------- */
+.imghvr-strip-horiz-up {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(scaleX(1));
+		@include transform(scaleY(0));
+		@include transform-origin(50% 100%);
+	}
+}
+ /* imghvr-strip-horiz-down
+   ----------------------------- */
+.imghvr-strip-horiz-down {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform(scaleX(1));
+		@include transform(scaleY(0));
+		@include transform-origin(50% 0%);
+	}
+}
+ /* imghvr-strip-horiz-top-left
+   ----------------------------- */
+.imghvr-strip-horiz-top-left {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform-origin(0 0);
+	}
+	&:before {
+		@include transition-delay(0.0s);
+	}
+	&:after {
+		@include transition-delay($transition-duration * 0.3);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.6);
+		}
+		&:after {
+			@include transition-delay($transition-duration);
+		}
+	}
+}
+ /* imghvr-strip-horiz-top-right
+   ----------------------------- */
+.imghvr-strip-horiz-top-right {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform-origin(100% 0);
+	}
+	&:before {
+		@include transition-delay(0.0s);
+	}
+	&:after {
+		@include transition-delay($transition-duration * 0.3);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.6);
+		}
+		&:after {
+			@include transition-delay($transition-duration);
+		}
+	}
+}
+ /* imghvr-strip-horiz-bottom-left
+   ----------------------------- */
+.imghvr-strip-horiz-bottom-left {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform-origin(0 0);
+	}
+	&:before {
+		@include transition-delay($transition-duration);
+	}
+	&:after {
+		@include transition-delay($transition-duration * 0.6);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.3);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+	}
+}
+ /* imghvr-strip-horiz-bottom-right
+   ----------------------------- */
+.imghvr-strip-horiz-bottom-right {
+	&:before, &:after, figcaption:before, figcaption:after {
+		@include transform-origin(100% 0);
+	}
+	&:before {
+		@include transition-delay($transition-duration);
+	}
+	&:after {
+		@include transition-delay($transition-duration * 0.6);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 0.3);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+	}
+}

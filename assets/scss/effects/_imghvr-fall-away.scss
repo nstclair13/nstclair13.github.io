@@ -1,0 +1,59 @@
+ /* imghvr-fall-away-*
+   ----------------------------- */
+*[class^='imghvr-fall-away-'],*[class*=' imghvr-fall-away-'] {
+	@include perspective(50em);
+	img {
+		@include transform-origin(50% 50%);
+		@include transition (all ($transition-duration * 1.3) ease-in);
+
+	}
+	figcaption {
+		opacity: 0;
+		background-color: $figcaption-bg;
+	}
+	&:hover {
+		img {
+			opacity: 0;
+		}
+		figcaption {
+			opacity: 1;
+			@include transition-delay($transition-duration * 1.3);
+		}
+	}
+}
+ /* imghvr-fall-away-horiz
+   ----------------------------- */
+.imghvr-fall-away-horiz {
+	&:hover {
+		img {
+			@include transform(rotateX(-360deg) scale(0.2));
+		}
+	}
+}
+ /* imghvr-fall-away-vert
+   ----------------------------- */
+.imghvr-fall-away-vert {
+	&:hover {
+		img {
+			@include transform(rotateY(-360deg) scale(0.2));
+		}
+	}
+}
+ /* imghvr-fall-away-cc
+   ----------------------------- */
+.imghvr-fall-away-cc {
+	&:hover {
+		img {
+			@include transform(rotate(360deg) scale(0.2));
+		}
+	}
+}
+ /* imghvr-fall-away-ccc
+   ----------------------------- */
+.imghvr-fall-away-ccc {
+	&:hover {
+		img {
+			@include transform(rotate(-360deg) scale(0.2));
+		}
+	}
+}

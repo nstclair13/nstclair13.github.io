@@ -1,0 +1,81 @@
+ /* imghvr-circle-*
+   ----------------------------- */
+[class^='imghvr-circle-'],[class*=' imghvr-circle-'] {
+	&:before {
+		@include fill(-25%);
+		content: '';
+		background-color: $figcaption-bg;
+		border-radius: 50%;
+		@include transition(all ($transition-duration) linear);
+	}
+	figcaption {
+		opacity: 0;
+		background-color: transparent;
+	}
+	&:hover {
+		&:before {
+			@include transform(translate(0,0));
+		}
+		figcaption {
+			opacity: 1;
+			@include transition-delay($transition-duration);
+		}
+	}
+}
+ /* imghvr-circle-up
+   ----------------------------- */
+.imghvr-circle-up {
+	&:before {
+		@include transform(translateY(100%));
+	}
+}
+ /* imghvr-circle-down
+   ----------------------------- */
+.imghvr-circle-down {
+	&:before {
+		@include transform(translateY(-100%));
+	}
+}
+ /* imghvr-circle-left
+   ----------------------------- */
+.imghvr-circle-left {
+	&:before {
+		@include transform(translateX(100%));
+	}
+}
+ /* imghvr-circle-right
+   ----------------------------- */
+.imghvr-circle-right {
+	&:before {
+		@include transform(translateX(-100%));
+	}
+}
+
+ /* imghvr-circle-top-left
+   ----------------------------- */
+.imghvr-circle-top-left {
+	&:before {
+		@include transform(translate(-100%,-100%));
+	}
+}
+ /* imghvr-circle-top-right
+   ----------------------------- */
+.imghvr-circle-top-right {
+	&:before {
+		@include transform(translate(100%,-100%));
+	}
+}
+ /* imghvr-circle-bottom-left
+   ----------------------------- */
+.imghvr-circle-bottom-left {
+	&:before {
+		@include transform(translate(-100%,100%));
+	}
+}
+ /* imghvr-circle-bottom-right
+   ----------------------------- */
+.imghvr-circle-bottom-right {
+	&:before {
+		@include transform(translate(100%,100%));
+	}
+}

@@ -1,0 +1,58 @@
+/* imghvr-parallax-*
+   ----------------------------- */
+[class^='imghvr-parallax-'], [class*=' imghvr-parallax-'] {
+	&:hover {
+		figcaption {
+			@include transform(translate(0,0));
+		}
+	}
+}
+ /* imghvr-parallax-up
+   ----------------------------- */
+.imghvr-parallax-up {
+	figcaption {
+		@include transform(translateY(100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateY(-50%));
+		}
+	}
+}
+ /* imghvr-parallax-down
+   ----------------------------- */
+.imghvr-parallax-down {
+	figcaption {
+		@include transform(translateY(-100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateY(50%));
+		}
+	}
+}
+
+ /* imghvr-parallax-left
+   ----------------------------- */
+.imghvr-parallax-left {
+	figcaption {
+		@include transform(translateX(100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateX(-50%));
+		}
+	}
+}
+ /* imghvr-parallax--right
+   ----------------------------- */
+.imghvr-parallax-right {
+	figcaption {
+		@include transform(translateX(-100%));
+	}
+	&:hover {
+		> img {
+			@include transform(translateX(50%));
+		}
+	}
+}

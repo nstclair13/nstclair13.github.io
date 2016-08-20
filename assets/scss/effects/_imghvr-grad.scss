@@ -1,0 +1,172 @@
+ /* imghvr-grad-*
+   ----------------------------- */
+[class^='imghvr-grad-'],[class*=' imghvr-grad-'] {
+	&:before {
+		@include fill;
+		content: '';	
+	}
+	figcaption {
+		z-index: 1;
+		opacity: 0;
+		background-color: transparent;
+	}
+	&:hover {
+		&:before {
+			@include transform(translate(0,0));
+		}
+		figcaption {
+			opacity: 1;
+			@include transition-delay($transition-duration * 0.6);
+		}
+	}
+}
+ /* imghvr-grad-radial-in
+   ----------------------------- */
+.imghvr-grad-radial-in {
+	&:before {
+		background-image: -webkit-radial-gradient(transparent 0%, $figcaption-bg 100%);
+		background-image: radial-gradient(transparent 0%, $figcaption-bg 100%); 
+		@include transform(scale(2));
+		opacity: 0;
+	}
+	&:after {
+		@include fill;
+		content: '';
+		opacity: 0;
+		background-color: $figcaption-bg;	
+	}
+	&:hover {
+		&:before {
+			opacity: 1;
+			@include transform(scale(1));
+		}
+		&:after {
+			opacity: 0.75;
+			@include transition-delay($transition-duration * 0.3);
+		}
+	}
+
+}
+ /* imghvr-grad-radial-out
+   ----------------------------- */
+.imghvr-grad-radial-out {
+	&:before {
+		background-image: -webkit-radial-gradient($figcaption-bg 0%, transparent 100%);
+		background-image: radial-gradient($figcaption-bg 0%, transparent 100%); 
+		@include fill(-75%);
+		@include transform(scale(0));
+		opacity: 0;
+	}
+	&:hover {
+		&:before {
+			opacity: 1;
+			@include transform(scale(1));
+		}
+	}
+}
+ /* imghvr-grad-up
+   ----------------------------- */
+.imghvr-grad-up {
+	&:before {
+		@include transform(translateY(100%));
+		@include background-image(linear-gradient(to bottom, transparent 0%, $figcaption-bg 100%));
+		top: -75%;
+	}
+}
+ /* imghvr-grad-down
+   ----------------------------- */
+.imghvr-grad-down {
+	&:before {
+		@include transform(translateY(-100%));
+		@include background-image(linear-gradient(to top, transparent 0%, $figcaption-bg 100%));
+		bottom: -75%;
+	}
+}
+ /* imghvr-grad-left
+   ----------------------------- */
+.imghvr-grad-left {
+	&:before {
+		@include transform(translateX(100%));
+		@include background-image(linear-gradient(to right, transparent 0%, $figcaption-bg 100%));
+		left: -75%;
+	}
+}
+ /* imghvr-grad-right
+   ----------------------------- */
+.imghvr-grad-right {
+	&:before {
+		@include transform(translateX(-100%));
+		@include background-image(linear-gradient(to left, transparent 0%, $figcaption-bg 100%));
+		right: -75%;
+	}
+}
+
+ /* imghvr-grad-top-left
+   ----------------------------- */
+.imghvr-grad-top-left {
+	&:before {
+		@include background-image(linear-gradient(-45deg, transparent 0%, $figcaption-bg 100%));
+		@include transform(scale(2));
+		opacity: 0;
+		bottom:-75%;
+		right: -75%;
+	}
+	&:hover {
+		&:before {
+			opacity: 1;
+			@include transform(scale(1));
+		}
+	}
+}
+ /* imghvr-grad-top-right
+   ----------------------------- */
+.imghvr-grad-top-right {
+	&:before {
+		@include background-image(linear-gradient(45deg, transparent 0%, $figcaption-bg 100%));
+		@include transform(scale(2));
+		opacity: 0;
+		bottom:-75%;
+		left: -75%;
+	}
+	&:hover {
+		&:before {
+			opacity: 1;
+			@include transform(scale(1));
+		}
+	}
+}
+ /* imghvr-grad-bottom-left
+   ----------------------------- */
+.imghvr-grad-bottom-left {
+	&:before {
+		@include background-image(linear-gradient(-135deg, transparent 0%, $figcaption-bg 100%));
+		@include transform(scale(2));
+		opacity: 0;
+		top:-75%;
+		right: -75%;
+	}
+	&:hover {
+		&:before {
+			opacity: 1;
+			@include transform(scale(1));
+		}
+	}
+}
+ /* imghvr-grad-bottom-right
+   ----------------------------- */
+.imghvr-grad-bottom-right {
+	&:before {
+		@include background-image(linear-gradient(135deg, transparent 0%, $figcaption-bg 100%));
+		@include transform(scale(2));
+		opacity: 0;
+		top:-75%;
+		left: -75%;
+	}
+	&:hover {
+		&:before {
+			opacity: 1;
+			@include transform(scale(1));
+		}
+	}
+}
+

@@ -1,0 +1,58 @@
+/* imghvr-parallax-*
+   ----------------------------- */
+[class^='imghvr-parallax-'], [class*=' imghvr-parallax-'] {
+	&:hover {
+		figcaption {
+			.translate(0,0);
+		}
+	}
+}
+ /* imghvr-parallax-up
+   ----------------------------- */
+.imghvr-parallax-up {
+	figcaption {
+		.translateY(100%);
+	}
+	&:hover {
+		> img {
+			.translateY(-50%);
+		}
+	}
+}
+ /* imghvr-parallax-down
+   ----------------------------- */
+.imghvr-parallax-down {
+	figcaption {
+		.translateY(-100%);
+	}
+	&:hover {
+		> img {
+			.translateY(50%);
+		}
+	}
+}
+
+ /* imghvr-parallax-left
+   ----------------------------- */
+.imghvr-parallax-left {
+	figcaption {
+		.translateX(100%);
+	}
+	&:hover {
+		> img {
+			.translateX(-50%);
+		}
+	}
+}
+ /* imghvr-parallax--right
+   ----------------------------- */
+.imghvr-parallax-right {
+	figcaption {
+		.translateX(-100%);
+	}
+	&:hover {
+		> img {
+			.translateX(50%);
+		}
+	}
+}

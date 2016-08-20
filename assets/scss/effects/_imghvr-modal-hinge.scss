@@ -1,0 +1,63 @@
+ /* imghvr-modal-hinge-*
+   ----------------------------- */
+[class^='imghvr-modal'], [class*=' imghvr-modal'] {
+	@include perspective(50em);
+	figcaption {
+        opacity: 1;
+	}
+	&:hover {
+		> img {
+			opacity: 0.7;
+		}
+		figcaption {
+			@include transform(rotate(0));
+		}
+	}
+}
+
+ /* imghvr-modal-hinge-up
+   ----------------------------- */
+.imghvr-modal-hinge-up {
+	figcaption {
+		top: auto;
+		padding-top: ($figcaption-padding / 2);
+        padding-bottom: ($figcaption-padding / 2);
+		@include transform(rotateX(100deg));
+		@include transform-origin(50% 100%);
+	}
+}
+ /* imghvr-modal-hinge-down
+   ----------------------------- */
+.imghvr-modal-hinge-down {
+	figcaption {
+		bottom: auto;
+		padding-top: ($figcaption-padding / 2);
+        padding-bottom: ($figcaption-padding / 2);
+		@include transform(rotateX(-100deg));
+		@include transform-origin(50% -50%);
+	}
+}
+ /* imghvr-modal-hinge-left
+   ----------------------------- */
+.imghvr-modal-hinge-left {
+	figcaption {
+		left: auto;
+		max-width: 70%;
+		padding-left: ($figcaption-padding / 2);
+        padding-right: ($figcaption-padding / 2);
+		@include transform(rotateY(-100deg));
+		@include transform-origin(100% 50%);
+	}
+}
+ /* imghvr-modal-hinge-right
+   ----------------------------- */
+.imghvr-modal-hinge-right {
+	figcaption {
+		right: auto;
+		max-width: 70%;
+		padding-left: ($figcaption-padding / 2);
+        padding-right: ($figcaption-padding / 2);
+		@include transform(rotateY(100deg));
+		@include transform-origin(0 50%);
+	}
+}

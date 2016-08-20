@@ -1,0 +1,418 @@
+/* imghvr-border-reveal-*
+   ----------------------------- */
+[class^='imghvr-border-reveal'], [class*=' imghvr-border-reveal'] {
+	background-color: $figcaption-bg ;
+	&:before, &:after, figcaption:before, figcaption:after {
+		background-color: $border-color;
+		position: absolute;
+		content: '';	
+	}
+	&:before, &:after {
+		z-index: 1;
+		height: $border-width;
+		left: $border-margin;
+		right: $border-margin;
+		@include transform(scaleX(0));
+	}
+	&:before {
+		top: $border-margin;
+	}
+	&:after {
+		bottom: $border-margin;
+	}
+	figcaption {
+		z-index: 3;
+		background-color: transparent;
+		* {
+			opacity: 0;
+		}
+		&:before, &:after {
+			z-index: -1;
+			width: $border-width;
+			top: $border-margin;
+			bottom: $border-margin;
+			@include transform(scaleY(0));
+		}
+		&:before {
+			left: $border-margin;
+		}
+		&:after {
+			right: $border-margin;
+		}
+	}
+	a {
+		z-index: 3;
+	}
+	&:hover {
+		> img {
+			opacity: 0;
+		}
+		&:before, &:after, figcaption:before, figcaption:after {
+			@include transform(scale(1));
+		}
+		figcaption {
+			* {
+				opacity: 1;
+				@include transition-delay($transition-duration);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-vert
+   ----------------------------- */
+.imghvr-border-reveal-vert {
+	&:before, &:after {
+		@include transition-duration(0.0s);
+	}
+	&:hover {
+		&:before, &:after {
+			@include transition-delay($transition-duration / 1.5);
+		}
+	}
+}
+ /* imghvr-border-reveal-horiz
+   ----------------------------- */
+.imghvr-border-reveal-horiz {
+	figcaption {
+		&:before, &:after {
+			@include transition-duration(0.0s);
+		}
+	}
+	&:hover {
+		figcaption {
+			&:before, &:after {
+				@include transition-delay($transition-duration / 1.5);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-corners-1
+   ----------------------------- */
+.imghvr-border-reveal-corners-1 {
+	&:before, figcaption:before {	
+		@include transform-origin(0 0);
+	}
+	&:after, figcaption:after{
+		@include transform-origin(100% 100%);
+	}
+}
+ /* imghvr-border-reveal-corners-2
+   ----------------------------- */
+.imghvr-border-reveal-corners-2 {
+	&:before, figcaption:before {	
+		@include transform-origin(100% 100%);
+	}
+	&:after, figcaption:after{
+		@include transform-origin(0% 0%);
+	}
+}
+ /* imghvr-border-reveal-top-left
+   ----------------------------- */
+.imghvr-border-reveal-top-left {
+	&:before, &:after, figcaption:before, figcaption:after {	
+		@include transform-origin(0 0);
+	}
+	&:before {
+		@include transition-delay($transition-duration / 1.25);
+	}
+	&:after {
+		@include transition-delay(0.0s);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration / 1.25);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration / 1.25);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay(0.0s);
+			}
+			&:after {
+				@include transition-delay($transition-duration / 1.25);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-top-right
+   ----------------------------- */
+.imghvr-border-reveal-top-right {
+	&:before, &:after, figcaption:before, figcaption:after {	
+		@include transform-origin(100% 0%);
+	}
+	&:before {
+		@include transition-delay($transition-duration / 1.25);
+	}
+	&:after {
+		@include transition-delay(0.0s);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration / 1.25);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration / 1.25);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration / 1.25);
+			}
+			&:after {
+				@include transition-delay(0.0s);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-bottom-left
+   ----------------------------- */
+.imghvr-border-reveal-bottom-left {
+	&:before, &:after, figcaption:before, figcaption:after {	
+		@include transform-origin(0% 100%);
+	}
+	&:before {
+		@include transition-delay(0.0s);
+	}
+	&:after {
+		@include transition-delay($transition-duration / 1.25);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration / 1.25);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration / 1.25);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay(0.0s);
+			}
+			&:after {
+				@include transition-delay($transition-duration / 1.25);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-bottom-right
+   ----------------------------- */
+.imghvr-border-reveal-bottom-right {
+	&:before, &:after, figcaption:before, figcaption:after {	
+		@include transform-origin(100% 100%);
+	}
+	&:before {
+		@include transition-delay(0.0s);
+	}
+	&:after {
+		@include transition-delay($transition-duration / 1.25);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration / 1.25);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration / 1.25);
+		}
+		&:after {
+			@include transition-delay(0.0s);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration / 1.25);
+			}
+			&:after {
+				@include transition-delay(0.0s);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-cc-1
+   ----------------------------- */
+.imghvr-border-reveal-cc-1 {
+	&:before, &:after, figcaption:before, figcaption:after {	
+		@include transition-duration($transition-duration / 1.5);
+	}
+	&:before, figcaption:after {	
+		@include transform-origin(0 0);
+	}
+	&:after, figcaption:before {	
+		@include transform-origin(100% 100%);
+	}
+	&:before {
+		@include transition-delay($transition-duration * 1.5);
+	}
+	&:after {
+		@include transition-delay($transition-duration * 0.5);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay(0.0s);
+		}
+		&:after {
+			@include transition-delay($transition-duration);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay($transition-duration * 1.5);
+			}
+			&:after {
+				@include transition-delay($transition-duration * 0.5);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-ccc-1
+   ----------------------------- */
+.imghvr-border-reveal-ccc-1 {
+	&:before, &:after, figcaption:before, figcaption:after {	
+		@include transition-duration($transition-duration / 1.5);
+	}
+	&:before, figcaption:after {	
+		@include transform-origin(100% 100%);
+	}
+	&:after, figcaption:before {	
+		@include transform-origin(0% 0%);
+	}
+	&:before {
+		@include transition-delay(0);
+	}
+	&:after {
+		@include transition-delay($transition-duration);
+	}
+	figcaption {
+		&:before {
+			@include transition-delay($transition-duration * 1.5);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.5);
+		}
+	}
+	&:hover {
+		&:before {
+			@include transition-delay($transition-duration * 1.5);
+		}
+		&:after {
+			@include transition-delay($transition-duration * 0.5);
+		}
+		figcaption {
+			&:before {
+				@include transition-delay(0.0s);
+			}
+			&:after {
+				@include transition-delay($transition-duration);
+			}
+		}
+	}
+}
+ /* imghvr-border-reveal-cc-2
+   ----------------------------- */
+.imghvr-border-reveal-cc-2 {
+	&:before, figcaption:after {	
+		@include transform-origin(0 0);
+	}
+	&:after, figcaption:before {
+		@include transform-origin(100% 100%);
+	}
+}
+ /* imghvr-border-reveal-ccc-2
+   ----------------------------- */
+.imghvr-border-reveal-ccc-2 {
+	&:before, figcaption:after {	
+		@include transform-origin(100% 100%);
+	}
+	&:after, figcaption:before {
+		@include transform-origin(0% 0%);
+	}
+}
+ /* imghvr-border-reveal-cc-3
+   ----------------------------- */
+.imghvr-border-reveal-cc-3 {
+	&:before, figcaption:after {	
+		@include transform-origin(0 0);
+	}
+	&:after, figcaption:before {
+		@include transform-origin(100% 100%);
+	}
+	&:before {
+		right: ($border-margin + $border-margin + $border-width);
+		left: 0;
+	}
+	&:after {
+		left: ($border-margin + $border-margin + $border-width);
+		right: 0;
+	}
+	figcaption {
+		&:before {
+			top: ($border-margin + $border-margin + $border-width);
+			bottom: 0;
+		}
+		&:after {
+			bottom: ($border-margin + $border-margin + $border-width);
+			top: 0;
+		}
+	}
+}
+ /* imghvr-border-reveal-ccc-3
+   ----------------------------- */
+.imghvr-border-reveal-ccc-3 {
+	&:before, figcaption:after {	
+		@include transform-origin(100% 100%);
+	}
+	&:after, figcaption:before {
+		@include transform-origin(0% 0%);
+	}
+	&:before {
+		left: ($border-margin + $border-margin + $border-width);
+		right: 0;
+	}
+	&:after {
+		right: ($border-margin + $border-margin + $border-width);
+		left: 0;
+	}
+	figcaption {
+		&:before {
+			bottom: ($border-margin + $border-margin + $border-width);
+			top: 0;
+		}
+		&:after {
+			top: ($border-margin + $border-margin + $border-width);
+			bottom: 0;
+		}
+	}
+}

@@ -1,0 +1,68 @@
+/* imghvr-throw-in-*
+   ----------------------------- */
+[class^='imghvr-throw-in'], [class*=' imghvr-throw-in'] { 
+	figcaption {
+		background-color: @figcaption-bg;
+	}
+	&:hover {
+		figcaption {
+			.rotate(0);
+		}
+	}
+}
+
+
+/* imghvr-throw-in-up
+   ----------------------------- */
+.imghvr-throw-in-up {
+	figcaption {
+		.rotate(90deg);
+		.transform-origin(0,100%);
+	}
+	&:hover {
+		figcaption {
+			.transform-origin(100%,0);
+		}
+	}
+}
+
+/* imghvr-throw-in-down
+   ----------------------------- */
+.imghvr-throw-in-down {
+	figcaption {
+		.rotate(90deg);
+		.transform-origin(100%,0%);
+	}
+	&:hover {
+		figcaption {
+			.transform-origin(0,100%);
+		}
+	}
+}
+/* imghvr-throw-in-left
+   ----------------------------- */
+.imghvr-throw-in-left {
+	figcaption {
+		.rotate(-90deg);
+		.transform-origin(100%,0%);
+	}
+	&:hover {
+		figcaption {
+			.transform-origin(0%,100%);
+		}
+	}
+}
+
+/* imghvr-throw-in-right
+   ----------------------------- */
+.imghvr-throw-in-right {
+	figcaption {
+		.rotate(90deg);
+		.transform-origin(0,0%);
+	}
+	&:hover {
+		figcaption {
+			.transform-origin(100%,100%);
+		}
+	}
+}

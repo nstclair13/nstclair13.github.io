@@ -1,0 +1,110 @@
+/*
+ * ImageHover.css - http://www.imagehover.io
+ * Version 1.0
+ * Author: Ciarán Walsh
+
+ * Copyright (C) Imagehover.io
+
+ */
+
+ @import "bourbon/bourbon";
+
+$image-bg: #2266a5;
+$figcaption-bg: #135796;
+$figcaption-padding: 30px;
+$text-color: #ffffff !important;
+$border-color: #ffffff;
+$border-margin: 5px;
+$border-width: 4px;
+$transition-duration: 0.35s;
+$shift-distance: 10px;
+
+@mixin fill($padding: 0) {
+  position: absolute;
+  top: $padding;
+  bottom: $padding;
+  left: $padding;
+  right: $padding; 
+}
+
+[class^='imghvr-'],[class*=' imghvr-'] {
+	position: relative;
+	display: inline-block;
+	margin: 0px;
+	max-width: 100%;
+	background-color: $image-bg;
+	color: #fff;
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-moz-osx-font-smoothing: grayscale;
+	@include transform(translateZ(0));
+	> img {
+		vertical-align: top;
+		max-width: 100%;
+	}
+    figcaption {
+    	background-color: $figcaption-bg;
+    	position: absolute;
+    	padding: 30px;
+    	@include fill;
+      color: $text-color;
+      h1, h2, h3, h4, h5, h6 {
+        color: $text-color;
+      }
+    }
+    a {
+    	@include fill;
+    	z-index: 1;
+    }
+}
+
+[class^='imghvr-'], [class*=' imghvr-'], [class^='imghvr-']:before, 
+[class^='imghvr-']:after, [class*=' imghvr-']:before, [class*=' imghvr-']:after, 
+[class^='imghvr-'] *, [class*=' imghvr-'] *, [class^='imghvr-'] *:before, 
+[class^='imghvr-'] *:after, [class*=' imghvr-'] *:before, [class*=' imghvr-'] *:after {
+	box-sizing: border-box;
+	@include transition (all 0.35s ease);
+}
+
+@import "effects/_imghvr-fade";
+@import "effects/_imghvr-push";
+@import "effects/_imghvr-slide";
+@import "effects/_imghvr-reveal";
+@import "effects/_imghvr-hinge";
+@import "effects/_imghvr-flip";
+@import "effects/_imghvr-shutter-out";
+@import "effects/_imghvr-shutter-in";
+@import "effects/_imghvr-fold";
+@import "effects/_imghvr-zoom-in";
+@import "effects/_imghvr-zoom-out";
+@import "effects/_imghvr-blur";
+@import "effects/_imghvr-blocks";
+@import "effects/_imghvr-strip-shutter";
+@import "effects/_imghvr-strip-horiz";
+@import "effects/_imghvr-strip-vert";
+@import "effects/_imghvr-pixel";
+@import "effects/_imghvr-pivot-in";
+@import "effects/_imghvr-pivot-out";
+@import "effects/_imghvr-throw-in";
+@import "effects/_imghvr-throw-out";
+@import "effects/_imghvr-blinds";
+@import "effects/_imghvr-border-reveal";
+@import "effects/_imghvr-image";
+@import "effects/_imghvr-book";
+@import "effects/_imghvr-circle";
+@import "effects/_imghvr-shift";
+@import "effects/_imghvr-bounce";
+@import "effects/_imghvr-fall-away";
+@import "effects/_imghvr-modal-slide";
+@import "effects/_imghvr-modal-hinge";
+@import "effects/_imghvr-lightspeed";
+@import "effects/_imghvr-grad";
+@import "effects/_imghvr-parallax";
+@import "effects/_imghvr-stack";
+@import "effects/_imghvr-cube";
+@import "effects/_imghvr-dive";
+@import "effects/_imghvr-switch";
+@import "effects/_imghvr-flash";
+
+@import "effects/_utility-classes";
