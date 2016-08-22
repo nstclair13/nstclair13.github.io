@@ -22,17 +22,6 @@
   transform: translateZ(0);
 }
 
-@media only screen and (max-width: 767px) {
-[class^="imghvr-"], [class*=" imghvr-"] {
-    font-size: 12px;
-}}
-
-@media only screen and (max-width: 440px) {
-[class^="imghvr-"], [class*=" imghvr-"] {
-    font-size: 8px;
-}}
-
-
 
 [class^='imghvr-'] > img, [class*=' imghvr-'] > img {
   vertical-align: top;

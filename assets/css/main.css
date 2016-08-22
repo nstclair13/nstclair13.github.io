@@ -3920,3 +3920,35 @@
 			}
 
 		}
+
+@media only screen and (max-width: 1280px) {
+[class^="imghvr-"], [class*=" imghvr-"] {
+    font-size: 14px;
+      text-align: inherit;
+}}
+
+@media only screen and (max-width: 980px) {
+[class^="imghvr-"], [class*=" imghvr-"] {
+    font-size: 12px;
+    text-align: inherit;
+}}
+
+
+@media only screen and (max-width: 736px) {
+[class^="imghvr-"], [class*=" imghvr-"] {
+    font-size: 10px;
+    text-align: inherit;
+}}
+
+@media only screen and (max-width: 480px) {
+[class^="imghvr-"], [class*=" imghvr-"] {
+    font-size: 8px;
+      text-align: inherit;
+}}
+
+@media only screen and (max-width: 360px) {
+[class^="imghvr-"], [class*=" imghvr-"] {
+    font-size: 6px;
+      text-align: inherit;
+}}
+
