@@ -569,28 +569,28 @@ align-items: center;
 
 #app3 .limited-card-note {
   width: 100%;
-  max-width: 560px;
+  max-width: 680px;
   box-sizing: border-box;
-  margin: 10px auto 0;
+  margin: 12px auto 0;
   padding: 0 16px;
 
   font-family: "Space Mono", monospace;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.5;
   letter-spacing: -0.03em;
   text-align: center;
 
-  color: rgba(79, 79, 79, 0.78);
+  color: #4F4F4F;
 }
 
 @media (max-width: 560px) {
   #app3 .limited-card-note {
-    max-width: 340px;
-    margin-top: 11px;
+    max-width: 360px;
+    margin-top: 12px;
     padding: 0 14px;
-    font-size: 10px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.55;
   }
 }
 
@@ -3141,7 +3141,7 @@ document.getElementById("app3").innerHTML = `
 </div>
 
 <p class="limited-card-note">
-  Grey logo cards represent released projects with limited public details.
+  Grey logo cards indicate released projects with limited public details.
 </p>
 
 <transition-group
