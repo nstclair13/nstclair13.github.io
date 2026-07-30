@@ -3541,7 +3541,7 @@ projects: [
     "year": "2026",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "thumbnailDisclaimer": "",
     "vimeo": ""
   },
@@ -3557,7 +3557,7 @@ projects: [
     "year": "2025",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3573,7 +3573,7 @@ projects: [
     "year": "2025",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3589,7 +3589,7 @@ projects: [
     "year": "2024",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3605,7 +3605,7 @@ projects: [
     "year": "2023",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3621,7 +3621,7 @@ projects: [
     "year": "2023",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3637,7 +3637,7 @@ projects: [
     "year": "2021",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3653,7 +3653,7 @@ projects: [
     "year": "2021",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3669,7 +3669,7 @@ projects: [
     "year": "2020",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3685,7 +3685,7 @@ projects: [
     "year": "2019",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3701,7 +3701,7 @@ projects: [
     "year": "2019",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3717,7 +3717,7 @@ projects: [
     "year": "2018",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3733,7 +3733,7 @@ projects: [
     "year": "2019",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3749,7 +3749,7 @@ projects: [
     "year": "2018",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3765,7 +3765,7 @@ projects: [
     "year": "2017",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3781,7 +3781,7 @@ projects: [
     "year": "2017",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3797,7 +3797,7 @@ projects: [
     "year": "2016",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3813,7 +3813,7 @@ projects: [
     "year": "2016",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
@@ -3829,7 +3829,7 @@ projects: [
     "year": "2015",
     "role": "",
     "tags": [],
-    "summary": "I worked on this film at Sony Pictures Imageworks.",
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
     "vimeo": "",
     "thumbnailDisclaimer": ""
   },
