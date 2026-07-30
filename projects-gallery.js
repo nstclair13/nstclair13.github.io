@@ -3547,7 +3547,7 @@ projects: [
   },
   {
     "title": "The Fantastic Four: First Steps",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/FFFS_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/BMNa_poster.webp",
     "category": [
       "ALL",
@@ -3563,7 +3563,7 @@ projects: [
   },
   {
     "title": "A Minecraft Movie",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/MCT_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/MCTa_poster.webp",
     "category": [
       "ALL",
