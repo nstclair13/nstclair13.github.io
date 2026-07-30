@@ -567,6 +567,33 @@ padding: 0;
 align-items: center;
 }
 
+#app3 .limited-card-note {
+  width: 100%;
+  max-width: 560px;
+  box-sizing: border-box;
+  margin: 10px auto 0;
+  padding: 0 16px;
+
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.03em;
+  text-align: center;
+
+  color: rgba(79, 79, 79, 0.78);
+}
+
+@media (max-width: 560px) {
+  #app3 .limited-card-note {
+    max-width: 340px;
+    margin-top: 11px;
+    padding: 0 14px;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+}
+
 .search-wrapper {
   position: relative;
   display: inline-block;
@@ -3112,6 +3139,10 @@ document.getElementById("app3").innerHTML = `
   </div>
 
 </div>
+
+<p class="limited-card-note">
+  Grey logo cards represent released projects with limited public details.
+</p>
 
 <transition-group
   tag="div"
