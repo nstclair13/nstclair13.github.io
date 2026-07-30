@@ -3531,7 +3531,7 @@ loadedImages: {},
 projects: [
   {
     "title": "Project Hail Mary",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/PHM_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/PHM_poster.webp",
     "category": [
       "ALL",
