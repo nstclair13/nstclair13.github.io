@@ -3512,7 +3512,15 @@ loadedImages: {},
 //
 // "limited"
 // Publish only the title, studio, year, limited summary,
-// limited thumbnail, and poster.
+// explicitly approved limited thumbnail, and poster.
+//
+// LIMITED THUMBNAIL RULES:
+// - Store approved limited thumbnails in assets/thumbs/limited/.
+// - Set limitedImage to the filename only, not a URL or folder path.
+// - The filename must end in _thumb_limited.webp.
+// - Leave limitedImage blank to publish a blank thumbnail.
+// - A file in the limited folder is never published unless a project
+//   explicitly references it with limitedImage.
 //
 // "hidden"
 // Do not include the project in the public gallery.
@@ -3523,7 +3531,7 @@ loadedImages: {},
 projects: [
   {
     "title": "Project Hail Mary",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/PHM_thumb_v2.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/PHM_poster.webp",
     "category": [
       "ALL",
@@ -3539,7 +3547,7 @@ projects: [
   },
   {
     "title": "The Fantastic Four: First Steps",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/FFFS_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/BMNa_poster.webp",
     "category": [
       "ALL",
@@ -3555,7 +3563,7 @@ projects: [
   },
   {
     "title": "A Minecraft Movie",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/MCT_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/MCTa_poster.webp",
     "category": [
       "ALL",
@@ -3571,7 +3579,7 @@ projects: [
   },
   {
     "title": "Ghostbusters: Frozen Empire",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/FHS_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/FHSa_poster.webp",
     "category": [
       "ALL",
@@ -3587,7 +3595,7 @@ projects: [
   },
   {
     "title": "The Marvels",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/GRO_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/GROb_poster.webp",
     "category": [
       "ALL",
@@ -3603,7 +3611,7 @@ projects: [
   },
   {
     "title": "Ant-Man and The Wasp: Quantumania",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/DBY_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/DBYb_poster.webp",
     "category": [
       "ALL",
@@ -3619,7 +3627,7 @@ projects: [
   },
   {
     "title": "Spider-Man: No Way Home",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/NWH_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/SNWa_poster.webp",
     "category": [
       "ALL",
@@ -3635,7 +3643,7 @@ projects: [
   },
   {
     "title": "The Falcon and the Winter Soldier",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/TAG_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/TAG_poster.webp",
     "category": [
       "ALL",
@@ -3651,7 +3659,7 @@ projects: [
   },
   {
     "title": "Mulan",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/MUL_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/MUL_poster.webp",
     "category": [
       "ALL",
@@ -3667,7 +3675,7 @@ projects: [
   },
   {
     "title": "Jumanji: The Next Level",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/J19_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/J19_poster.webp",
     "category": [
       "ALL",
@@ -3683,7 +3691,7 @@ projects: [
   },
   {
     "title": "Spider-Man: Far From Home",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/BOS_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/BOS_poster.webp",
     "category": [
       "ALL",
@@ -3699,7 +3707,7 @@ projects: [
   },
   {
     "title": "Spider-Man: Into the Spider-Verse",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/CBF_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/CBFa_poster.webp",
     "category": [
       "ALL",
@@ -3715,7 +3723,7 @@ projects: [
   },
   {
     "title": "Love, Death & Robots: Lucky 13",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/LKY_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/LKY_poster.webp",
     "category": [
       "ALL",
@@ -3731,7 +3739,7 @@ projects: [
   },
   {
     "title": "The Meg",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/MEG_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/MEG_poster.webp",
     "category": [
       "ALL",
@@ -3747,7 +3755,7 @@ projects: [
   },
   {
     "title": "Spider-Man: Homecoming",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/SOG_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/SOG_poster.webp",
     "category": [
       "ALL",
@@ -3763,7 +3771,7 @@ projects: [
   },
   {
     "title": "Kingsman: The Golden Circle",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/KM2_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/KM2_poster.webp",
     "category": [
       "ALL",
@@ -3779,7 +3787,7 @@ projects: [
   },
   {
     "title": "Suicide Squad",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/BRO_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/BRO_poster.webp",
     "category": [
       "ALL",
@@ -3795,7 +3803,7 @@ projects: [
   },
   {
     "title": "Alice Through the Looking Glass",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/AL2_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/AL2_poster.webp",
     "category": [
       "ALL",
@@ -3811,7 +3819,7 @@ projects: [
   },
   {
     "title": "Pixels",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/PXL_thumb.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
     "poster": "https://nstclair13.github.io/images/posters/PXL_poster.webp",
     "category": [
       "ALL",
