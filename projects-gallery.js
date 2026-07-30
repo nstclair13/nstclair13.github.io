@@ -3579,7 +3579,7 @@ projects: [
   },
   {
     "title": "Ghostbusters: Frozen Empire",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/FHS_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/FHSa_poster.webp",
     "category": [
       "ALL",
@@ -3595,7 +3595,7 @@ projects: [
   },
   {
     "title": "The Marvels",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/GRO_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/GROb_poster.webp",
     "category": [
       "ALL",
@@ -3611,7 +3611,7 @@ projects: [
   },
   {
     "title": "Ant-Man and The Wasp: Quantumania",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/DBY_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/DBYb_poster.webp",
     "category": [
       "ALL",
