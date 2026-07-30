@@ -3691,7 +3691,7 @@ projects: [
   },
   {
     "title": "Spider-Man: Far From Home",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/BOS_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/BOS_poster.webp",
     "category": [
       "ALL",
@@ -3707,7 +3707,7 @@ projects: [
   },
   {
     "title": "Spider-Man: Into the Spider-Verse",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/CBF_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/CBFa_poster.webp",
     "category": [
       "ALL",
@@ -3723,7 +3723,7 @@ projects: [
   },
   {
     "title": "Love, Death & Robots: Lucky 13",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/LKY_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/LKY_poster.webp",
     "category": [
       "ALL",
@@ -3739,7 +3739,7 @@ projects: [
   },
   {
     "title": "The Meg",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/MEG_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/MEG_poster.webp",
     "category": [
       "ALL",
@@ -3755,7 +3755,7 @@ projects: [
   },
   {
     "title": "Spider-Man: Homecoming",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/SOG_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/SOG_poster.webp",
     "category": [
       "ALL",
@@ -3771,7 +3771,7 @@ projects: [
   },
   {
     "title": "Kingsman: The Golden Circle",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/KM2_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/KM2_poster.webp",
     "category": [
       "ALL",
@@ -3787,7 +3787,7 @@ projects: [
   },
   {
     "title": "Suicide Squad",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/BRO_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/BRO_poster.webp",
     "category": [
       "ALL",
@@ -3803,7 +3803,7 @@ projects: [
   },
   {
     "title": "Alice Through the Looking Glass",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/AL2_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/AL2_poster.webp",
     "category": [
       "ALL",
@@ -3819,7 +3819,7 @@ projects: [
   },
   {
     "title": "Pixels",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/PXL_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/PXL_poster.webp",
     "category": [
       "ALL",
