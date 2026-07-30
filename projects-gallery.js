@@ -3627,7 +3627,7 @@ projects: [
   },
   {
     "title": "Spider-Man: No Way Home",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/NWH_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/SNWa_poster.webp",
     "category": [
       "ALL",
@@ -3643,7 +3643,7 @@ projects: [
   },
   {
     "title": "The Falcon and the Winter Soldier",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/TAG_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/TAG_poster.webp",
     "category": [
       "ALL",
@@ -3659,7 +3659,7 @@ projects: [
   },
   {
     "title": "Mulan",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/MUL_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/MUL_poster.webp",
     "category": [
       "ALL",
@@ -3675,7 +3675,7 @@ projects: [
   },
   {
     "title": "Jumanji: The Next Level",
-    "image": "https://nstclair13.github.io/images/thumbs/limited/__limited_thumbnail_not_set__.webp",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/J19_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/J19_poster.webp",
     "category": [
       "ALL",
