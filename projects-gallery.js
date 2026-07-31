@@ -6524,16 +6524,24 @@ animateSwipeHint: function(direction) {
         break;
 
       case "ArrowRight":
-        case "ArrowDown":
-          event.preventDefault();
-          this.openAdjacentProject(1, true);
-          break;
-        
-        case "ArrowLeft":
-        case "ArrowUp":
-          event.preventDefault();
-          this.openAdjacentProject(-1, true);
-          break;
+        event.preventDefault();
+        this.openAdjacentProject(1, true);
+        break;
+
+      case "ArrowLeft":
+        event.preventDefault();
+        this.openAdjacentProject(-1, true);
+        break;
+
+      case "ArrowDown":
+        event.preventDefault();
+        this.openSpatialProject(1, true);
+        break;
+
+      case "ArrowUp":
+        event.preventDefault();
+        this.openSpatialProject(-1, true);
+        break;
     }
   },
 
@@ -6858,6 +6866,134 @@ handleTouchCancel: function() {
     } else {
       poster.addEventListener("load", runFade, { once: true });
     }
+  });
+},
+
+openSpatialProject: function(direction, fadePoster) {
+  if (!this.selectedProject || (direction !== -1 && direction !== 1)) {
+    return;
+  }
+
+  const projects = this.filteredAndSearched;
+  const projectByTitle = {};
+
+  for (let index = 0; index < projects.length; index++) {
+    projectByTitle[projects[index].title] = projects[index];
+  }
+
+  if (!projectByTitle[this.selectedProject.title]) {
+    return;
+  }
+
+  /*
+  Measure the visible gallery cards at the moment the key is pressed.
+  Using their live layout positions makes Up / Down automatically adapt
+  to filters, searches, browser resizing, and any current column count.
+  offsetTop / offsetLeft intentionally ignore temporary hover transforms.
+  */
+  const projectCards = this.$el.querySelectorAll(
+    ".project[data-project-title]"
+  );
+
+  const cardLayout = [];
+  let currentCardLayout = null;
+
+  for (let index = 0; index < projectCards.length; index++) {
+    const card = projectCards[index];
+    const projectTitle = card.getAttribute("data-project-title");
+
+    /*
+    Vue transition-group may briefly leave old cards in the DOM while a
+    filter is animating. Only measure projects in the current result set.
+    */
+    if (!projectByTitle[projectTitle]) continue;
+
+    const width = card.offsetWidth;
+    const height = card.offsetHeight;
+
+    if (width <= 0 || height <= 0) continue;
+
+    const layout = {
+      title: projectTitle,
+      top: Math.round(card.offsetTop),
+      centerX: card.offsetLeft + width / 2,
+      domIndex: index
+    };
+
+    cardLayout.push(layout);
+
+    if (projectTitle === this.selectedProject.title) {
+      currentCardLayout = layout;
+    }
+  }
+
+  if (!currentCardLayout) return;
+
+  const rowTolerance = 8;
+  const directionalCards = cardLayout.filter((layout) => {
+    if (direction > 0) {
+      return layout.top > currentCardLayout.top + rowTolerance;
+    }
+
+    return layout.top < currentCardLayout.top - rowTolerance;
+  });
+
+  /* First / last visible row: Up or Down intentionally does nothing. */
+  if (directionalCards.length === 0) return;
+
+  const targetRowTop = directionalCards.reduce((closestTop, layout) => {
+    if (direction > 0) {
+      return layout.top < closestTop ? layout.top : closestTop;
+    }
+
+    return layout.top > closestTop ? layout.top : closestTop;
+  }, direction > 0 ? Infinity : -Infinity);
+
+  const targetRowCards = directionalCards.filter(
+    layout => Math.abs(layout.top - targetRowTop) <= rowTolerance
+  );
+
+  if (targetRowCards.length === 0) return;
+
+  /*
+  In the neighbouring row, choose the card whose horizontal centre is
+  closest to the current card. This also handles centred, incomplete rows.
+  */
+  targetRowCards.sort((first, second) => {
+    const firstDistance = Math.abs(
+      first.centerX - currentCardLayout.centerX
+    );
+
+    const secondDistance = Math.abs(
+      second.centerX - currentCardLayout.centerX
+    );
+
+    if (Math.abs(firstDistance - secondDistance) > 0.5) {
+      return firstDistance - secondDistance;
+    }
+
+    return first.domIndex - second.domIndex;
+  });
+
+  const nextProject = projectByTitle[targetRowCards[0].title];
+
+  if (!nextProject) return;
+
+  this.lastClosedProjectTitle = "";
+  this.modalScrollTop = 0;
+
+  this.openProject(nextProject);
+
+  if (fadePoster) {
+    this.fadeCurrentPosterFromKeyboard();
+  }
+
+  /* Spatial navigation always moves to another gallery row. */
+  this.$nextTick(() => {
+    this.scrollGridToProject(
+      nextProject.title,
+      this.currentCarouselTransitionMs
+    );
   });
 },
 
