@@ -20,10 +20,10 @@ width: 100%;
 --gallery-border-thin: 2px solid var(--gallery-text);
 
 --gallery-shadow-none: 0 0 0 var(--gallery-text);
---gallery-shadow-small: .20rem .20rem 0 var(--gallery-text);
+--gallery-shadow-small: .125rem .125rem 0 var(--gallery-text);
 --gallery-shadow-tag: .10rem .10rem 0 var(--gallery-text);
 --gallery-shadow-card: .26rem .26rem 0 var(--gallery-text);
---gallery-shadow-hover: .30rem .30rem 0 var(--gallery-text);
+--gallery-shadow-hover: .1875rem .1875rem 0 var(--gallery-text);
 --gallery-shadow-card-hover: 7px 7px 0 var(--gallery-text);
 --gallery-shadow-modal: 8px 8px 0 var(--gallery-text);
   
