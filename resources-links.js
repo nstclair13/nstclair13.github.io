@@ -309,19 +309,9 @@ translate: none !important;
 (function() {
   /* ---------- EDIT RESOURCE TOOLTIPS HERE ---------- */
   var resourceTooltips = {
-    "animationcollaborative":
-      "Founded by Michal Makarewicz, AnimC offers a wide variety of classes taught by some of the industry's top talent.",
-    "animationfocus":
-      "Affordable and accessible animation training from current and past Pixar animators.",
-    "animationmentor":
-      "Industry-known online animation mentorship focused on character animation fundamentals.",
+        "animationmentor":
+      "Industry-known online animation mentorship focused on character animation fundamentals."
     
-    "ragdolldynamics":
-      "Physics-assisted animation tools for faster, more intuitive character motion.",
-    "photopea":
-      "A free browser-based image editor with a Photoshop-like workflow.",
-    "agoracommunity":
-      "An animation-focused community for sharing work, feedback, and learning."
   };
 
   function getResourceTooltipKey(text) {
