@@ -309,10 +309,13 @@ translate: none !important;
 (function() {
   /* ---------- EDIT RESOURCE TOOLTIPS HERE ---------- */
   var resourceTooltips = {
-    /* Artists */
-    "alviseavanti":
-      "Creature animation, short films and tutorials from Alvise Avati. A great place to study grounded VFX work that still has plenty of personality.",
+    /* ==================== ARTISTS ==================== */
+
+    /* Inspiring Creatives */
     "alviseavati":
+      "Creature animation, short films and tutorials from Alvise Avati. A great place to study grounded VFX work that still has plenty of personality.",
+    /* Legacy spelling alias retained for "Alvise Avanti". */
+    "alviseavanti":
       "Creature animation, short films and tutorials from Alvise Avati. A great place to study grounded VFX work that still has plenty of personality.",
     "andreasdeja":
       "A treasure trove of drawings, animation history and lessons from one of Disney's great 2D animators. Easy to lose an afternoon here.",
@@ -359,61 +362,9 @@ translate: none !important;
     "stevenichols":
       "VFX character and creature animation from Steve Nichols. A useful collection for studying realistic mechanics, weight and shot-level problem solving.",
 
-    /* Blogs, articles and news */
-    "80level":
-      "Daily articles, interviews and breakdowns covering games, VFX, animation and digital art. Great for seeing how other artists actually build things.",
-    "animationmentorblog":
-      "Animation advice, career articles and interviews from Animation Mentor. A dependable mix of fundamentals and practical industry guidance.",
-    "animationmagazine":
-      "Animation news, interviews and production coverage across film, television and streaming. Good for keeping an eye on the wider industry.",
-    "animationworldnetwork":
-      "One of the longest-running animation and VFX news sites. Useful for production announcements, business news, interviews and festival coverage.",
-    "theartofvfx":
-      "Detailed interviews with VFX supervisors and studios about how major sequences were made. Basically shot-breakdown catnip.",
-    "animschoolblog":
-      "Tutorials, interviews and animation tips from AnimSchool instructors and guests. Lots of practical material from working artists.",
-    "beforeafters":
-      "Ian Failes' excellent VFX coverage, packed with interviews and behind-the-scenes breakdowns that actually explain how the work was done.",
-    "escapestudiosanimationblog":
-      "Animation exercises, career advice and teaching notes from Escape Studios. A good mix of fundamentals and production-minded guidance.",
-    "fxrantbytoddvaziri":
-      "Todd Vaziri's wonderfully nerdy collection of VFX observations, filmmaking details and behind-the-scenes knowledge. Always interesting.",
-    "ianimatenetarticles":
-      "Interviews, tips and career articles from iAnimate instructors. Useful reading for character, creature and game animators.",
+    /* ==================== LEARNING ==================== */
 
-    /* Books and reading */
-    "actingforanimators":
-      "Ed Hooks' practical guide to performance, objectives and believable behaviour. One of the clearest bridges between acting theory and animation.",
-    "animallocomotionforanimators":
-      "Stuart Sumida's illustrated guide to animal locomotion. A fantastic reference for understanding gait structure before you start guessing at it.",
-    "drawntolife":
-      "Walt Stanchfield's legendary gesture-drawing notes collected into one book. Less about pretty drawings, more about capturing a clear idea.",
-    "muybridgeanimalsinmotion":
-      "Classic sequential photography of animals in motion. Old, incredibly useful and still one of the best ways to study real gait patterns.",
-    "muybridgehumansinmotion":
-      "Muybridge's classic human motion studies, broken into clear image sequences. Great for mechanics, timing and finding the frames your eye misses.",
-    "simplifieddrawingforplanninganimation":
-      "Wayne Gilbert's practical guide to planning animation with simple, readable drawings. Excellent for getting the idea working before detail takes over.",
-    "theanimatorssurvivalkit":
-      "Richard Williams' essential animation reference. Timing, spacing, walks, weight and overlap explained in a way you will keep coming back to.",
-    "theillusionoflife":
-      "The classic Disney book on animation history and principles. Dense, beautiful and absolutely worth having in your brain somewhere.",
-
-    /* Forums and communities */
-    "11secondclub":
-      "A monthly character animation challenge built around an 11-second audio clip. Great motivation, plenty of entries to study and useful peer feedback.",
-    "agoracommunity":
-      "A focused animation community for sharing work, getting feedback and learning from working artists. One of the friendlier corners of the internet.",
-    "ragdolldynamicsforums":
-      "The official place for Ragdoll questions, examples, workflows and troubleshooting. Very useful once physics starts doing physics things.",
-    "redditcomranimation":
-      "A broad animation community covering 2D, 3D, stop-motion and everything in between. A mixed bag, but there is plenty of good work and discussion.",
-    "redditcomranimationcareer":
-      "Career questions and advice for people trying to enter or navigate animation. Helpful when you want honest answers beyond school marketing.",
-    "redditcomrvfx":
-      "Industry news, career talk and war stories from people working in VFX. Occasionally grumpy, often useful.",
-
-    /* Online programs */
+    /* Courses & Mentorships */
     "animationcollaborative":
       "Founded by Michal Makarewicz, AnimC offers focused classes taught by some of the industry's best feature animators. Serious training without the full-school sprawl.",
     "animationfocus":
@@ -441,7 +392,7 @@ translate: none !important;
     "toanimateblender":
       "Blender animation courses, rigs and mentorship designed specifically for animators. Beginner friendly, but built with professional workflows in mind.",
 
-    /* Tutorials */
+    /* Tutorials & Exercises */
     "51animationexercisestomaster":
       "A great list of animation exercises that builds from simple fundamentals to much harder ideas. Useful no matter how long you have been animating.",
     "150animationexercisestoboostyourskills":
@@ -450,20 +401,24 @@ translate: none !important;
       "Animation tutorials and learning material collected inside the Anima.to community. Lots to explore without bouncing between a dozen different sites.",
     "birdflightanimationmasterclasswithbrendanbody":
       "If you want to learn bird flight, this course is a must-have. Brendan Body breaks down a very difficult subject in a practical, animator-friendly way.",
-    "delanimationtutorials":
-      "A collection of great Maya tutorials and scripts from Delano Athias. Practical ideas that are easy to bring into your own workflow.",
     "keithlangotutorials":
       "An oldie but a goodie. Keith Lango's tutorials have been teaching animators for ages and probably taught your boss at some point.",
+    "quadblogbeta":
+      "A genuinely in-depth walkthrough of an efficient quadruped animation process, from planning and reference through blocking and polish.",
+
+    /* Technical Learning */
+    "anatomyofanexplosion":
+      "An old-school web breakdown of how explosions develop over time. Simple, clear and surprisingly handy when you need to animate one.",
+    "delanimationtutorials":
+      "A collection of great Maya tutorials and scripts from Delano Athias. Practical ideas that are easy to bring into your own workflow.",
     "metahumananimatortutorialpdf":
       "A nice little introduction to MetaHuman Animator. Good for understanding the basic capture and processing workflow without getting buried in documentation.",
     "physicsbasedanimation":
       "Research, demos and highlights from the world of physics-based animation. Some remarkable stuff lives here. Get your nerd on.",
     "pythonformayaartistfriendlyprogramming":
       "Interested in Python for Maya but allergic to programmer-speak? This is a friendly primer built specifically for artists.",
-    "quadblogbeta":
-      "A genuinely in-depth walkthrough of an efficient quadruped animation process, from planning and reference through blocking and polish.",
 
-    /* YouTube channels */
+    /* YouTube Channels */
     "arvidschneiderlookdev":
       "High-quality lighting, rendering and look-development tutorials, with plenty of Maya and Arnold knowledge. Technical, but always presented clearly.",
     "animatewitharrananim":
@@ -491,11 +446,59 @@ translate: none !important;
     "sirwadeneistadtanim":
       "Approachable animation tutorials, interviews and career advice from Sir Wade. A good channel for both fundamentals and the realities of working in animation.",
 
-    /* 2D and drawing reference */
-    "anatomyofanexplosion":
-      "An old-school web breakdown of how explosions develop over time. Simple, clear and surprisingly handy when you need to animate one.",
+    /* ==================== READING ==================== */
+
+    /* Blogs & Articles */
+    "animationmentorblog":
+      "Animation advice, career articles and interviews from Animation Mentor. A dependable mix of fundamentals and practical industry guidance.",
+    "animschoolblog":
+      "Tutorials, interviews and animation tips from AnimSchool instructors and guests. Lots of practical material from working artists.",
+    "escapestudiosanimationblog":
+      "Animation exercises, career advice and teaching notes from Escape Studios. A good mix of fundamentals and production-minded guidance.",
+    "fxrantbytoddvaziri":
+      "Todd Vaziri's wonderfully nerdy collection of VFX observations, filmmaking details and behind-the-scenes knowledge. Always interesting.",
+    "ianimatenetarticles":
+      "Interviews, tips and career articles from iAnimate instructors. Useful reading for character, creature and game animators.",
+
+    /* Books */
+    "actingforanimators":
+      "Ed Hooks' practical guide to performance, objectives and believable behaviour. One of the clearest bridges between acting theory and animation.",
+    "animallocomotionforanimators":
+      "Stuart Sumida's illustrated guide to animal locomotion. A fantastic reference for understanding gait structure before you start guessing at it.",
+    "drawntolife":
+      "Walt Stanchfield's legendary gesture-drawing notes collected into one book. Less about pretty drawings, more about capturing a clear idea.",
+    "muybridgeanimalsinmotion":
+      "Classic sequential photography of animals in motion. Old, incredibly useful and still one of the best ways to study real gait patterns.",
+    "muybridgehumansinmotion":
+      "Muybridge's classic human motion studies, broken into clear image sequences. Great for mechanics, timing and finding the frames your eye misses.",
+    "simplifieddrawingforplanninganimation":
+      "Wayne Gilbert's practical guide to planning animation with simple, readable drawings. Excellent for getting the idea working before detail takes over.",
+    "theanimatorssurvivalkit":
+      "Richard Williams' essential animation reference. Timing, spacing, walks, weight and overlap explained in a way you will keep coming back to.",
+    "theillusionoflife":
+      "The classic Disney book on animation history and principles. Dense, beautiful and absolutely worth having in your brain somewhere.",
+
+    /* ==================== COMMUNITY ==================== */
+
+    /* COMMUNITIES & DISCUSSION */
+    "11secondclub":
+      "A monthly character animation challenge built around an 11-second audio clip. Great motivation, plenty of entries to study and useful peer feedback.",
+    "agoracommunity":
+      "A focused animation community for sharing work, getting feedback and learning from working artists. One of the friendlier corners of the internet.",
     "animato":
       "A searchable community of animation clips, exercises and artwork. Useful for discovering work and collecting ideas before starting a shot.",
+    "ragdolldynamicsforums":
+      "The official place for Ragdoll questions, examples, workflows and troubleshooting. Very useful once physics starts doing physics things.",
+    "redditcomranimation":
+      "A broad animation community covering 2D, 3D, stop-motion and everything in between. A mixed bag, but there is plenty of good work and discussion.",
+    "redditcomranimationcareer":
+      "Career questions and advice for people trying to enter or navigate animation. Helpful when you want honest answers beyond school marketing.",
+    "redditcomrvfx":
+      "Industry news, career talk and war stories from people working in VFX. Occasionally grumpy, often useful.",
+
+    /* ==================== REFERENCE ==================== */
+
+    /* 2D & Drawing */
     "characterdesignreferences":
       "A giant collection of character design, visual development and art references. Dangerous if you only meant to browse for five minutes.",
     "etheringtonbrothershowtothinkwhenyoudraw":
@@ -506,16 +509,18 @@ translate: none !important;
       "An interactive guide to the muscles and biomechanics behind facial expressions. Very useful when a face feels wrong but you cannot explain why.",
     "facethefacsfacialexpressionresources":
       "Melinda Ozel's excellent FACS, facial anatomy and lip-sync resources. Dense subjects translated into material that artists can actually use.",
-    "humananatomybystuartsumidia":
-      "Stuart Sumida's anatomy lecture for animators, full of practical connections between structure and movement. Science without forgetting the shot.",
     "humananatomybystuartsumida":
+      "Stuart Sumida's anatomy lecture for animators, full of practical connections between structure and movement. Science without forgetting the shot.",
+    /* Legacy spelling alias retained for "Stuart Sumidia". */
+    "humananatomybystuartsumidia":
       "Stuart Sumida's anatomy lecture for animators, full of practical connections between structure and movement. Science without forgetting the shot.",
     "skeletonsforanimatorsriggersbystuartsumida":
       "A detailed look at skeletons and joint structure made specifically for animators and riggers. Great context for why bodies move the way they do.",
 
-    /* Creature reference */
+    /* Animals & Creatures */
     "animalgaitsforanimators":
       "A clear lecture on animal gait patterns and how to recognize them. Excellent groundwork before tackling a quadruped walk or run.",
+    /* Animal Locomotion for Animators shares the tooltip defined in READING > Books. */
     "birdflightforanimators":
       "A focused lecture on the mechanics and timing of bird flight. Great reference before you start flapping wings and hoping for the best.",
     "buggaitsforanimators":
@@ -529,7 +534,7 @@ translate: none !important;
     "naturefootage":
       "A large wildlife and nature stock-footage library. Great when YouTube refuses to show the exact animal behaviour you need.",
 
-    /* Cinematography */
+    /* Cinematography & Camera */
     "eyecandy":
       "A visual-technique library organized by camera moves, framing, transitions and effects. Fantastic for finding the name and examples of an idea in your head.",
     "filmgrab":
@@ -539,10 +544,11 @@ translate: none !important;
     "shotdeck":
       "A massive searchable library of cinematic images with detailed visual filters. One of the best reference tools around if you work with shots.",
 
-    /* Human reference */
-    "anmationreference":
-      "A curated animation-reference library with searchable clips, frame stepping, loops and collections. Much faster than digging through random videos.",
+    /* Human Motion */
     "animationreference":
+      "A curated animation-reference library with searchable clips, frame stepping, loops and collections. Much faster than digging through random videos.",
+    /* Legacy spelling alias retained for "Anmation Reference". */
+    "anmationreference":
       "A curated animation-reference library with searchable clips, frame stepping, loops and collections. Much faster than digging through random videos.",
     "bodiesinmotion":
       "Scott Eaton's beautiful high-resolution studies of athletes and performers in motion. Fantastic anatomy, mechanics and gesture reference.",
@@ -557,7 +563,9 @@ translate: none !important;
     "underwaterswimmingreference":
       "A focused underwater swimming reference clip. Handy when gravity, drag and body mechanics all decide to change the rules at once.",
 
-    /* Rigs and assets */
+    /* ==================== RIGS & ASSETS ==================== */
+
+    /* Rigs & Props */
     "agoracommunityassets":
       "Character, creature, prop and environment rigs from Agora and its community. A solid mix of Maya, Blender and Unreal assets for practice.",
     "animationbuffet":
@@ -579,7 +587,7 @@ translate: none !important;
     "universalhumanblender":
       "A detailed, customizable human rig and base-mesh system for Blender, with modular body, face, anatomy and texture options.",
 
-    /* Textures */
+    /* Textures & Materials */
     "cgbookcase":
       "A clean library of free PBR textures with sensible categories and straightforward downloads. Great when you need something usable quickly.",
     "gametextures":
@@ -599,7 +607,7 @@ translate: none !important;
     "turbosquid":
       "One of the biggest 3D model marketplaces around. Excellent in an emergency, as long as you inspect the topology and licence before getting attached.",
 
-    /* Stock footage */
+    /* Stock Footage & VFX */
     "actionvfx":
       "High-quality production footage for fire, smoke, debris, weather, crowds and more. Expensive compared with free assets, but reliably good.",
     "footagecrate":
@@ -607,7 +615,7 @@ translate: none !important;
     "vfxstore":
       "Production-ready VFX elements including fire, smoke, debris and atmospheric effects. Another useful library when shooting it yourself is not an option.",
 
-    /* Stop motion */
+    /* Stop Motion Supplies */
     "animationsupplies":
       "A proper stop-motion shop for armatures, joints, tie-downs, rigging, puppet parts, stages and clay. Basically the hardware aisle for animators.",
     "kineticarmatures":
@@ -615,23 +623,21 @@ translate: none !important;
     "stickybones":
       "Highly poseable magnetic figures built for drawing reference and stop-motion animation. Much more useful than the stiff wooden mannequin on your desk.",
 
-    /* Maya tools */
+    /* ==================== TOOLS ==================== */
+
+    /* Maya Tools & Plug-Ins */
     "animbot":
       "A deep Maya animation toolkit for posing, timing, spacing, selection, mirroring and dozens of everyday jobs. Hard to give up once it is in your workflow.",
     "brianhorgantoolsbhtools":
       "Brian Horgan's Maya animation tools, built by an animator for real shot work. Useful utilities with very little nonsense.",
     "brotools":
       "A growing Maya toolkit for dynamics, overlap, IK/FK switching, tweening, rigging and everyday quality-of-life jobs. BroDynamics alone is worth a look.",
-    "debrisemitter":
-      "A Maya tool for quickly generating and animating scattered debris. Useful for impacts, destruction and all the little secondary pieces that sell a shot.",
     "gizmifyreferencemediaplane":
       "A Maya plug-in that plays and scrubs video directly on a camera-attached plane. Much nicer than converting every reference clip to an image sequence.",
     "joshjanouskytools":
       "A collection of Maya animation and workflow tools from Josh Janousky. Practical scripts for common production problems.",
     "kielfigginsresources":
       "Kiel Figgins' huge library of free Maya scripts, rigs and workflow notes. One of those pages every animator should keep bookmarked.",
-    "makecvcurvesfrommotiontrails":
-      "A handy Maya script that converts motion trails into editable CV curves. Great for visualizing and reshaping arcs without fighting the Graph Editor.",
     "mgtools":
       "A production-tested Maya toolkit made specifically for character animators, covering poses, animation transfer, selection, curves and plenty more.",
     "mltools":
@@ -640,12 +646,18 @@ translate: none !important;
       "Physics-assisted animation tools that work directly with your Maya controls. Powerful for blocking, secondary motion, contacts and getting believable weight quickly.",
     "realcameramotionlibrary":
       "Forty motion-captured camera moves supplied as reusable animation. A fast way to add believable handheld character without faking every little bump.",
+
+    /* Maya Scripts */
+    "debrisemitter":
+      "A Maya tool for quickly generating and animating scattered debris. Useful for impacts, destruction and all the little secondary pieces that sell a shot.",
+    "makecvcurvesfrommotiontrails":
+      "A handy Maya script that converts motion trails into editable CV curves. Great for visualizing and reshaping arcs without fighting the Graph Editor.",
     "smartlayers":
       "A Maya tool for making broad animation adjustments with layers while preserving the underlying motion. Very handy for changes that would otherwise wreck your curves.",
     "switchcams":
       "A simple Maya script for moving quickly between cameras. Small tool, but exactly the kind of repetitive click-saving that adds up all day.",
 
-    /* Media viewers */
+    /* Playback & Review */
     "keyframepro":
       "A fast playback and review tool built for animators, with frame stepping, scrubbing, comparisons, annotations and Maya integration. A proper workhorse.",
     "syncsketch":
@@ -653,7 +665,7 @@ translate: none !important;
     "rv":
       "Autodesk's professional image-sequence and media player for playback, comparison, colour and review. Built for production rather than casual viewing.",
 
-    /* Software */
+    /* Animation Software */
     "autodeskmaya":
       "The animation and VFX package most of us have a complicated long-term relationship with. Still the centre of a huge number of production pipelines.",
     "blender":
@@ -665,7 +677,7 @@ translate: none !important;
     "unrealengine":
       "A real-time engine for games, previs, virtual production and increasingly final animation work. Huge, powerful and somehow always gaining another menu.",
 
-    /* Other useful tools */
+    /* Other Tools */
     "applearkit":
       "Apple's augmented-reality framework, including accessible face tracking and blendshape data. A useful entry point for facial capture experiments.",
     "brekelpointcloud":
@@ -673,7 +685,29 @@ translate: none !important;
     "photopea":
       "A surprisingly capable Photoshop-like editor that runs in your browser. Fast, free and perfect when you just need to fix the image right now.",
 
-    /* Jobs and salary information */
+    /* Web & Hosting */
+    "carrdco":
+      "A fast, inexpensive way to build clean one-page sites without becoming a web developer. This very site is proof it can be pushed pretty far.",
+    "cloudflare":
+      "Domains, DNS, security and performance tools in one place. Useful for putting a custom domain in front of a site without much fuss.",
+    "githubpages":
+      "Free static-site hosting directly from a GitHub repository. Perfect for scripts, data files and small sites that should update with a simple push.",
+
+    /* ==================== INDUSTRY ==================== */
+
+    /* News & Publications */
+    "80level":
+      "Daily articles, interviews and breakdowns covering games, VFX, animation and digital art. Great for seeing how other artists actually build things.",
+    "animationmagazine":
+      "Animation news, interviews and production coverage across film, television and streaming. Good for keeping an eye on the wider industry.",
+    "animationworldnetwork":
+      "One of the longest-running animation and VFX news sites. Useful for production announcements, business news, interviews and festival coverage.",
+    "beforeafters":
+      "Ian Failes' excellent VFX coverage, packed with interviews and behind-the-scenes breakdowns that actually explain how the work was done.",
+    "theartofvfx":
+      "Detailed interviews with VFX supervisors and studios about how major sequences were made. Basically shot-breakdown catnip.",
+
+    /* Jobs & Pay */
     "animvfxgameindustryjobpostingspreadsheet":
       "A community-maintained spreadsheet of animation, VFX and game openings. Not glamorous, but often much faster than checking every studio site yourself.",
     "animatedjobs":
@@ -683,15 +717,7 @@ translate: none !important;
     "linkedinjobpostings":
       "The giant general-purpose job board. Filters and alerts are useful, even if digging through promoted listings occasionally tests your patience.",
     "saltyanimatorssalaryspreadsheet":
-      "Anonymous salary data shared by people working across animation and VFX. Extremely useful context before a negotiation or relocation.",
-
-    /* Website tools */
-    "carrdco":
-      "A fast, inexpensive way to build clean one-page sites without becoming a web developer. This very site is proof it can be pushed pretty far.",
-    "cloudflare":
-      "Domains, DNS, security and performance tools in one place. Useful for putting a custom domain in front of a site without much fuss.",
-    "githubpages":
-      "Free static-site hosting directly from a GitHub repository. Perfect for scripts, data files and small sites that should update with a simple push."
+      "Anonymous salary data shared by people working across animation and VFX. Extremely useful context before a negotiation or relocation."
   };
 
   function getResourceTooltipKey(text) {
