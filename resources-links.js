@@ -315,6 +315,42 @@ translate: none !important;
       "Affordable and accessible animation training from current and past Pixar animators.",
     "animationmentor":
       "Industry-known online animation mentorship focused on character animation fundamentals.",
+    "animationsherpa":
+      "Learn how to master space switching and never counter animate again. Vocational training you can follow along with at your own pace.",
+    "animschool":
+      "An accredited animation school built around real production workflows, taught by industry professionals.",
+    "cgspectrum":
+      "Online training for Game Design, VFX and Animation taught by award winning industry artists.",
+    "creaturestation":
+      "An online platform designed to help animators develope and elevate their creature animation skills.",
+    "ianimate.net":
+      "Online animation school offering mentorship from working professional animators in areas such as Feature Animation, Games, Creatures, Rigging, Modeling, Unreal, and more.",
+
+
+
+    "51animationexercisestomaster":
+      "Great list of animation exercises from simple to complex that any animator can do to sharpen their skills.",
+    "150+animationexercisestoboostyourskills":
+      "Huge list of exercises to practice your animation skills for all skill levels.",
+    "anima.totutorials":,
+      "A unique animation social network for animators to share work, exercises, tutorials, and all sorts of animation related topics.",
+    "birdflightanimationmasterclasswithbrendanbody":
+      "If you want to learn how to animate flight, this course if a must have. Taught by Brendan Body, a world class animation with over 25+ years of experience.",
+    "delanimationtutorials":
+      "Some great tutorials and scripts from the talented Delano Athias.",
+    "keithlangotutorials":
+      "An oldie but goodie, these tutorials have been around for ages. Taught by Keith Lango, a top talent who probably taught your boss how to animate."
+    "metahumananimatortutorial(.pdf)":
+      "Nice little introduction tutorial for learning MetaHuman Animator.",
+    "physics-basedanimation":
+      "All types of research and highlights about physics based animation. Some remarkable stuff can be found here. Get your nerd on."
+    "pythonformaya:artistfriendlyprogramming":
+      "Interested in getting started with Python for Maya? A great primer that can get you started.",
+    "quadblogbeta":
+      "A real in depth tutorial explaining the process of animating a quadraped efficiently.",
+    
+  
+
     
     "ragdolldynamics":
       "Physics-assisted animation tools for faster, more intuitive character motion.",
