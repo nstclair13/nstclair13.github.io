@@ -323,28 +323,28 @@ translate: none !important;
       "Online training for Game Design, VFX and Animation taught by award winning industry artists.",
     "creaturestation":
       "An online platform designed to help animators develope and elevate their creature animation skills.",
-    "ianimate.net":
+    "ianimatenet":
       "Online animation school offering mentorship from working professional animators in areas such as Feature Animation, Games, Creatures, Rigging, Modeling, Unreal, and more.",
 
 
 
     "51animationexercisestomaster":
       "Great list of animation exercises from simple to complex that any animator can do to sharpen their skills.",
-    "150+animationexercisestoboostyourskills":
+    "150animationexercisestoboostyourskills":
       "Huge list of exercises to practice your animation skills for all skill levels.",
-    "anima.totutorials":,
+    "animatotutorials":
       "A unique animation social network for animators to share work, exercises, tutorials, and all sorts of animation related topics.",
     "birdflightanimationmasterclasswithbrendanbody":
       "If you want to learn how to animate flight, this course if a must have. Taught by Brendan Body, a world class animation with over 25+ years of experience.",
     "delanimationtutorials":
       "Some great tutorials and scripts from the talented Delano Athias.",
     "keithlangotutorials":
-      "An oldie but goodie, these tutorials have been around for ages. Taught by Keith Lango, a top talent who probably taught your boss how to animate."
-    "metahumananimatortutorial(.pdf)":
+      "An oldie but goodie, these tutorials have been around for ages. Taught by Keith Lango, a top talent who probably taught your boss how to animate.",
+    "metahumananimatortutorialpdf":
       "Nice little introduction tutorial for learning MetaHuman Animator.",
-    "physics-basedanimation":
-      "All types of research and highlights about physics based animation. Some remarkable stuff can be found here. Get your nerd on."
-    "pythonformaya:artistfriendlyprogramming":
+    "physicsbasedanimation":
+      "All types of research and highlights about physics based animation. Some remarkable stuff can be found here. Get your nerd on.",
+    "pythonformayaartistfriendlyprogramming":
       "Interested in getting started with Python for Maya? A great primer that can get you started.",
     "quadblogbeta":
       "A real in depth tutorial explaining the process of animating a quadraped efficiently.",
