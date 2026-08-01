@@ -407,42 +407,47 @@ transition: none !important;
   }
 
   function keepDemoReelTimestampVisible2(button) {
-    var timestampContainer = document.getElementById("reelTimestamps2");
+  var timestampContainer = document.getElementById("reelTimestamps2");
 
-    if (!timestampContainer || !button) return;
+  if (!timestampContainer || !button) return;
 
-    var list = timestampContainer.querySelector(
-      ".reel-timestamps2-list"
-    );
+  var list = timestampContainer.querySelector(
+    ".reel-timestamps2-list"
+  );
 
-    if (!list) return;
+  if (!list) return;
 
-    var listRect = list.getBoundingClientRect();
-    var buttonRect = button.getBoundingClientRect();
-    var padding = 8;
-    var scrollAmount = 0;
+  var pageHeight = list.clientHeight;
 
-    if (buttonRect.top < listRect.top + padding) {
-      scrollAmount = buttonRect.top - listRect.top - padding;
-    } else if (buttonRect.bottom > listRect.bottom - padding) {
-      scrollAmount = buttonRect.bottom - listRect.bottom + padding;
-    }
+  if (!pageHeight) return;
 
-    if (scrollAmount === 0) return;
+  var listRect = list.getBoundingClientRect();
+  var buttonRect = button.getBoundingClientRect();
 
-    var reducedMotion =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Find the button's position inside the full scrollable list */
+  var buttonTop =
+    buttonRect.top -
+    listRect.top +
+    list.scrollTop;
 
-    if (typeof list.scrollBy === "function") {
-      list.scrollBy({
-        top: scrollAmount,
-        behavior: reducedMotion ? "auto" : "smooth"
-      });
-    } else {
-      list.scrollTop += scrollAmount;
-    }
-  }
+  /* Work out which visible "page" contains this timestamp */
+  var targetPage = Math.floor(buttonTop / pageHeight);
+  var targetScroll = targetPage * pageHeight;
+
+  /* Don't scroll if we're already on the correct page */
+  var currentPage = Math.round(list.scrollTop / pageHeight);
+
+  if (targetPage === currentPage) return;
+
+  var reducedMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  list.scrollTo({
+    top: targetScroll,
+    behavior: reducedMotion ? "auto" : "smooth"
+  });
+}
 
   function toggleDemoReelTimestamps2() {
     var timestampContainer = document.getElementById("reelTimestamps2");
