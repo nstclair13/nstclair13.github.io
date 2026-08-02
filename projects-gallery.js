@@ -3561,6 +3561,22 @@ loadedImages: {},
   
 projects: [
   {
+    "title": "Spider-Man: Brand New Day",
+    "image": "https://nstclair13.github.io/images/thumbs/limited/TBO_thumb_limited.webp",
+    "poster": "https://nstclair13.github.io/images/posters/TBO_poster.webp",
+    "category": [
+      "ALL",
+      "FILM"
+    ],
+    "studio": "Sony Pictures Imageworks",
+    "year": "2026",
+    "role": "Lead Animator",
+    "tags": [],
+    "summary": "I worked on this film at Sony Pictures Imageworks. Additional details will be added when they can be shared publicly.",
+    "thumbnailDisclaimer": "",
+    "vimeo": ""
+  },
+  {
     "title": "Project Hail Mary",
     "image": "https://nstclair13.github.io/images/thumbs/limited/PHM_thumb_limited.webp",
     "poster": "https://nstclair13.github.io/images/posters/PHM_poster.webp",
