@@ -494,6 +494,10 @@ transition: none !important;
 
     hideDemoReelAuth2();
 
+    // R2 access is already authorized at this point, so timestamps
+    // can unlock immediately instead of waiting for video playback.
+    renderDemoReelTimestamps2(true);
+
     if (autoplay) {
       var playPromise = video.play();
 
@@ -519,7 +523,17 @@ transition: none !important;
     });
 
     video.addEventListener("play", function () {
-      renderDemoReelTimestamps2(true);
+      var timestampContainer = document.getElementById(
+        "reelTimestamps2"
+      );
+
+      if (
+        timestampContainer &&
+        timestampContainer.classList.contains("is-locked")
+      ) {
+        renderDemoReelTimestamps2(true);
+      }
+
       demoReelCurrentTime2 = video.currentTime || 0;
       updateDemoReelActiveTimestamp2(
         demoReelCurrentTime2,
