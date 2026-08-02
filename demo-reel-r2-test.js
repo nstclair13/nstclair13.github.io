@@ -1,8 +1,6 @@
 /*
-  Demo Reel modal + timestamp navigation
-  Public file loaded by Carrd.
-
-  Edit demoReelTimestamps2 below to update shot timing/labels.
+  Demo Reel R2 test player
+  Secure R2 video + custom controls + reel breakdown.
 */
 
 (function () {
@@ -24,19 +22,22 @@
 .modal-app2 .overlay {
 position: fixed;
 z-index: 9998;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
+inset: 0;
 background-color: rgba(0, 0, 0, 0.33);
 opacity: 0;
-transition: opacity var(--modal-speed) ease-out;
+transition:
+opacity var(--modal-speed) ease-out,
+background-color 180ms ease-out;
+}
+
+#app2.is-auth-mode .overlay {
+background-color: rgba(0, 0, 0, 0.46);
 }
 
 .modal-app2 .modal2 {
 font-family: Space Mono, sans-serif;
 position: fixed;
-width: 840px;
+width: 1000px;
 max-width: calc(100% - 60px);
 z-index: 9999;
 margin: 0;
@@ -53,8 +54,15 @@ box-shadow: 0.375rem 0.375rem 0 #4F4F4F;
 border-radius: 1rem;
 transition:
 opacity var(--modal-speed) ease-out,
-transform var(--modal-speed) var(--modal-ease);
-will-change: opacity, transform;
+transform var(--modal-speed) var(--modal-ease),
+width 180ms ease-out;
+will-change: opacity, transform, width;
+}
+
+#app2.is-auth-mode .modal2 {
+width: 430px;
+max-width: calc(100% - 40px);
+padding: 1rem;
 }
 
 #app2.is-open .overlay { opacity: 1; }
@@ -71,55 +79,18 @@ opacity: 0;
 transform: translate(-50%, calc(-50% + 6px)) scale(0.985);
 }
 
-.modal-app2 .video-wrap {
-position: relative;
-width: 100%;
-aspect-ratio: 16 / 9;
-overflow: hidden;
-border-radius: 0.75rem;
-background:
-linear-gradient(135deg, rgba(79, 79, 79, 0.08), rgba(79, 79, 79, 0.02));
-}
-
-.modal-app2 .video {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-border: 0;
-opacity: 0;
-transition: opacity 180ms ease-out;
-}
-
-.modal-app2 .video.is-loaded { opacity: 1; }
-
-.modal-app2 .video {
-background: #111;
-}
+/* ---------- Password Gate ---------- */
 
 .modal-app2 .reel-auth2 {
-position: absolute;
-inset: 0;
-z-index: 2;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 24px;
-background: #F3E9D7;
-}
-
-.modal-app2 .reel-auth2.is-hidden {
 display: none;
 }
 
+#app2.is-auth-mode .reel-auth2 {
+display: block;
+}
+
 .modal-app2 .reel-auth2-card {
-width: min(100%, 360px);
-padding: 18px;
-border: 2px solid #4F4F4F;
-border-radius: 0.65rem;
-background: #F3E9D7;
-box-shadow: 0.20rem 0.20rem 0 #4F4F4F;
+padding: 16px;
 text-align: center;
 }
 
@@ -130,7 +101,7 @@ font-weight: 700;
 text-transform: uppercase;
 letter-spacing: -0.05em;
 color: #4F4F4F;
-margin: 0 0 10px;
+margin: 0 0 7px;
 }
 
 .modal-app2 .reel-auth2-copy,
@@ -139,20 +110,14 @@ font-family: Space Mono, sans-serif;
 font-size: 11px;
 line-height: 1.45;
 color: #4F4F4F;
-margin: 0 0 12px;
-}
-
-.modal-app2 .reel-auth2-error {
-min-height: 16px;
-color: #D66545;
-margin-top: 9px;
-margin-bottom: 0;
+margin: 0;
 }
 
 .modal-app2 .reel-auth2-form {
 display: grid;
 grid-template-columns: 1fr auto;
-gap: 8px;
+gap: 9px;
+margin-top: 14px;
 }
 
 .modal-app2 .reel-auth2-input,
@@ -168,20 +133,303 @@ min-width: 0;
 padding: 9px 10px;
 background: #fff;
 color: #4F4F4F;
+outline: none;
+}
+
+.modal-app2 .reel-auth2-input:focus-visible {
+box-shadow: 0 0 0 2px rgba(214, 101, 69, 0.35);
 }
 
 .modal-app2 .reel-auth2-submit {
-padding: 9px 12px;
+padding: 9px 13px;
 background: #D66545;
 color: #F3E9D7;
-cursor: pointer;
 font-weight: 700;
+cursor: pointer;
+box-shadow: 0.16rem 0.16rem 0 #4F4F4F;
+transform: translate(0, 0);
+transition:
+transform 120ms ease-out,
+box-shadow 120ms ease-out,
+background-color 120ms ease-out;
+}
+
+.modal-app2 .reel-auth2-submit:hover,
+.modal-app2 .reel-auth2-submit:focus-visible {
+outline: none;
+transform: translate(-1px, -1px);
+box-shadow: 0.22rem 0.22rem 0 #4F4F4F;
+}
+
+.modal-app2 .reel-auth2-submit:active {
+transform: translate(0.12rem, 0.12rem);
+box-shadow: 0.04rem 0.04rem 0 #4F4F4F;
 }
 
 .modal-app2 .reel-auth2-submit:disabled {
 opacity: 0.55;
 cursor: wait;
+transform: none;
+box-shadow: 0.10rem 0.10rem 0 #4F4F4F;
 }
+
+.modal-app2 .reel-auth2-error {
+min-height: 16px;
+margin-top: 9px;
+color: #D66545;
+}
+
+/* ---------- Reel Content ---------- */
+
+.modal-app2 .reel-content2 {
+display: block;
+opacity: 1;
+transition: opacity 160ms ease-out;
+}
+
+#app2.is-auth-mode .reel-content2 {
+display: none;
+opacity: 0;
+}
+
+.modal-app2 .video-wrap {
+position: relative;
+width: 100%;
+aspect-ratio: 16 / 9;
+overflow: hidden;
+border-radius: 0.75rem;
+background: #161616;
+outline: none;
+}
+
+.modal-app2 .video {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+border: 0;
+object-fit: contain;
+background: #161616;
+opacity: 0;
+transition: opacity 180ms ease-out;
+}
+
+.modal-app2 .video.is-loaded { opacity: 1; }
+
+/* ---------- Custom Player Controls ---------- */
+
+.modal-app2 .reel-controls2 {
+position: absolute;
+left: 0;
+right: 0;
+bottom: 0;
+z-index: 3;
+padding: 26px 14px 11px;
+background: linear-gradient(
+to bottom,
+rgba(22, 22, 22, 0),
+rgba(22, 22, 22, 0.86)
+);
+opacity: 0;
+transform: translateY(3px);
+pointer-events: none;
+transition:
+opacity 150ms ease-out,
+transform 150ms ease-out;
+}
+
+.modal-app2 .video-wrap.controls-visible .reel-controls2,
+.modal-app2 .video-wrap:focus-within .reel-controls2,
+.modal-app2 .video-wrap.is-paused .reel-controls2 {
+opacity: 1;
+transform: translateY(0);
+pointer-events: auto;
+}
+
+.modal-app2 .reel-controls2-row {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.modal-app2 .reel-control2-button {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 30px;
+height: 30px;
+padding: 0;
+border: 0;
+border-radius: 0.35rem;
+background: transparent;
+color: #F3E9D7;
+cursor: pointer;
+transition:
+background-color 120ms ease-out,
+color 120ms ease-out,
+transform 120ms ease-out;
+}
+
+.modal-app2 .reel-control2-button:hover,
+.modal-app2 .reel-control2-button:focus-visible {
+outline: none;
+background: rgba(243, 233, 215, 0.13);
+color: #D66545;
+}
+
+.modal-app2 .reel-control2-button:active {
+transform: translateY(1px);
+}
+
+.modal-app2 .reel-control2-button svg {
+width: 18px;
+height: 18px;
+fill: currentColor;
+}
+
+.modal-app2 .reel-icon-pause2 {
+display: none;
+}
+
+.modal-app2 .video-wrap.is-playing .reel-icon-play2 {
+display: none;
+}
+
+.modal-app2 .video-wrap.is-playing .reel-icon-pause2 {
+display: block;
+}
+
+.modal-app2 .reel-time2 {
+font-family: Space Mono, sans-serif;
+font-size: 10px;
+color: #F3E9D7;
+white-space: nowrap;
+}
+
+.modal-app2 .reel-spacer2 {
+flex: 1;
+}
+
+.modal-app2 .reel-timeline2-wrap {
+position: relative;
+flex: 1;
+min-width: 80px;
+display: flex;
+align-items: center;
+}
+
+.modal-app2 .reel-timeline2 {
+--progress: 0%;
+width: 100%;
+height: 18px;
+margin: 0;
+padding: 0;
+appearance: none;
+-webkit-appearance: none;
+background: transparent;
+cursor: pointer;
+}
+
+.modal-app2 .reel-timeline2::-webkit-slider-runnable-track {
+height: 4px;
+border-radius: 999px;
+background:
+linear-gradient(
+to right,
+#D66545 0,
+#D66545 var(--progress),
+rgba(243, 233, 215, 0.38) var(--progress),
+rgba(243, 233, 215, 0.38) 100%
+);
+}
+
+.modal-app2 .reel-timeline2::-moz-range-track {
+height: 4px;
+border-radius: 999px;
+background: rgba(243, 233, 215, 0.38);
+}
+
+.modal-app2 .reel-timeline2::-moz-range-progress {
+height: 4px;
+border-radius: 999px;
+background: #D66545;
+}
+
+.modal-app2 .reel-timeline2::-webkit-slider-thumb {
+appearance: none;
+-webkit-appearance: none;
+width: 12px;
+height: 12px;
+margin-top: -4px;
+border: 2px solid #F3E9D7;
+border-radius: 50%;
+background: #D66545;
+box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.modal-app2 .reel-timeline2::-moz-range-thumb {
+width: 10px;
+height: 10px;
+border: 2px solid #F3E9D7;
+border-radius: 50%;
+background: #D66545;
+box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.modal-app2 .reel-timeline2:focus-visible {
+outline: none;
+}
+
+.modal-app2 .reel-timeline2:focus-visible::-webkit-slider-thumb {
+box-shadow:
+0 0 0 3px rgba(214, 101, 69, 0.35),
+0 1px 2px rgba(0,0,0,0.35);
+}
+
+/* ---------- Hover Preview ---------- */
+
+.modal-app2 .reel-preview2 {
+position: absolute;
+left: 0;
+bottom: 27px;
+z-index: 5;
+width: 160px;
+pointer-events: none;
+opacity: 0;
+transform: translateX(-50%) translateY(4px);
+transition:
+opacity 90ms ease-out,
+transform 90ms ease-out;
+}
+
+.modal-app2 .reel-preview2.is-visible {
+opacity: 1;
+transform: translateX(-50%) translateY(0);
+}
+
+.modal-app2 .reel-preview2-image {
+width: 160px;
+height: 90px;
+border: 2px solid #4F4F4F;
+border-radius: 0.4rem;
+background-color: #161616;
+background-repeat: no-repeat;
+box-shadow: 0.16rem 0.16rem 0 #4F4F4F;
+overflow: hidden;
+}
+
+.modal-app2 .reel-preview2-time {
+display: table;
+margin: 5px auto 0;
+padding: 2px 6px;
+border-radius: 0.25rem;
+background: #4F4F4F;
+color: #F3E9D7;
+font-family: Space Mono, sans-serif;
+font-size: 9px;
+}
+
+/* ---------- Timestamps & Breakdown ---------- */
 
 .modal-app2 .reel-timestamps2 {
 margin-top: 14px;
@@ -200,22 +448,26 @@ font-weight: 700;
 text-transform: uppercase;
 letter-spacing: -0.05em;
 color: #4F4F4F;
-width: 100%;
-padding: 0;
+width: calc(100% + 12px);
+margin: -6px;
+padding: 6px;
 display: flex;
 align-items: center;
 justify-content: space-between;
 gap: 12px;
 background: transparent;
 border: 0;
+border-radius: 0.35rem;
 cursor: pointer;
 text-align: left;
+transition: background-color 120ms ease-out;
 }
 
 .modal-app2 .reel-timestamps2-toggle::after {
 content: "+";
 font-size: 16px;
 line-height: 1;
+color: #D66545;
 }
 
 .modal-app2 .reel-timestamps2.is-open .reel-timestamps2-toggle::after {
@@ -225,7 +477,8 @@ content: "–";
 .modal-app2 .reel-timestamps2-toggle:hover,
 .modal-app2 .reel-timestamps2-toggle:focus-visible {
 outline: none;
-color: #D66545;
+color: #4F4F4F;
+background: rgba(79, 79, 79, 0.08);
 }
 
 .modal-app2 .reel-timestamps2-list {
@@ -304,24 +557,70 @@ cursor: not-allowed;
 content: "LOCKED";
 font-size: 9px;
 letter-spacing: 0;
+color: #4F4F4F;
 }
 
 .modal-app2 .reel-timestamps2-toggle:disabled {
 pointer-events: none;
 }
 
+/* ---------- Fullscreen ---------- */
+
+.modal-app2 .video-wrap:fullscreen {
+background: #000;
+width: 100vw;
+height: 100vh;
+aspect-ratio: auto;
+border-radius: 0;
+}
+
+.modal-app2 .video-wrap:fullscreen .video {
+object-fit: contain;
+}
+
+/* ---------- Mobile ---------- */
+
 @media (max-width: 768px) {
-.modal-app2 .modal2 {
+.modal-app2 .modal2,
+#app2.is-auth-mode .modal2 {
 width: calc(100% - 40px);
 max-width: calc(100% - 40px);
 padding: 0.75rem;
+}
+
+.modal-app2 .reel-auth2-form {
+grid-template-columns: 1fr;
+}
+
+.modal-app2 .reel-auth2-submit {
+width: 100%;
+}
+
+.modal-app2 .reel-time2 {
+display: none;
+}
+
+.modal-app2 .reel-controls2 {
+padding-left: 9px;
+padding-right: 9px;
+}
+
+.modal-app2 .reel-controls2-row {
+gap: 6px;
+}
+
+.modal-app2 .reel-preview2 {
+display: none;
 }
 }
 
 @media (prefers-reduced-motion: reduce) {
 .modal-app2 .overlay,
 .modal-app2 .modal2,
-.modal-app2 .reel-timestamp2-button {
+.modal-app2 .reel-timestamp2-button,
+.modal-app2 .reel-controls2,
+.modal-app2 .reel-auth2-submit,
+.modal-app2 .reel-preview2 {
 transition: none !important;
 }
 }
@@ -382,10 +681,13 @@ transition: none !important;
     { time: "1:58", seconds: 118.042, label: "Closing / Contact" }
   ];
 
+
   var demoReelVideo2 = null;
   var demoReelCurrentTime2 = 0;
   var demoReelActiveTimestampIndex2 = -1;
   var demoReelListenersAttached2 = false;
+  var demoReelControlsHideTimer2 = null;
+  var demoReelPreviewSpriteReady2 = false;
 
   var DEMO_REEL_LOGIN_URL2 =
     "https://reel.nick-st-clair.com/login";
@@ -393,8 +695,16 @@ transition: none !important;
   var DEMO_REEL_VIDEO_URL2 =
     "https://reel.nick-st-clair.com/video/demo-reel.mp4";
 
+  var DEMO_REEL_PREVIEW_SPRITE2 =
+    "https://reel.nick-st-clair.com/video/previews/demo-reel-sprite.webp";
+
   var DEMO_REEL_TOKEN_KEY2 = "demoReelToken2";
   var DEMO_REEL_EXPIRY_KEY2 = "demoReelTokenExpires2";
+
+  var DEMO_REEL_PREVIEW_INTERVAL2 = 2;
+  var DEMO_REEL_PREVIEW_WIDTH2 = 160;
+  var DEMO_REEL_PREVIEW_HEIGHT2 = 90;
+  var DEMO_REEL_PREVIEW_COLUMNS2 = 9;
 
   function getDemoReelVideo2() {
     if (!demoReelVideo2 || !document.body.contains(demoReelVideo2)) {
@@ -403,6 +713,10 @@ transition: none !important;
     }
 
     return demoReelVideo2;
+  }
+
+  function getDemoReelWrap2() {
+    return document.getElementById("demoReelPlayerShell2");
   }
 
   function getStoredDemoReelToken2() {
@@ -442,20 +756,30 @@ transition: none !important;
     } catch (error) {}
   }
 
+  function buildProtectedDemoReelUrl2(baseUrl, token) {
+    return baseUrl + "?token=" + encodeURIComponent(token);
+  }
+
   function buildDemoReelVideoUrl2(token) {
-    return (
-      DEMO_REEL_VIDEO_URL2 +
-      "?token=" +
-      encodeURIComponent(token)
+    return buildProtectedDemoReelUrl2(
+      DEMO_REEL_VIDEO_URL2,
+      token
+    );
+  }
+
+  function buildDemoReelPreviewUrl2(token) {
+    return buildProtectedDemoReelUrl2(
+      DEMO_REEL_PREVIEW_SPRITE2,
+      token
     );
   }
 
   function showDemoReelAuth2(message) {
-    var gate = document.getElementById("demoReelAuth2");
+    var app = document.getElementById("app2");
     var error = document.getElementById("demoReelAuthError2");
     var input = document.getElementById("demoReelPassword2");
 
-    if (gate) gate.classList.remove("is-hidden");
+    if (app) app.classList.add("is-auth-mode");
     if (error) error.textContent = message || "";
 
     if (input) {
@@ -470,19 +794,45 @@ transition: none !important;
   }
 
   function hideDemoReelAuth2() {
-    var gate = document.getElementById("demoReelAuth2");
+    var app = document.getElementById("app2");
     var error = document.getElementById("demoReelAuthError2");
 
-    if (gate) gate.classList.add("is-hidden");
+    if (app) app.classList.remove("is-auth-mode");
     if (error) error.textContent = "";
   }
 
-  function setDemoReelVideoSource2(token, autoplay) {
+  function setDemoReelPreviewSprite2(token) {
+    var previewImage = document.getElementById(
+      "demoReelPreviewImage2"
+    );
+
+    if (!previewImage || !token) return;
+
+    var spriteUrl = buildDemoReelPreviewUrl2(token);
+    var loader = new Image();
+
+    demoReelPreviewSpriteReady2 = false;
+
+    loader.onload = function () {
+      previewImage.style.backgroundImage =
+        'url("' + spriteUrl.replace(/"/g, '\\"') + '")';
+      demoReelPreviewSpriteReady2 = true;
+    };
+
+    loader.onerror = function () {
+      demoReelPreviewSpriteReady2 = false;
+    };
+
+    loader.src = spriteUrl;
+  }
+
+  function setDemoReelVideoSource2(token) {
     var video = getDemoReelVideo2();
 
     if (!video || !token) return;
 
     attachDemoReelVideoListeners2();
+    attachDemoReelControlListeners2();
 
     var wantedSource = buildDemoReelVideoUrl2(token);
 
@@ -492,19 +842,13 @@ transition: none !important;
       video.load();
     }
 
+    setDemoReelPreviewSprite2(token);
     hideDemoReelAuth2();
 
-    // R2 access is already authorized at this point, so timestamps
-    // can unlock immediately instead of waiting for video playback.
+    // With R2 access already authorized, the breakdown is available
+    // immediately. The reel itself intentionally does not autoplay.
     renderDemoReelTimestamps2(true);
-
-    if (autoplay) {
-      var playPromise = video.play();
-
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(function () {});
-      }
-    }
+    showDemoReelControls2(true);
   }
 
   function attachDemoReelVideoListeners2() {
@@ -522,27 +866,33 @@ transition: none !important;
       video.classList.add("is-loaded");
     });
 
+    video.addEventListener("loadedmetadata", function () {
+      updateDemoReelControlState2();
+    });
+
     video.addEventListener("play", function () {
-      var timestampContainer = document.getElementById(
-        "reelTimestamps2"
-      );
-
-      if (
-        timestampContainer &&
-        timestampContainer.classList.contains("is-locked")
-      ) {
-        renderDemoReelTimestamps2(true);
-      }
-
+      updateDemoReelPlaybackState2();
       demoReelCurrentTime2 = video.currentTime || 0;
       updateDemoReelActiveTimestamp2(
         demoReelCurrentTime2,
         false
       );
+      scheduleDemoReelControlsHide2();
+    });
+
+    video.addEventListener("pause", function () {
+      updateDemoReelPlaybackState2();
+      showDemoReelControls2(true);
+    });
+
+    video.addEventListener("ended", function () {
+      updateDemoReelPlaybackState2();
+      showDemoReelControls2(true);
     });
 
     video.addEventListener("timeupdate", function () {
       demoReelCurrentTime2 = video.currentTime || 0;
+      updateDemoReelControlState2();
       updateDemoReelActiveTimestamp2(
         demoReelCurrentTime2,
         true
@@ -551,6 +901,7 @@ transition: none !important;
 
     video.addEventListener("seeked", function () {
       demoReelCurrentTime2 = video.currentTime || 0;
+      updateDemoReelControlState2();
       updateDemoReelActiveTimestamp2(
         demoReelCurrentTime2,
         true
@@ -564,11 +915,388 @@ transition: none !important;
       video.removeAttribute("src");
       video.load();
       video.classList.remove("is-loaded");
+      demoReelPreviewSpriteReady2 = false;
       renderDemoReelTimestamps2(false);
       showDemoReelAuth2(
         "Your reel access expired. Enter the password again."
       );
     });
+  }
+
+  function attachDemoReelControlListeners2() {
+    var wrap = getDemoReelWrap2();
+    var video = getDemoReelVideo2();
+    var play = document.getElementById("demoReelPlay2");
+    var timeline = document.getElementById("demoReelTimeline2");
+    var pip = document.getElementById("demoReelPip2");
+    var fullscreen = document.getElementById(
+      "demoReelFullscreen2"
+    );
+
+    if (!wrap || !video || wrap.dataset.controlsReady === "1") {
+      return;
+    }
+
+    wrap.dataset.controlsReady = "1";
+
+    if (play) {
+      play.addEventListener("click", function (event) {
+        event.stopPropagation();
+        toggleDemoReelPlayback2();
+      });
+    }
+
+    video.addEventListener("click", function () {
+      toggleDemoReelPlayback2();
+    });
+
+    wrap.addEventListener("mousemove", function () {
+      showDemoReelControls2(true);
+      scheduleDemoReelControlsHide2();
+    });
+
+    wrap.addEventListener("mouseenter", function () {
+      showDemoReelControls2(true);
+    });
+
+    wrap.addEventListener("mouseleave", function () {
+      if (!video.paused) scheduleDemoReelControlsHide2(350);
+    });
+
+    wrap.addEventListener("focusin", function () {
+      showDemoReelControls2(true);
+    });
+
+    wrap.addEventListener("keydown", function (event) {
+      var target = event.target;
+
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "BUTTON")
+      ) {
+        return;
+      }
+
+      if (event.code === "Space" || event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        toggleDemoReelPlayback2();
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        seekDemoReel2(
+          Math.max(0, (video.currentTime || 0) - 5)
+        );
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        seekDemoReel2(
+          Math.min(
+            video.duration || Infinity,
+            (video.currentTime || 0) + 5
+          )
+        );
+      }
+    });
+
+    if (timeline) {
+      timeline.addEventListener("input", function () {
+        if (!Number.isFinite(video.duration) || !video.duration) {
+          return;
+        }
+
+        var seconds =
+          (Number(timeline.value) / 1000) * video.duration;
+
+        video.currentTime = seconds;
+        demoReelCurrentTime2 = seconds;
+        updateDemoReelControlState2();
+        updateDemoReelActiveTimestamp2(seconds, true);
+      });
+
+      timeline.addEventListener("pointermove", function (event) {
+        if (event.pointerType === "touch") return;
+        updateDemoReelPreview2(event);
+      });
+
+      timeline.addEventListener("pointerenter", function (event) {
+        if (event.pointerType === "touch") return;
+        updateDemoReelPreview2(event);
+      });
+
+      timeline.addEventListener("pointerleave", function () {
+        hideDemoReelPreview2();
+      });
+    }
+
+    if (pip) {
+      if (
+        !document.pictureInPictureEnabled ||
+        typeof video.requestPictureInPicture !== "function"
+      ) {
+        pip.style.display = "none";
+      } else {
+        pip.addEventListener("click", async function (event) {
+          event.stopPropagation();
+
+          try {
+            if (document.pictureInPictureElement) {
+              await document.exitPictureInPicture();
+            } else {
+              await video.requestPictureInPicture();
+            }
+          } catch (error) {}
+        });
+
+        video.addEventListener("enterpictureinpicture", function () {
+          pip.setAttribute("aria-pressed", "true");
+        });
+
+        video.addEventListener("leavepictureinpicture", function () {
+          pip.setAttribute("aria-pressed", "false");
+        });
+      }
+    }
+
+    if (fullscreen) {
+      fullscreen.addEventListener("click", function (event) {
+        event.stopPropagation();
+        toggleDemoReelFullscreen2();
+      });
+    }
+
+    document.addEventListener("fullscreenchange", function () {
+      updateDemoReelFullscreenButton2();
+    });
+
+    updateDemoReelControlState2();
+    updateDemoReelPlaybackState2();
+  }
+
+  function toggleDemoReelPlayback2() {
+    var video = getDemoReelVideo2();
+
+    if (!video || !video.src) return;
+
+    if (video.paused || video.ended) {
+      var playPromise = video.play();
+
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(function () {});
+      }
+    } else {
+      video.pause();
+    }
+  }
+
+  function showDemoReelControls2(force) {
+    var wrap = getDemoReelWrap2();
+
+    if (!wrap) return;
+
+    wrap.classList.add("controls-visible");
+
+    if (force) {
+      clearTimeout(demoReelControlsHideTimer2);
+    }
+  }
+
+  function scheduleDemoReelControlsHide2(delay) {
+    var video = getDemoReelVideo2();
+    var wrap = getDemoReelWrap2();
+
+    if (!video || !wrap || video.paused) return;
+
+    clearTimeout(demoReelControlsHideTimer2);
+
+    demoReelControlsHideTimer2 = setTimeout(function () {
+      if (document.activeElement &&
+          wrap.contains(document.activeElement)) {
+        return;
+      }
+
+      wrap.classList.remove("controls-visible");
+    }, typeof delay === "number" ? delay : 1800);
+  }
+
+  function updateDemoReelPlaybackState2() {
+    var video = getDemoReelVideo2();
+    var wrap = getDemoReelWrap2();
+    var play = document.getElementById("demoReelPlay2");
+
+    if (!video || !wrap) return;
+
+    var playing = !video.paused && !video.ended;
+
+    wrap.classList.toggle("is-playing", playing);
+    wrap.classList.toggle("is-paused", !playing);
+
+    if (play) {
+      play.setAttribute(
+        "aria-label",
+        playing ? "Pause demo reel" : "Play demo reel"
+      );
+      play.setAttribute(
+        "title",
+        playing ? "Pause" : "Play"
+      );
+    }
+  }
+
+  function updateDemoReelControlState2() {
+    var video = getDemoReelVideo2();
+    var timeline = document.getElementById("demoReelTimeline2");
+    var time = document.getElementById("demoReelTime2");
+
+    if (!video) return;
+
+    var current = Number.isFinite(video.currentTime)
+      ? video.currentTime
+      : 0;
+
+    var duration = Number.isFinite(video.duration)
+      ? video.duration
+      : 0;
+
+    var progress =
+      duration > 0 ? Math.max(0, Math.min(1, current / duration)) : 0;
+
+    if (timeline) {
+      timeline.value = String(Math.round(progress * 1000));
+      timeline.style.setProperty(
+        "--progress",
+        (progress * 100).toFixed(3) + "%"
+      );
+      timeline.setAttribute(
+        "aria-valuetext",
+        formatDemoReelTime2(current) +
+          " of " +
+          formatDemoReelTime2(duration)
+      );
+    }
+
+    if (time) {
+      time.textContent =
+        formatDemoReelTime2(current) +
+        " / " +
+        formatDemoReelTime2(duration);
+    }
+  }
+
+  function formatDemoReelTime2(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
+
+    var whole = Math.floor(seconds);
+    var minutes = Math.floor(whole / 60);
+    var secs = whole % 60;
+
+    return minutes + ":" + String(secs).padStart(2, "0");
+  }
+
+  function updateDemoReelPreview2(event) {
+    var video = getDemoReelVideo2();
+    var timeline = document.getElementById("demoReelTimeline2");
+    var preview = document.getElementById("demoReelPreview2");
+    var image = document.getElementById("demoReelPreviewImage2");
+    var label = document.getElementById("demoReelPreviewTime2");
+
+    if (
+      !video ||
+      !timeline ||
+      !preview ||
+      !image ||
+      !label ||
+      !demoReelPreviewSpriteReady2 ||
+      !Number.isFinite(video.duration) ||
+      video.duration <= 0
+    ) {
+      hideDemoReelPreview2();
+      return;
+    }
+
+    var rect = timeline.getBoundingClientRect();
+    var localX = Math.max(
+      0,
+      Math.min(rect.width, event.clientX - rect.left)
+    );
+
+    var ratio = rect.width ? localX / rect.width : 0;
+    var seconds = ratio * video.duration;
+
+    var maxIndex = Math.max(
+      0,
+      Math.ceil(
+        video.duration / DEMO_REEL_PREVIEW_INTERVAL2
+      ) - 1
+    );
+
+    var index = Math.min(
+      maxIndex,
+      Math.max(
+        0,
+        Math.round(seconds / DEMO_REEL_PREVIEW_INTERVAL2)
+      )
+    );
+
+    var column = index % DEMO_REEL_PREVIEW_COLUMNS2;
+    var row = Math.floor(index / DEMO_REEL_PREVIEW_COLUMNS2);
+
+    image.style.backgroundSize =
+      (DEMO_REEL_PREVIEW_COLUMNS2 *
+        DEMO_REEL_PREVIEW_WIDTH2) +
+      "px auto";
+
+    image.style.backgroundPosition =
+      (-column * DEMO_REEL_PREVIEW_WIDTH2) +
+      "px " +
+      (-row * DEMO_REEL_PREVIEW_HEIGHT2) +
+      "px";
+
+    label.textContent = formatDemoReelTime2(seconds);
+
+    var previewHalf = 80;
+    var clampedX = Math.max(
+      previewHalf,
+      Math.min(rect.width - previewHalf, localX)
+    );
+
+    preview.style.left = clampedX + "px";
+    preview.classList.add("is-visible");
+  }
+
+  function hideDemoReelPreview2() {
+    var preview = document.getElementById("demoReelPreview2");
+
+    if (preview) preview.classList.remove("is-visible");
+  }
+
+  async function toggleDemoReelFullscreen2() {
+    var wrap = getDemoReelWrap2();
+    var video = getDemoReelVideo2();
+
+    if (!wrap || !video) return;
+
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else if (wrap.requestFullscreen) {
+        await wrap.requestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+      }
+    } catch (error) {}
+  }
+
+  function updateDemoReelFullscreenButton2() {
+    var button = document.getElementById("demoReelFullscreen2");
+
+    if (!button) return;
+
+    var active = !!document.fullscreenElement;
+
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+    button.setAttribute(
+      "title",
+      active ? "Exit fullscreen" : "Fullscreen"
+    );
   }
 
   function prepareDemoReelTimestamps2() {
@@ -586,6 +1314,7 @@ transition: none !important;
 
     renderDemoReelTimestamps2(false);
     attachDemoReelVideoListeners2();
+    attachDemoReelControlListeners2();
   }
 
   async function submitDemoReelPassword2(event) {
@@ -631,7 +1360,7 @@ transition: none !important;
       storeDemoReelToken2(data.token, data.expires);
       input.value = "";
 
-      setDemoReelVideoSource2(data.token, true);
+      setDemoReelVideoSource2(data.token);
       return false;
     } catch (requestError) {
       if (error) {
@@ -700,64 +1429,54 @@ transition: none !important;
   }
 
   function keepDemoReelTimestampVisible2(button) {
-  var timestampContainer = document.getElementById("reelTimestamps2");
+    var timestampContainer = document.getElementById("reelTimestamps2");
 
-  if (!timestampContainer || !button) return;
+    if (!timestampContainer || !button) return;
 
-  var list = timestampContainer.querySelector(
-    ".reel-timestamps2-list"
-  );
+    var list = timestampContainer.querySelector(
+      ".reel-timestamps2-list"
+    );
 
-  if (!list) return;
+    if (!list) return;
 
-  var listRect = list.getBoundingClientRect();
-  var buttonRect = button.getBoundingClientRect();
+    var listRect = list.getBoundingClientRect();
+    var buttonRect = button.getBoundingClientRect();
 
-  var padding = 8;
+    var padding = 8;
 
-  /*
-    Forward playback:
-    As soon as the active timestamp reaches the bottom visible row,
-    move it near the top so the upcoming timestamps are revealed early.
-  */
-  var bottomTrigger =
-    listRect.bottom - buttonRect.height - padding;
+    var bottomTrigger =
+      listRect.bottom - buttonRect.height - padding;
 
-  if (buttonRect.top >= bottomTrigger) {
-    var forwardTarget =
-      list.scrollTop +
-      (buttonRect.top - listRect.top) -
-      padding;
+    if (buttonRect.top >= bottomTrigger) {
+      var forwardTarget =
+        list.scrollTop +
+        (buttonRect.top - listRect.top) -
+        padding;
 
-    scrollDemoReelTimestampList2(list, forwardTarget);
-    return;
+      scrollDemoReelTimestampList2(list, forwardTarget);
+      return;
+    }
+
+    if (buttonRect.top < listRect.top + padding) {
+      var backwardTarget =
+        list.scrollTop +
+        (buttonRect.bottom - listRect.bottom) +
+        padding;
+
+      scrollDemoReelTimestampList2(list, backwardTarget);
+    }
   }
 
-  /*
-    Backward seeking:
-    If the active timestamp has moved above the visible area,
-    reveal the previous group and keep the active row near the bottom.
-  */
-  if (buttonRect.top < listRect.top + padding) {
-    var backwardTarget =
-      list.scrollTop +
-      (buttonRect.bottom - listRect.bottom) +
-      padding;
+  function scrollDemoReelTimestampList2(list, target) {
+    var reducedMotion =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    scrollDemoReelTimestampList2(list, backwardTarget);
+    list.scrollTo({
+      top: Math.max(0, target),
+      behavior: reducedMotion ? "auto" : "smooth"
+    });
   }
-}
-
-function scrollDemoReelTimestampList2(list, target) {
-  var reducedMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  list.scrollTo({
-    top: Math.max(0, target),
-    behavior: reducedMotion ? "auto" : "smooth"
-  });
-}
 
   function toggleDemoReelTimestamps2() {
     var timestampContainer = document.getElementById("reelTimestamps2");
@@ -796,8 +1515,10 @@ function scrollDemoReelTimestampList2(list, target) {
 
     if (!timestampContainer) return;
 
+    var wasOpen =
+      timestampContainer.classList.contains("is-open");
+
     timestampContainer.innerHTML = "";
-    timestampContainer.classList.remove("is-open");
 
     if (!demoReelTimestamps2.length) {
       timestampContainer.style.display = "none";
@@ -810,14 +1531,20 @@ function scrollDemoReelTimestampList2(list, target) {
       timestampContainer.classList.remove("is-locked");
     } else {
       timestampContainer.classList.add("is-locked");
+      wasOpen = false;
     }
+
+    timestampContainer.classList.toggle("is-open", wasOpen);
 
     var toggleButton = document.createElement("button");
     toggleButton.type = "button";
     toggleButton.className = "reel-timestamps2-toggle";
-    toggleButton.textContent = "Demo Reel Timestamps";
+    toggleButton.textContent = "Timestamps & Reel Breakdown";
     toggleButton.disabled = !isUnlocked;
-    toggleButton.setAttribute("aria-expanded", "false");
+    toggleButton.setAttribute(
+      "aria-expanded",
+      wasOpen ? "true" : "false"
+    );
 
     toggleButton.onclick = function (event) {
       event.stopPropagation();
@@ -879,6 +1606,8 @@ function scrollDemoReelTimestampList2(list, target) {
       video.currentTime = seconds;
     } catch (error) {}
 
+    // Seeking from the breakdown intentionally begins playback,
+    // matching the previous reel behavior.
     var playPromise = video.play();
 
     if (playPromise && typeof playPromise.catch === "function") {
@@ -905,7 +1634,7 @@ function scrollDemoReelTimestampList2(list, target) {
       var token = getStoredDemoReelToken2();
 
       if (token) {
-        setDemoReelVideoSource2(token, false);
+        setDemoReelVideoSource2(token);
       } else {
         showDemoReelAuth2("");
       }
@@ -941,6 +1670,8 @@ function scrollDemoReelTimestampList2(list, target) {
         } catch (error) {}
       }
 
+      hideDemoReelPreview2();
+      clearTimeout(demoReelControlsHideTimer2);
       clearTimeout(p._modalCloseTimer);
 
       p._modalCloseTimer = setTimeout(function () {
@@ -949,6 +1680,8 @@ function scrollDemoReelTimestampList2(list, target) {
 
         demoReelCurrentTime2 = 0;
         demoReelActiveTimestampIndex2 = -1;
+
+        updateDemoReelControlState2();
 
         renderDemoReelTimestamps2(
           !!getStoredDemoReelToken2()
@@ -969,3 +1702,4 @@ function scrollDemoReelTimestampList2(list, target) {
     submitDemoReelPassword2;
   window.triggerModal2 = triggerModal2;
 })();
+
