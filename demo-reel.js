@@ -294,14 +294,23 @@ transition: none !important;
   ];
 
   var demoReelPlayer2 = null;
+  var demoReelPlayerPromise2 = null;
+  var demoReelApiPromise2 = null;
   var demoReelCurrentTime2 = 0;
   var demoReelActiveTimestampIndex2 = -1;
+  var demoReelTimestampsUnlocked2 = false;
+  var demoReelEventsBound2 = false;
+  var demoReelPreloadScheduled2 = false;
+
+  var demoReelVimeoSrc2 =
+    "https://player.vimeo.com/video/884221460?badge=0&autopause=0&quality_selector=1&player_id=0&app_id=58479";
 
   function prepareDemoReelTimestamps2() {
     var timestampContainer = document.getElementById("reelTimestamps2");
 
     demoReelCurrentTime2 = 0;
     demoReelActiveTimestampIndex2 = -1;
+    demoReelTimestampsUnlocked2 = false;
 
     if (timestampContainer) {
       timestampContainer.classList.add("is-locked");
@@ -309,20 +318,127 @@ transition: none !important;
     }
 
     renderDemoReelTimestamps2(false);
-    watchDemoReelUnlock2();
+    ensureDemoReelPlayer2();
   }
 
-  function watchDemoReelUnlock2() {
+  /* ---------- Deferred Vimeo Loading ---------- */
+
+  function ensureDemoReelIframe2() {
     var iframe = document.getElementById("demoReelIframe2");
 
-    if (!iframe || !window.Vimeo || !window.Vimeo.Player) return;
+    if (iframe) return iframe;
 
-    demoReelPlayer2 = new window.Vimeo.Player(iframe);
-    var hasUnlockedTimestamps = false;
+    var mount = document.getElementById("demoReelPlayerMount2");
+
+    if (!mount) return null;
+
+    iframe = document.createElement("iframe");
+    iframe.id = "demoReelIframe2";
+    iframe.className = "video";
+    iframe.loading = "eager";
+    iframe.src = demoReelVimeoSrc2;
+    iframe.allow = "autoplay; fullscreen; picture-in-picture";
+    iframe.allowFullscreen = true;
+    iframe.title = "Nicholas St. Clair Animation Reel - 2023";
+
+    iframe.addEventListener("load", function () {
+      iframe.classList.add("is-loaded");
+    }, { once: true });
+
+    mount.appendChild(iframe);
+
+    return iframe;
+  }
+
+  function ensureDemoReelApi2() {
+    if (window.Vimeo && window.Vimeo.Player) {
+      return Promise.resolve(window.Vimeo);
+    }
+
+    if (demoReelApiPromise2) {
+      return demoReelApiPromise2;
+    }
+
+    demoReelApiPromise2 = new Promise(function (resolve, reject) {
+      var existing = document.querySelector(
+        'script[src="https://player.vimeo.com/api/player.js"]'
+      );
+
+      function finish() {
+        if (window.Vimeo && window.Vimeo.Player) {
+          resolve(window.Vimeo);
+        } else {
+          reject(new Error("Vimeo Player API did not initialize."));
+        }
+      }
+
+      if (existing) {
+        if (window.Vimeo && window.Vimeo.Player) {
+          resolve(window.Vimeo);
+          return;
+        }
+
+        existing.addEventListener("load", finish, { once: true });
+        existing.addEventListener("error", reject, { once: true });
+        return;
+      }
+
+      var script = document.createElement("script");
+      script.src = "https://player.vimeo.com/api/player.js";
+      script.async = true;
+      script.addEventListener("load", finish, { once: true });
+      script.addEventListener("error", reject, { once: true });
+      document.head.appendChild(script);
+    });
+
+    return demoReelApiPromise2;
+  }
+
+  function ensureDemoReelPlayer2() {
+    if (demoReelPlayer2) {
+      return Promise.resolve(demoReelPlayer2);
+    }
+
+    if (demoReelPlayerPromise2) {
+      return demoReelPlayerPromise2;
+    }
+
+    var iframe = ensureDemoReelIframe2();
+
+    if (!iframe) {
+      return Promise.reject(
+        new Error("Demo Reel player mount was not found.")
+      );
+    }
+
+    demoReelPlayerPromise2 = ensureDemoReelApi2()
+      .then(function () {
+        if (!demoReelPlayer2) {
+          demoReelPlayer2 = new window.Vimeo.Player(iframe);
+          bindDemoReelPlayerEvents2();
+        }
+
+        return demoReelPlayer2.ready().then(function () {
+          return demoReelPlayer2;
+        });
+      })
+      .catch(function (error) {
+        demoReelPlayerPromise2 = null;
+        throw error;
+      });
+
+    return demoReelPlayerPromise2;
+  }
+
+  function bindDemoReelPlayerEvents2() {
+    if (!demoReelPlayer2 || demoReelEventsBound2) return;
+
+    demoReelEventsBound2 = true;
 
     function unlockTimestamps() {
-      if (hasUnlockedTimestamps) return;
-      hasUnlockedTimestamps = true;
+      if (demoReelTimestampsUnlocked2) return;
+
+      demoReelTimestampsUnlocked2 = true;
       renderDemoReelTimestamps2(true);
     }
 
@@ -350,6 +466,61 @@ transition: none !important;
       demoReelCurrentTime2 = data.seconds;
       updateDemoReelActiveTimestamp2(data.seconds, true);
     });
+  }
+
+  function preloadDemoReel2() {
+    ensureDemoReelPlayer2().catch(function () {});
+  }
+
+  function scheduleDemoReelPreload2() {
+    if (demoReelPreloadScheduled2) return;
+
+    demoReelPreloadScheduled2 = true;
+
+    function preloadAfterPageLoad() {
+      /*
+        Important: Vimeo is inserted only AFTER the page load event.
+        This keeps it out of Carrd's critical first-load path while
+        still warming the player shortly after the homepage appears.
+      */
+      window.setTimeout(preloadDemoReel2, 500);
+    }
+
+    if (document.readyState === "complete") {
+      preloadAfterPageLoad();
+    } else {
+      window.addEventListener("load", preloadAfterPageLoad, { once: true });
+    }
+
+    function attachIntentPreload() {
+      var triggers = document.querySelectorAll(
+        ".demo-reel-modal-trigger"
+      );
+
+      for (var i = 0; i < triggers.length; i++) {
+        triggers[i].addEventListener("pointerenter", preloadDemoReel2, {
+          once: true,
+          passive: true
+        });
+
+        triggers[i].addEventListener("focus", preloadDemoReel2, {
+          once: true
+        });
+
+        triggers[i].addEventListener("touchstart", preloadDemoReel2, {
+          once: true,
+          passive: true
+        });
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", attachIntentPreload, {
+        once: true
+      });
+    } else {
+      attachIntentPreload();
+    }
   }
 
   function getDemoReelActiveTimestampIndex2(seconds) {
@@ -575,20 +746,16 @@ function scrollDemoReelTimestampList2(list, target) {
   }
 
   function seekDemoReel2(seconds) {
-    var iframe = document.getElementById("demoReelIframe2");
-
-    if (!iframe || !window.Vimeo || !window.Vimeo.Player) return;
-
-    if (!demoReelPlayer2) {
-      demoReelPlayer2 = new window.Vimeo.Player(iframe);
-    }
-
     demoReelCurrentTime2 = seconds;
     updateDemoReelActiveTimestamp2(seconds, true);
 
-    demoReelPlayer2.setCurrentTime(seconds).then(function () {
-      return demoReelPlayer2.play();
-    }).catch(function () {});
+    ensureDemoReelPlayer2()
+      .then(function (player) {
+        return player.setCurrentTime(seconds).then(function () {
+          return player.play();
+        });
+      })
+      .catch(function () {});
   }
 
   function triggerModal2() {
@@ -601,6 +768,12 @@ function scrollDemoReelTimestampList2(list, target) {
 
     if (!isOpen) {
       clearTimeout(p._modalCloseTimer);
+
+      /*
+        In normal use this player has already been warmed after page load.
+        Calling this again is harmless and covers an immediate first click.
+      */
+      preloadDemoReel2();
 
       p.style.display = "block";
       p.classList.remove("is-closing");
@@ -624,22 +797,32 @@ function scrollDemoReelTimestampList2(list, target) {
         window.setLiftButtonActive(".demo-reel-modal-trigger", false);
       }
 
+      if (demoReelPlayer2) {
+        demoReelPlayer2.pause().catch(function () {});
+      }
+
       clearTimeout(p._modalCloseTimer);
 
       p._modalCloseTimer = setTimeout(function () {
         p.classList.remove("is-closing");
         p.style.display = "none";
 
-        demoReelPlayer2 = null;
         demoReelCurrentTime2 = 0;
         demoReelActiveTimestampIndex2 = -1;
+        demoReelTimestampsUnlocked2 = false;
 
-        var content = container.innerHTML;
-        container.innerHTML = "";
-        container.innerHTML = content;
+        /*
+          Keep the Vimeo iframe/player alive and preloaded so reopening
+          the reel remains instant. Reset playback without rebuilding it.
+        */
+        if (demoReelPlayer2) {
+          demoReelPlayer2.setCurrentTime(0).catch(function () {});
+        }
       }, 160);
     }
   }
+
+  scheduleDemoReelPreload2();
 
   window.demoReelTimestamps2 = demoReelTimestamps2;
   window.prepareDemoReelTimestamps2 = prepareDemoReelTimestamps2;
