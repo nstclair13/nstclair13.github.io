@@ -417,34 +417,51 @@ transition: none !important;
 
   if (!list) return;
 
-  var pageHeight = list.clientHeight;
-
-  if (!pageHeight) return;
-
   var listRect = list.getBoundingClientRect();
   var buttonRect = button.getBoundingClientRect();
 
-  /* Find the button's position inside the full scrollable list */
-  var buttonTop =
-    buttonRect.top -
-    listRect.top +
-    list.scrollTop;
+  var padding = 8;
 
-  /* Work out which visible "page" contains this timestamp */
-  var targetPage = Math.floor(buttonTop / pageHeight);
-  var targetScroll = targetPage * pageHeight;
+  /*
+    Forward playback:
+    As soon as the active timestamp reaches the bottom visible row,
+    move it near the top so the upcoming timestamps are revealed early.
+  */
+  var bottomTrigger =
+    listRect.bottom - buttonRect.height - padding;
 
-  /* Don't scroll if we're already on the correct page */
-  var currentPage = Math.round(list.scrollTop / pageHeight);
+  if (buttonRect.top >= bottomTrigger) {
+    var forwardTarget =
+      list.scrollTop +
+      (buttonRect.top - listRect.top) -
+      padding;
 
-  if (targetPage === currentPage) return;
+    scrollDemoReelTimestampList2(list, forwardTarget);
+    return;
+  }
 
+  /*
+    Backward seeking:
+    If the active timestamp has moved above the visible area,
+    reveal the previous group and keep the active row near the bottom.
+  */
+  if (buttonRect.top < listRect.top + padding) {
+    var backwardTarget =
+      list.scrollTop +
+      (buttonRect.bottom - listRect.bottom) +
+      padding;
+
+    scrollDemoReelTimestampList2(list, backwardTarget);
+  }
+}
+
+function scrollDemoReelTimestampList2(list, target) {
   var reducedMotion =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   list.scrollTo({
-    top: targetScroll,
+    top: Math.max(0, target),
     behavior: reducedMotion ? "auto" : "smooth"
   });
 }
