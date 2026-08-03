@@ -862,26 +862,66 @@ font-size: 7.5px;
    portrait-phone volume control noted below. */
 
 /* Phone portrait: reclaim timeline width by taking the volume range out
-   of the horizontal control row and rotating it vertically above mute. */
+   of normal row flow. The pop-up control deliberately uses a generous
+   finger-sized hit area instead of a tiny rotated desktop slider. */
 @media (orientation: portrait) and (any-pointer: coarse) and (max-width: 600px) {
 .modal-app2 .reel-controls2-row {
 position: relative;
 }
 
+.modal-app2 #demoReelMute2 {
+width: 36px;
+height: 36px;
+flex: 0 0 36px;
+}
+
+.modal-app2 #demoReelMute2 svg {
+width: 19px;
+height: 19px;
+}
+
 .modal-app2 .reel-volume2 {
 position: absolute;
-right: 55px;
-bottom: 39px;
-width: 64px;
-height: 18px;
+/* After rotation, this keeps the vertical control centred over mute. */
+right: 39px;
+bottom: 66px;
+width: 96px;
+height: 40px;
 margin: 0;
+padding: 0 11px;
+box-sizing: border-box;
 transform: rotate(-90deg);
 transform-origin: center center;
-z-index: 2;
+z-index: 4;
 opacity: 0;
 visibility: hidden;
 pointer-events: none;
+touch-action: none;
+background: rgba(18, 18, 18, 0.82);
+border: 1px solid rgba(243, 233, 215, 0.18);
+border-radius: 999px;
+box-shadow: 0 2px 9px rgba(0, 0, 0, 0.28);
 transition: opacity 0.12s ease;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-runnable-track {
+height: 6px;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-thumb {
+width: 16px;
+height: 16px;
+margin-top: -5px;
+}
+
+.modal-app2 .reel-volume2::-moz-range-track,
+.modal-app2 .reel-volume2::-moz-range-progress {
+height: 6px;
+}
+
+.modal-app2 .reel-volume2::-moz-range-thumb {
+width: 14px;
+height: 14px;
 }
 
 .modal-app2 .reel-controls2-row.is-volume-open2 .reel-volume2 {
@@ -1765,10 +1805,10 @@ animation-duration: 1.2s;
 
       volume.addEventListener("change", function () {
         if (isDemoReelPhonePortrait2()) {
-          setTimeout(function () {
-            setDemoReelPhoneVolumeOpen2(false);
-            scheduleDemoReelControlsHide2();
-          }, 350);
+          /* Keep the pop-up open after a finger adjustment. Closing a
+             vertical slider on pointer release makes repeated tweaks far
+             too fiddly on a phone. It closes on an outside tap instead. */
+          showDemoReelControls2(true);
         }
       });
     }
@@ -1787,6 +1827,7 @@ animation-duration: 1.2s;
       }
 
       setDemoReelPhoneVolumeOpen2(false);
+      scheduleDemoReelControlsHide2(1200);
     }, true);
 
     if (pip) {
@@ -1949,12 +1990,20 @@ animation-duration: 1.2s;
   function scheduleDemoReelControlsHide2(delay) {
     var video = getDemoReelVideo2();
     var wrap = getDemoReelWrap2();
+    var mute = document.getElementById("demoReelMute2");
+    var row = mute && mute.closest(".reel-controls2-row");
+    var phoneVolumeOpen = !!(
+      isDemoReelPhonePortrait2() &&
+      row &&
+      row.classList.contains("is-volume-open2")
+    );
 
     if (
       !video ||
       !wrap ||
       video.paused ||
-      demoReelTimelinePointerActive2
+      demoReelTimelinePointerActive2 ||
+      phoneVolumeOpen
     ) {
       return;
     }
