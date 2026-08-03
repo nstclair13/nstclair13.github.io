@@ -857,51 +857,56 @@ font-size: 7.5px;
 }
 
 
-/* ---------- Touch Landscape Layouts ----------
-   Portrait layouts intentionally remain unchanged. */
+/* ---------- Touch / Landscape Layouts ----------
+   Desktop and tablet/phone portrait remain unchanged except for the
+   portrait-phone volume control noted below. */
 
-/* Tablet landscape: when the breakdown is open, use the reel's native
-   picture ratio and let the breakdown consume the remaining modal height. */
+/* Phone portrait: reclaim timeline width by taking the volume range out
+   of the horizontal control row and rotating it vertically above mute. */
+@media (orientation: portrait) and (any-pointer: coarse) and (max-width: 600px) {
+.modal-app2 .reel-controls2-row {
+position: relative;
+}
+
+.modal-app2 .reel-volume2 {
+position: absolute;
+right: 55px;
+bottom: 39px;
+width: 64px;
+height: 18px;
+margin: 0;
+transform: rotate(-90deg);
+transform-origin: center center;
+z-index: 2;
+}
+}
+
+/* Tablet landscape: use the reel's compact/native picture ratio from the
+   moment the unlocked player appears. Opening the breakdown therefore
+   expands only the timestamp list; the video itself no longer pops between
+   two sizes. */
 @media (orientation: landscape) and (any-pointer: coarse) and (min-height: 561px) {
-#app2.is-breakdown-open:not(.is-auth-mode) .modal2 {
+#app2:not(.is-auth-mode) .modal2 {
 width: min(1000px, calc(100% - 24px));
 max-width: calc(100% - 24px);
-height: calc(100dvh - 24px);
 max-height: calc(100dvh - 24px);
 padding: 12px;
 box-sizing: border-box;
-overflow: hidden;
 }
 
-#app2.is-breakdown-open:not(.is-auth-mode) .reel-content2 {
-height: 100%;
-min-height: 0;
-display: flex;
-flex-direction: column;
+#app2:not(.is-auth-mode) .video-wrap {
+aspect-ratio: var(--reel-native-aspect2, 12 / 5);
 }
 
-#app2.is-breakdown-open:not(.is-auth-mode) .video-wrap {
-flex: 0 0 auto;
-aspect-ratio: var(--reel-native-aspect2, 16 / 9);
-}
-
-#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2 {
-flex: 1 1 auto;
-min-height: 0;
-display: flex;
-flex-direction: column;
-}
-
-#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2.is-open .reel-timestamps2-list {
-flex: 1 1 auto;
-min-height: 0;
-max-height: none;
+#app2:not(.is-auth-mode) .reel-timestamps2.is-open .reel-timestamps2-list {
+max-height: min(260px, calc(100dvh - 470px));
 overflow-y: auto;
 }
 }
 
-/* Phone landscape: the video owns the viewport and the breakdown becomes
-   a temporary sheet over the player rather than consuming space below it. */
+/* Phone landscape: deliberately video-first. There is not enough vertical
+   room for a useful breakdown without compromising the reel, so timestamps
+   are hidden in this orientation and return automatically in portrait. */
 @media (orientation: landscape) and (any-pointer: coarse) and (max-height: 560px) {
 #app2:not(.is-auth-mode) .modal2 {
 width: calc(100% - 16px);
@@ -914,7 +919,6 @@ overflow: hidden;
 }
 
 #app2:not(.is-auth-mode) .reel-content2 {
-position: relative;
 height: 100%;
 min-height: 0;
 }
@@ -926,47 +930,7 @@ aspect-ratio: auto;
 }
 
 #app2:not(.is-auth-mode) .reel-timestamps2 {
-position: absolute;
-left: 8px;
-right: 8px;
-top: 8px;
-bottom: auto;
-z-index: 7;
-margin-top: 0;
-padding: 10px 12px;
-max-height: calc(100% - 78px);
-display: flex;
-flex-direction: column;
-background: rgba(243, 233, 215, 0.96);
-backdrop-filter: blur(3px);
--webkit-backdrop-filter: blur(3px);
-}
-
-#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2 {
-bottom: 62px;
-height: auto;
-}
-
-#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2.is-open .reel-timestamps2-list {
-flex: 1 1 auto;
-min-height: 0;
-max-height: none;
-overflow-y: auto;
-}
-
-#app2:not(.is-auth-mode) .reel-timestamps2-toggle {
-font-size: 10px;
-}
-
-#app2:not(.is-auth-mode) .reel-timestamp2-button {
-font-size: 10.5px;
-line-height: 1.25;
-padding-top: 4px;
-padding-bottom: 4px;
-}
-
-#app2:not(.is-auth-mode) .reel-timestamp2-time {
-font-size: 9px;
+display: none !important;
 }
 }
 
@@ -1056,6 +1020,8 @@ animation-duration: 1.2s;
   var demoReelVolumeRestored2 = false;
   var demoReelTimelinePointerActive2 = false;
   var demoReelTimelinePointerId2 = null;
+  var demoReelTimelinePointerType2 = "";
+  var demoReelTimelineTouchSeeking2 = false;
 
   var DEMO_REEL_FRAME_RATE2 = 24;
 
@@ -1540,14 +1506,36 @@ animation-duration: 1.2s;
         demoReelCurrentTime2 = seconds;
         updateDemoReelControlState2();
         updateDemoReelActiveTimestamp2(seconds, true);
+
+        // Touch has no hover state. Only reveal a preview once the range
+        // itself has actually moved, which means the playhead is being
+        // selected/dragged rather than a finger merely travelling over it.
+        if (
+          demoReelTimelinePointerActive2 &&
+          demoReelTimelinePointerType2 &&
+          demoReelTimelinePointerType2 !== "mouse"
+        ) {
+          demoReelTimelineTouchSeeking2 = true;
+          updateDemoReelPreviewFromTimeline2();
+          showDemoReelControls2(true);
+        }
       });
 
       timeline.addEventListener("pointerdown", function (event) {
         demoReelTimelinePointerActive2 = true;
         demoReelTimelinePointerId2 = event.pointerId;
+        demoReelTimelinePointerType2 = event.pointerType || "mouse";
+        demoReelTimelineTouchSeeking2 = false;
 
         showDemoReelControls2(true);
-        updateDemoReelPreview2(event);
+
+        // Desktop keeps the familiar hover/click preview. On touch, do not
+        // show anything until an input event proves the playhead moved.
+        if (demoReelTimelinePointerType2 === "mouse") {
+          updateDemoReelPreview2(event);
+        } else {
+          hideDemoReelPreview2();
+        }
 
         if (timeline.setPointerCapture) {
           try {
@@ -1560,7 +1548,15 @@ animation-duration: 1.2s;
         var touchLike =
           event.pointerType && event.pointerType !== "mouse";
 
-        if (touchLike && !demoReelTimelinePointerActive2) {
+        if (touchLike) {
+          if (!demoReelTimelinePointerActive2) return;
+
+          showDemoReelControls2(true);
+
+          if (demoReelTimelineTouchSeeking2) {
+            updateDemoReelPreviewFromTimeline2();
+          }
+
           return;
         }
 
@@ -1597,6 +1593,8 @@ animation-duration: 1.2s;
 
         demoReelTimelinePointerActive2 = false;
         demoReelTimelinePointerId2 = null;
+        demoReelTimelinePointerType2 = "";
+        demoReelTimelineTouchSeeking2 = false;
 
         if (touchLike) {
           hideDemoReelPreview2();
@@ -1612,6 +1610,8 @@ animation-duration: 1.2s;
 
         demoReelTimelinePointerActive2 = false;
         demoReelTimelinePointerId2 = null;
+        demoReelTimelinePointerType2 = "";
+        demoReelTimelineTouchSeeking2 = false;
         hideDemoReelPreview2();
         scheduleDemoReelControlsHide2();
       });
@@ -2088,6 +2088,25 @@ animation-duration: 1.2s;
 
     preview.style.left = clampedX + "px";
     preview.classList.add("is-visible");
+  }
+
+  function updateDemoReelPreviewFromTimeline2() {
+    var timeline = document.getElementById("demoReelTimeline2");
+
+    if (!timeline) return;
+
+    var rect = timeline.getBoundingClientRect();
+    var min = Number(timeline.min || 0);
+    var max = Number(timeline.max || 1000);
+    var value = Number(timeline.value || min);
+    var span = max - min;
+    var ratio = span > 0
+      ? Math.max(0, Math.min(1, (value - min) / span))
+      : 0;
+
+    updateDemoReelPreview2({
+      clientX: rect.left + rect.width * ratio
+    });
   }
 
   function hideDemoReelPreview2() {
@@ -2573,6 +2592,8 @@ animation-duration: 1.2s;
 
       demoReelTimelinePointerActive2 = false;
       demoReelTimelinePointerId2 = null;
+      demoReelTimelinePointerType2 = "";
+      demoReelTimelineTouchSeeking2 = false;
       hideDemoReelPreview2();
       clearTimeout(demoReelControlsHideTimer2);
       clearTimeout(p._modalCloseTimer);
