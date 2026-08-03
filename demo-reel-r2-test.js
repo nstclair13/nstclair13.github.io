@@ -25,9 +25,12 @@ z-index: 9998;
 inset: 0;
 background-color: rgba(0, 0, 0, 0.33);
 opacity: 0;
-transition:
-opacity var(--modal-speed) ease-out,
-background-color 180ms ease-out;
+transition: opacity var(--modal-speed) ease-out;
+will-change: opacity;
+transform: translate3d(0, 0, 0);
+-webkit-transform: translate3d(0, 0, 0);
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
 }
 
 #app2.is-auth-mode .overlay {
@@ -45,7 +48,7 @@ top: 50%;
 left: 50%;
 max-height: calc(100vh - 60px);
 overflow-y: auto;
-transform: translate(-50%, calc(-50% + 6px)) scale(0.985);
+transform: translate3d(-50%, calc(-50% + 6px), 0) scale(0.985);
 opacity: 0;
 padding: 1.25rem;
 background-color: #F3E9D7;
@@ -54,9 +57,10 @@ box-shadow: 0.375rem 0.375rem 0 #4F4F4F;
 border-radius: 1rem;
 transition:
 opacity var(--modal-speed) ease-out,
-transform var(--modal-speed) var(--modal-ease),
-width 180ms ease-out;
-will-change: opacity, transform, width;
+transform var(--modal-speed) var(--modal-ease);
+will-change: opacity, transform;
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
 }
 
 #app2.is-auth-mode .modal2 {
@@ -65,38 +69,18 @@ max-width: calc(100% - 40px);
 padding: 0.75rem;
 }
 
-/* Touch-browser keyboard stabilization. Some iOS browser shells repaint the
-   visual viewport through several intermediate heights while the keyboard
-   animates in. Freeze the auth card at its current top edge during that
-   transition, then release it once the visual viewport has settled. */
-#app2.is-auth-mode.is-auth-keyboard-lock2 .modal2 {
-top: var(--auth-keyboard-top2, 50%);
-left: 50%;
-max-height: none;
-overflow-y: visible;
-transform: translate(-50%, 0) scale(1);
-transition: none !important;
-will-change: auto;
-}
-
-#app2.is-auth-mode.is-auth-keyboard-release2 .modal2 {
-transition:
-  top 110ms ease-out,
-  transform 110ms ease-out !important;
-}
-
 #app2.is-open .overlay { opacity: 1; }
 
 #app2.is-open .modal2 {
 opacity: 1;
-transform: translate(-50%, -50%) scale(1);
+transform: translate3d(-50%, -50%, 0) scale(1);
 }
 
 #app2.is-closing .overlay { opacity: 0; }
 
 #app2.is-closing .modal2 {
 opacity: 0;
-transform: translate(-50%, calc(-50% + 6px)) scale(0.985);
+transform: translate3d(-50%, calc(-50% + 6px), 0) scale(0.985);
 }
 
 /* ---------- Password Gate ---------- */
@@ -881,11 +865,14 @@ font-size: 7.5px;
    Desktop and tablet/phone portrait remain unchanged except for the
    portrait-phone volume control noted below. */
 
-/* Phone portrait: keep the familiar speaker button as mute/unmute and
-   remove the custom volume fader entirely. The device volume buttons handle
-   level changes, which is the most reliable finger-friendly phone pattern and
-   gives the timeline the maximum available width. */
+/* Phone portrait: reclaim timeline width by taking the volume range out
+   of normal row flow. The pop-up control deliberately uses a generous
+   finger-sized hit area instead of a tiny rotated desktop slider. */
 @media (orientation: portrait) and (any-pointer: coarse) and (max-width: 600px) {
+.modal-app2 .reel-controls2-row {
+position: relative;
+}
+
 .modal-app2 #demoReelMute2 {
 width: 36px;
 height: 36px;
@@ -898,7 +885,53 @@ height: 19px;
 }
 
 .modal-app2 .reel-volume2 {
-display: none !important;
+position: absolute;
+/* After rotation, this keeps the vertical control centred over mute. */
+right: 39px;
+bottom: 66px;
+width: 96px;
+height: 40px;
+margin: 0;
+padding: 0 11px;
+box-sizing: border-box;
+transform: rotate(-90deg);
+transform-origin: center center;
+z-index: 4;
+opacity: 0;
+visibility: hidden;
+pointer-events: none;
+touch-action: none;
+background: rgba(18, 18, 18, 0.82);
+border: 1px solid rgba(243, 233, 215, 0.18);
+border-radius: 999px;
+box-shadow: 0 2px 9px rgba(0, 0, 0, 0.28);
+transition: opacity 0.12s ease;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-runnable-track {
+height: 6px;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-thumb {
+width: 16px;
+height: 16px;
+margin-top: -5px;
+}
+
+.modal-app2 .reel-volume2::-moz-range-track,
+.modal-app2 .reel-volume2::-moz-range-progress {
+height: 6px;
+}
+
+.modal-app2 .reel-volume2::-moz-range-thumb {
+width: 14px;
+height: 14px;
+}
+
+.modal-app2 .reel-controls2-row.is-volume-open2 .reel-volume2 {
+opacity: 1;
+visibility: visible;
+pointer-events: auto;
 }
 }
 
@@ -1055,11 +1088,6 @@ animation-duration: 1.2s;
   var demoReelTimelinePointerId2 = null;
   var demoReelTimelinePointerType2 = "";
   var demoReelTimelineTouchSeeking2 = false;
-  var demoReelAuthKeyboardListenersAttached2 = false;
-  var demoReelAuthKeyboardLockActive2 = false;
-  var demoReelAuthKeyboardSettleTimer2 = null;
-  var demoReelAuthKeyboardReleaseTimer2 = null;
-  var demoReelAuthKeyboardLockStarted2 = 0;
 
   var DEMO_REEL_FRAME_RATE2 = 24;
 
@@ -1264,150 +1292,6 @@ animation-duration: 1.2s;
     );
   }
 
-  function shouldStabilizeDemoReelAuthKeyboard2() {
-    if (!isDemoReelTouchDevice2() || !window.visualViewport) {
-      return false;
-    }
-
-    var ua = (navigator && navigator.userAgent) || "";
-
-    // Plain Safari already performs the keyboard shift smoothly. The
-    // stabilization is for alternate mobile browser shells that visibly
-    // repaint through multiple intermediate viewport positions.
-    var isPlainSafari =
-      /Safari/i.test(ua) &&
-      /Version\//i.test(ua) &&
-      !/(CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo)/i.test(ua) &&
-      !(navigator && navigator.brave);
-
-    return !isPlainSafari;
-  }
-
-  function clearDemoReelAuthKeyboardTimers2() {
-    clearTimeout(demoReelAuthKeyboardSettleTimer2);
-    clearTimeout(demoReelAuthKeyboardReleaseTimer2);
-    demoReelAuthKeyboardSettleTimer2 = null;
-    demoReelAuthKeyboardReleaseTimer2 = null;
-  }
-
-  function releaseDemoReelAuthKeyboardLock2() {
-    var app = document.getElementById("app2");
-
-    clearDemoReelAuthKeyboardTimers2();
-
-    if (!app) {
-      demoReelAuthKeyboardLockActive2 = false;
-      return;
-    }
-
-    if (!demoReelAuthKeyboardLockActive2) {
-      app.classList.remove("is-auth-keyboard-lock2");
-      app.classList.remove("is-auth-keyboard-release2");
-      app.style.removeProperty("--auth-keyboard-top2");
-      return;
-    }
-
-    demoReelAuthKeyboardLockActive2 = false;
-    app.classList.add("is-auth-keyboard-release2");
-
-    requestAnimationFrame(function () {
-      app.classList.remove("is-auth-keyboard-lock2");
-      app.style.removeProperty("--auth-keyboard-top2");
-
-      demoReelAuthKeyboardReleaseTimer2 = setTimeout(function () {
-        app.classList.remove("is-auth-keyboard-release2");
-        demoReelAuthKeyboardReleaseTimer2 = null;
-      }, 140);
-    });
-  }
-
-  function scheduleDemoReelAuthKeyboardRelease2() {
-    if (!demoReelAuthKeyboardLockActive2) return;
-
-    clearTimeout(demoReelAuthKeyboardSettleTimer2);
-
-    // Do not release before the keyboard has had enough time to start its
-    // visual-viewport animation. Each viewport resize/scroll event pushes
-    // this debounce back, so the card moves only after the final position.
-    var elapsed = Date.now() - demoReelAuthKeyboardLockStarted2;
-    var delay = Math.max(150, 330 - elapsed);
-
-    demoReelAuthKeyboardSettleTimer2 = setTimeout(function () {
-      demoReelAuthKeyboardSettleTimer2 = null;
-      releaseDemoReelAuthKeyboardLock2();
-    }, delay);
-  }
-
-  function lockDemoReelAuthForKeyboard2() {
-    if (!shouldStabilizeDemoReelAuthKeyboard2()) return;
-
-    var app = document.getElementById("app2");
-    var modal = document.getElementById("vid2");
-
-    if (
-      !app ||
-      !modal ||
-      !app.classList.contains("is-open") ||
-      !app.classList.contains("is-auth-mode")
-    ) {
-      return;
-    }
-
-    clearDemoReelAuthKeyboardTimers2();
-
-    var rect = modal.getBoundingClientRect();
-    app.style.setProperty(
-      "--auth-keyboard-top2",
-      Math.round(rect.top) + "px"
-    );
-    app.classList.remove("is-auth-keyboard-release2");
-    app.classList.add("is-auth-keyboard-lock2");
-
-    demoReelAuthKeyboardLockActive2 = true;
-    demoReelAuthKeyboardLockStarted2 = Date.now();
-    scheduleDemoReelAuthKeyboardRelease2();
-  }
-
-  function attachDemoReelAuthKeyboardStabilizer2() {
-    if (demoReelAuthKeyboardListenersAttached2) return;
-
-    var input = document.getElementById("demoReelPassword2");
-    if (!input) return;
-
-    demoReelAuthKeyboardListenersAttached2 = true;
-
-    input.addEventListener("focus", function () {
-      lockDemoReelAuthForKeyboard2();
-    });
-
-    input.addEventListener("blur", function () {
-      // If the auth card is still visible, stabilize the keyboard closing
-      // transition as well. Successful authorization removes auth mode and
-      // therefore skips this automatically.
-      var app = document.getElementById("app2");
-      if (
-        app &&
-        app.classList.contains("is-open") &&
-        app.classList.contains("is-auth-mode")
-      ) {
-        lockDemoReelAuthForKeyboard2();
-      }
-    });
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener(
-        "resize",
-        scheduleDemoReelAuthKeyboardRelease2,
-        { passive: true }
-      );
-      window.visualViewport.addEventListener(
-        "scroll",
-        scheduleDemoReelAuthKeyboardRelease2,
-        { passive: true }
-      );
-    }
-  }
-
   function showDemoReelAuth2(message) {
     var app = document.getElementById("app2");
     var error = document.getElementById("demoReelAuthError2");
@@ -1416,11 +1300,10 @@ animation-duration: 1.2s;
     if (app) app.classList.add("is-auth-mode");
     if (error) error.textContent = message || "";
 
-    attachDemoReelAuthKeyboardStabilizer2();
-
-    // Desktop can safely autofocus for keyboard convenience. On touch
-    // devices, let the user explicitly tap the field so the browser does not
-    // pre-emptively pan/zoom the visual viewport.
+    // Desktop can safely autofocus for keyboard convenience.
+    // On touch devices, programmatic focus makes iOS/WebKit briefly pan/flicker
+    // the visual viewport before the on-screen keyboard settles. Let the user
+    // explicitly tap the password field instead.
     if (input && !isDemoReelTouchDevice2()) {
       setTimeout(function () {
         try {
@@ -1436,16 +1319,7 @@ animation-duration: 1.2s;
     var app = document.getElementById("app2");
     var error = document.getElementById("demoReelAuthError2");
 
-    clearDemoReelAuthKeyboardTimers2();
-    demoReelAuthKeyboardLockActive2 = false;
-
-    if (app) {
-      app.classList.remove("is-auth-keyboard-lock2");
-      app.classList.remove("is-auth-keyboard-release2");
-      app.style.removeProperty("--auth-keyboard-top2");
-      app.classList.remove("is-auth-mode");
-    }
-
+    if (app) app.classList.remove("is-auth-mode");
     if (error) error.textContent = "";
   }
 
@@ -1604,6 +1478,48 @@ animation-duration: 1.2s;
     });
   }
 
+  function isDemoReelPhonePortrait2() {
+    return !!(
+      window.matchMedia &&
+      window.matchMedia(
+        "(orientation: portrait) and (any-pointer: coarse) and (max-width: 600px)"
+      ).matches
+    );
+  }
+
+  function setDemoReelPhoneVolumeOpen2(open) {
+    var mute = document.getElementById("demoReelMute2");
+    var volume = document.getElementById("demoReelVolume2");
+    var row = mute && mute.closest(".reel-controls2-row");
+    var phonePortrait = isDemoReelPhonePortrait2();
+    var shouldOpen = !!open && phonePortrait;
+
+    if (row) {
+      row.classList.toggle("is-volume-open2", shouldOpen);
+    }
+
+    if (mute) {
+      if (phonePortrait) {
+        mute.setAttribute("aria-label", "Volume");
+        mute.setAttribute("title", "Volume");
+        mute.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+      } else {
+        mute.setAttribute("aria-label", "Mute demo reel");
+        mute.setAttribute("title", "Mute");
+        mute.removeAttribute("aria-expanded");
+      }
+    }
+
+    if (volume) {
+      volume.setAttribute("aria-hidden", shouldOpen || !phonePortrait ? "false" : "true");
+      if (phonePortrait) {
+        volume.tabIndex = shouldOpen ? 0 : -1;
+      } else {
+        volume.removeAttribute("tabindex");
+      }
+    }
+  }
+
   function seekDemoReelTimelineFromClientX2(clientX, showPreview) {
     var video = getDemoReelVideo2();
     var timeline = document.getElementById("demoReelTimeline2");
@@ -1663,6 +1579,14 @@ animation-duration: 1.2s;
       updateDemoReelWatermarkPosition2,
       { passive: true }
     );
+    window.addEventListener(
+      "resize",
+      function () {
+        setDemoReelPhoneVolumeOpen2(false);
+      },
+      { passive: true }
+    );
+    setDemoReelPhoneVolumeOpen2(false);
     document.addEventListener(
       "fullscreenchange",
       updateDemoReelWatermarkPosition2
@@ -1855,6 +1779,17 @@ animation-duration: 1.2s;
       mute.addEventListener("click", function (event) {
         event.stopPropagation();
 
+        if (isDemoReelPhonePortrait2()) {
+          var row = mute.closest(".reel-controls2-row");
+          var isOpen = !!(
+            row && row.classList.contains("is-volume-open2")
+          );
+
+          setDemoReelPhoneVolumeOpen2(!isOpen);
+          showDemoReelControls2(true);
+          return;
+        }
+
         if (video.muted || video.volume === 0) {
           video.muted = false;
 
@@ -1891,8 +1826,32 @@ animation-duration: 1.2s;
         showDemoReelControls2(true);
       });
 
+      volume.addEventListener("change", function () {
+        if (isDemoReelPhonePortrait2()) {
+          /* Keep the pop-up open after a finger adjustment. Closing a
+             vertical slider on pointer release makes repeated tweaks far
+             too fiddly on a phone. It closes on an outside tap instead. */
+          showDemoReelControls2(true);
+        }
+      });
     }
 
+    document.addEventListener("pointerdown", function (event) {
+      if (!isDemoReelPhonePortrait2()) return;
+
+      var row = mute && mute.closest(".reel-controls2-row");
+      if (!row || !row.classList.contains("is-volume-open2")) {
+        return;
+      }
+
+      if (event.target === mute || event.target === volume ||
+          (mute && mute.contains(event.target))) {
+        return;
+      }
+
+      setDemoReelPhoneVolumeOpen2(false);
+      scheduleDemoReelControlsHide2(1200);
+    }, true);
 
     if (pip) {
       if (
@@ -2054,11 +2013,20 @@ animation-duration: 1.2s;
   function scheduleDemoReelControlsHide2(delay) {
     var video = getDemoReelVideo2();
     var wrap = getDemoReelWrap2();
+    var mute = document.getElementById("demoReelMute2");
+    var row = mute && mute.closest(".reel-controls2-row");
+    var phoneVolumeOpen = !!(
+      isDemoReelPhonePortrait2() &&
+      row &&
+      row.classList.contains("is-volume-open2")
+    );
+
     if (
       !video ||
       !wrap ||
       video.paused ||
-      demoReelTimelinePointerActive2
+      demoReelTimelinePointerActive2 ||
+      phoneVolumeOpen
     ) {
       return;
     }
@@ -2832,11 +2800,6 @@ animation-duration: 1.2s;
       demoReelTimelineTouchSeeking2 = false;
       hideDemoReelPreview2();
       clearTimeout(demoReelControlsHideTimer2);
-      clearDemoReelAuthKeyboardTimers2();
-      demoReelAuthKeyboardLockActive2 = false;
-      p.classList.remove("is-auth-keyboard-lock2");
-      p.classList.remove("is-auth-keyboard-release2");
-      p.style.removeProperty("--auth-keyboard-top2");
       clearTimeout(p._modalCloseTimer);
 
       p._modalCloseTimer = setTimeout(function () {
