@@ -22,12 +22,17 @@
 .modal-app2 .overlay {
 position: fixed;
 z-index: 9998;
-inset: 0;
+inset: -2px;
 background-color: rgba(0, 0, 0, 0.33);
 opacity: 0;
-transition:
-opacity var(--modal-speed) ease-out,
-background-color 180ms ease-out;
+pointer-events: none;
+transition: opacity var(--modal-speed) ease-out;
+will-change: opacity;
+transform: translate3d(0, 0, 0);
+-webkit-transform: translate3d(0, 0, 0);
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+contain: paint;
 }
 
 #app2.is-auth-mode .overlay {
@@ -65,14 +70,14 @@ max-width: calc(100% - 40px);
 padding: 0.75rem;
 }
 
-#app2.is-open .overlay { opacity: 1; }
+#app2.is-open .overlay { opacity: 1; pointer-events: auto; }
 
 #app2.is-open .modal2 {
 opacity: 1;
 transform: translate(-50%, -50%) scale(1);
 }
 
-#app2.is-closing .overlay { opacity: 0; }
+#app2.is-closing .overlay { opacity: 0; pointer-events: none; }
 
 #app2.is-closing .modal2 {
 opacity: 0;
@@ -994,6 +999,21 @@ aspect-ratio: auto;
 #app2:not(.is-auth-mode) .reel-timestamps2 {
 display: none !important;
 }
+}
+
+/* iOS/touch viewport repaint guard.
+   Overscan the fixed overlay using large-viewport units so the on-screen
+   keyboard can resize the visual viewport without briefly exposing the page. */
+@supports (height: 100lvh) {
+  @media (hover: none), (pointer: coarse) {
+    .modal-app2 .overlay {
+      inset: auto;
+      top: -8lvh;
+      left: -8lvw;
+      width: 116lvw;
+      height: 116lvh;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
