@@ -293,8 +293,8 @@ display: none !important;
 
 .modal-app2 .reel-watermark2 {
 position: absolute;
-top: 11px;
-right: 12px;
+right: 14px;
+bottom: 58px;
 z-index: 2;
 pointer-events: none;
 user-select: none;
@@ -853,8 +853,8 @@ display: none;
 }
 
 .modal-app2 .reel-watermark2 {
-top: 8px;
-right: 9px;
+right: 10px;
+bottom: 52px;
 font-size: 7.5px;
 }
 }
