@@ -91,7 +91,7 @@ display: block;
 
 .modal-app2 .reel-auth2-card {
 padding: 16px;
-text-align: center;
+text-align: left;
 }
 
 .modal-app2 .reel-auth2-title {
@@ -115,42 +115,57 @@ margin: 0;
 
 .modal-app2 .reel-auth2-form {
 display: grid;
-grid-template-columns: 1fr auto;
-gap: 9px;
+grid-template-columns: minmax(0, 1fr) 52px;
+align-items: center;
+gap: 10px;
+width: 100%;
+max-width: 350px;
 margin-top: 14px;
-}
-
-.modal-app2 .reel-auth2-input,
-.modal-app2 .reel-auth2-submit {
-border: 2px solid #4F4F4F;
-border-radius: 0.55rem;
 }
 
 .modal-app2 .reel-auth2-input {
 font-family: Space Mono, sans-serif;
 font-size: 13px;
 min-width: 0;
-padding: 11px 12px;
-background: #fff;
+height: 44px;
+box-sizing: border-box;
+padding: 8px 12px;
+background: #F3E9D7;
 color: #4F4F4F;
+border: 3px solid #4F4F4F;
+border-radius: 0.5rem;
+box-shadow: 0.20rem 0.20rem 0 #4F4F4F;
 outline: none;
+transition:
+box-shadow 0.18s ease-out,
+transform 0.18s ease-out;
+}
+
+.modal-app2 .reel-auth2-input::placeholder {
+font-family: Unbounded, sans-serif;
+font-size: 12px;
+font-weight: 100;
+color: rgba(0, 0, 0, 0.5);
+opacity: 1;
 }
 
 .modal-app2 .reel-auth2-input:focus-visible {
-box-shadow: 0 0 0 2px rgba(214, 101, 69, 0.35);
+transform: translate(2px, 2px);
+box-shadow:
+1px 1px 0 #4F4F4F,
+inset 0 2px 0 rgba(79, 79, 79, 0.14);
 }
 
-/* Exact gallery play-button treatment copied into the password gate:
-   same square proportions, border, shadow, lift/press behavior and SVG symbol. */
+/* Gallery play-button language, scaled for this compact auth modal. */
 .modal-app2 .reel-auth2-submit {
 font-family: Unbounded, sans-serif;
 box-sizing: border-box;
-width: clamp(55px, 6.2vw, 65.333px);
-height: clamp(55px, 6.2vw, 65.333px);
-min-height: clamp(55px, 6.2vw, 65.333px);
+width: 52px;
+height: 52px;
+min-height: 52px;
 padding: 0;
 border: 2px solid #4F4F4F;
-border-radius: clamp(12px, 1.3vw, 14px);
+border-radius: 11px;
 box-shadow:
 4px 4px 0 #4F4F4F,
 inset 0 1px 0 rgba(255, 255, 255, 0.30);
@@ -176,8 +191,8 @@ box-shadow 0.10s ease-out;
 
 .modal-app2 .reel-auth2-submit-icon {
 display: block;
-width: clamp(32px, 3.5vw, 36.8px);
-height: clamp(32px, 3.5vw, 36.8px);
+width: 29px;
+height: 29px;
 fill: currentColor;
 pointer-events: none;
 }
@@ -730,11 +745,20 @@ padding: 0.75rem;
 }
 
 .modal-app2 .reel-auth2-form {
-grid-template-columns: 1fr;
+grid-template-columns: minmax(0, 1fr) 48px;
+max-width: none;
 }
 
 .modal-app2 .reel-auth2-submit {
-width: 100%;
+width: 48px;
+height: 48px;
+min-height: 48px;
+border-radius: 10px;
+}
+
+.modal-app2 .reel-auth2-submit-icon {
+width: 27px;
+height: 27px;
 }
 
 .modal-app2 .reel-time2 {
