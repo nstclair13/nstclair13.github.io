@@ -878,6 +878,22 @@ margin: 0;
 transform: rotate(-90deg);
 transform-origin: center center;
 z-index: 2;
+opacity: 0;
+visibility: hidden;
+pointer-events: none;
+transition: opacity 0.12s ease;
+}
+
+.modal-app2 .reel-controls2-row.is-volume-open2 .reel-volume2 {
+opacity: 1;
+visibility: visible;
+pointer-events: auto;
+}
+}
+
+@media (any-pointer: coarse) {
+.modal-app2 .reel-timeline2 {
+touch-action: none;
 }
 }
 
@@ -1399,6 +1415,84 @@ animation-duration: 1.2s;
     });
   }
 
+  function isDemoReelPhonePortrait2() {
+    return !!(
+      window.matchMedia &&
+      window.matchMedia(
+        "(orientation: portrait) and (any-pointer: coarse) and (max-width: 600px)"
+      ).matches
+    );
+  }
+
+  function setDemoReelPhoneVolumeOpen2(open) {
+    var mute = document.getElementById("demoReelMute2");
+    var volume = document.getElementById("demoReelVolume2");
+    var row = mute && mute.closest(".reel-controls2-row");
+    var phonePortrait = isDemoReelPhonePortrait2();
+    var shouldOpen = !!open && phonePortrait;
+
+    if (row) {
+      row.classList.toggle("is-volume-open2", shouldOpen);
+    }
+
+    if (mute) {
+      if (phonePortrait) {
+        mute.setAttribute("aria-label", "Volume");
+        mute.setAttribute("title", "Volume");
+        mute.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+      } else {
+        mute.setAttribute("aria-label", "Mute demo reel");
+        mute.setAttribute("title", "Mute");
+        mute.removeAttribute("aria-expanded");
+      }
+    }
+
+    if (volume) {
+      volume.setAttribute("aria-hidden", shouldOpen || !phonePortrait ? "false" : "true");
+      if (phonePortrait) {
+        volume.tabIndex = shouldOpen ? 0 : -1;
+      } else {
+        volume.removeAttribute("tabindex");
+      }
+    }
+  }
+
+  function seekDemoReelTimelineFromClientX2(clientX, showPreview) {
+    var video = getDemoReelVideo2();
+    var timeline = document.getElementById("demoReelTimeline2");
+
+    if (
+      !video ||
+      !timeline ||
+      !Number.isFinite(video.duration) ||
+      video.duration <= 0
+    ) {
+      return;
+    }
+
+    var rect = timeline.getBoundingClientRect();
+    if (!rect.width) return;
+
+    var localX = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    var ratio = localX / rect.width;
+    var seconds = ratio * video.duration;
+
+    timeline.value = String(Math.round(ratio * 1000));
+
+    try {
+      video.currentTime = seconds;
+    } catch (error) {}
+
+    demoReelCurrentTime2 = seconds;
+    updateDemoReelControlState2();
+    updateDemoReelActiveTimestamp2(seconds, true);
+    showDemoReelControls2(true);
+
+    if (showPreview) {
+      updateDemoReelPreview2({ clientX: rect.left + localX });
+    }
+  }
+
   function attachDemoReelControlListeners2() {
     var wrap = getDemoReelWrap2();
     var video = getDemoReelVideo2();
@@ -1422,6 +1516,14 @@ animation-duration: 1.2s;
       updateDemoReelWatermarkPosition2,
       { passive: true }
     );
+    window.addEventListener(
+      "resize",
+      function () {
+        setDemoReelPhoneVolumeOpen2(false);
+      },
+      { passive: true }
+    );
+    setDemoReelPhoneVolumeOpen2(false);
     document.addEventListener(
       "fullscreenchange",
       updateDemoReelWatermarkPosition2
@@ -1507,9 +1609,6 @@ animation-duration: 1.2s;
         updateDemoReelControlState2();
         updateDemoReelActiveTimestamp2(seconds, true);
 
-        // Touch has no hover state. Only reveal a preview once the range
-        // itself has actually moved, which means the playhead is being
-        // selected/dragged rather than a finger merely travelling over it.
         if (
           demoReelTimelinePointerActive2 &&
           demoReelTimelinePointerType2 &&
@@ -1525,16 +1624,16 @@ animation-duration: 1.2s;
         demoReelTimelinePointerActive2 = true;
         demoReelTimelinePointerId2 = event.pointerId;
         demoReelTimelinePointerType2 = event.pointerType || "mouse";
-        demoReelTimelineTouchSeeking2 = false;
+        demoReelTimelineTouchSeeking2 =
+          demoReelTimelinePointerType2 !== "mouse";
 
         showDemoReelControls2(true);
 
-        // Desktop keeps the familiar hover/click preview. On touch, do not
-        // show anything until an input event proves the playhead moved.
         if (demoReelTimelinePointerType2 === "mouse") {
           updateDemoReelPreview2(event);
         } else {
-          hideDemoReelPreview2();
+          if (event.cancelable) event.preventDefault();
+          seekDemoReelTimelineFromClientX2(event.clientX, true);
         }
 
         if (timeline.setPointerCapture) {
@@ -1551,12 +1650,8 @@ animation-duration: 1.2s;
         if (touchLike) {
           if (!demoReelTimelinePointerActive2) return;
 
-          showDemoReelControls2(true);
-
-          if (demoReelTimelineTouchSeeking2) {
-            updateDemoReelPreviewFromTimeline2();
-          }
-
+          if (event.cancelable) event.preventDefault();
+          seekDemoReelTimelineFromClientX2(event.clientX, true);
           return;
         }
 
@@ -1621,6 +1716,17 @@ animation-duration: 1.2s;
       mute.addEventListener("click", function (event) {
         event.stopPropagation();
 
+        if (isDemoReelPhonePortrait2()) {
+          var row = mute.closest(".reel-controls2-row");
+          var isOpen = !!(
+            row && row.classList.contains("is-volume-open2")
+          );
+
+          setDemoReelPhoneVolumeOpen2(!isOpen);
+          showDemoReelControls2(true);
+          return;
+        }
+
         if (video.muted || video.volume === 0) {
           video.muted = false;
 
@@ -1654,8 +1760,34 @@ animation-duration: 1.2s;
         }
 
         updateDemoReelVolumeState2();
+        showDemoReelControls2(true);
+      });
+
+      volume.addEventListener("change", function () {
+        if (isDemoReelPhonePortrait2()) {
+          setTimeout(function () {
+            setDemoReelPhoneVolumeOpen2(false);
+            scheduleDemoReelControlsHide2();
+          }, 350);
+        }
       });
     }
+
+    document.addEventListener("pointerdown", function (event) {
+      if (!isDemoReelPhonePortrait2()) return;
+
+      var row = mute && mute.closest(".reel-controls2-row");
+      if (!row || !row.classList.contains("is-volume-open2")) {
+        return;
+      }
+
+      if (event.target === mute || event.target === volume ||
+          (mute && mute.contains(event.target))) {
+        return;
+      }
+
+      setDemoReelPhoneVolumeOpen2(false);
+    }, true);
 
     if (pip) {
       if (
