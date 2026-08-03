@@ -25,12 +25,9 @@ z-index: 9998;
 inset: 0;
 background-color: rgba(0, 0, 0, 0.33);
 opacity: 0;
-transition: opacity var(--modal-speed) ease-out;
-will-change: opacity;
-transform: translate3d(0, 0, 0);
--webkit-transform: translate3d(0, 0, 0);
-backface-visibility: hidden;
--webkit-backface-visibility: hidden;
+transition:
+opacity var(--modal-speed) ease-out,
+background-color 180ms ease-out;
 }
 
 #app2.is-auth-mode .overlay {
@@ -48,7 +45,7 @@ top: 50%;
 left: 50%;
 max-height: calc(100vh - 60px);
 overflow-y: auto;
-transform: translate3d(-50%, calc(-50% + 6px), 0) scale(0.985);
+transform: translate(-50%, calc(-50% + 6px)) scale(0.985);
 opacity: 0;
 padding: 1.25rem;
 background-color: #F3E9D7;
@@ -57,10 +54,9 @@ box-shadow: 0.375rem 0.375rem 0 #4F4F4F;
 border-radius: 1rem;
 transition:
 opacity var(--modal-speed) ease-out,
-transform var(--modal-speed) var(--modal-ease);
-will-change: opacity, transform;
-backface-visibility: hidden;
--webkit-backface-visibility: hidden;
+transform var(--modal-speed) var(--modal-ease),
+width 180ms ease-out;
+will-change: opacity, transform, width;
 }
 
 #app2.is-auth-mode .modal2 {
@@ -73,14 +69,14 @@ padding: 0.75rem;
 
 #app2.is-open .modal2 {
 opacity: 1;
-transform: translate3d(-50%, -50%, 0) scale(1);
+transform: translate(-50%, -50%) scale(1);
 }
 
 #app2.is-closing .overlay { opacity: 0; }
 
 #app2.is-closing .modal2 {
 opacity: 0;
-transform: translate3d(-50%, calc(-50% + 6px), 0) scale(0.985);
+transform: translate(-50%, calc(-50% + 6px)) scale(0.985);
 }
 
 /* ---------- Password Gate ---------- */
@@ -941,16 +937,9 @@ touch-action: none;
 }
 
 /* Prevent iOS/Safari from auto-zooming the password field when the
-   on-screen keyboard opens. Keep page pinch-zoom/accessibility intact.
-   On touch devices, keep the focused field completely stationary so its
-   focus styling cannot trigger a WebKit compositing/viewport flicker. */
+   on-screen keyboard opens. Keep page pinch-zoom/accessibility intact. */
 .modal-app2 .reel-auth2-input {
 font-size: 16px;
-transition: none;
-}
-
-.modal-app2 .reel-auth2-input:focus-visible {
-transform: none;
 }
 }
 
@@ -2837,5 +2826,4 @@ animation-duration: 1.2s;
     submitDemoReelPassword2;
   window.triggerModal2 = triggerModal2;
 })();
-
 
