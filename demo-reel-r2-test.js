@@ -289,6 +289,63 @@ display: none !important;
 -webkit-appearance: none !important;
 }
 
+/* ---------- Subtle Reel Watermark ---------- */
+
+.modal-app2 .reel-watermark2 {
+position: absolute;
+top: 11px;
+right: 12px;
+z-index: 2;
+pointer-events: none;
+user-select: none;
+font-family: Space Mono, monospace;
+font-size: 8.5px;
+font-weight: 400;
+line-height: 1;
+letter-spacing: 0.035em;
+color: rgba(243, 233, 215, 0.30);
+text-shadow: 0 1px 2px rgba(0, 0, 0, 0.72);
+opacity: 1;
+transition: opacity 180ms ease-out;
+}
+
+.modal-app2 .video-wrap.is-playing .reel-watermark2 {
+opacity: 0.72;
+}
+
+/* ---------- Restrained Buffering Indicator ---------- */
+
+.modal-app2 .reel-buffering2 {
+position: absolute;
+left: 50%;
+top: 50%;
+z-index: 4;
+width: 20px;
+height: 20px;
+margin: -10px 0 0 -10px;
+border: 2px solid rgba(243, 233, 215, 0.30);
+border-top-color: rgba(243, 233, 215, 0.88);
+border-radius: 50%;
+box-sizing: border-box;
+pointer-events: none;
+opacity: 0;
+transform: scale(0.92);
+transition:
+opacity 120ms ease-out,
+transform 120ms ease-out;
+}
+
+.modal-app2 .video-wrap.is-buffering .reel-buffering2 {
+opacity: 0.82;
+transform: scale(1);
+animation: demoReelBufferSpin2 720ms linear infinite;
+}
+
+@keyframes demoReelBufferSpin2 {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+
 /* ---------- Custom Player Controls ---------- */
 
 .modal-app2 .reel-controls2 {
@@ -473,6 +530,7 @@ align-items: center;
 
 .modal-app2 .reel-timeline2 {
 --progress: 0%;
+--buffered: 0%;
 width: 100%;
 height: 18px;
 margin: 0;
@@ -491,15 +549,24 @@ linear-gradient(
 to right,
 #D66545 0,
 #D66545 var(--progress),
-rgba(243, 233, 215, 0.38) var(--progress),
-rgba(243, 233, 215, 0.38) 100%
+rgba(243, 233, 215, 0.62) var(--progress),
+rgba(243, 233, 215, 0.62) var(--buffered),
+rgba(243, 233, 215, 0.24) var(--buffered),
+rgba(243, 233, 215, 0.24) 100%
 );
 }
 
 .modal-app2 .reel-timeline2::-moz-range-track {
 height: 4px;
 border-radius: 999px;
-background: rgba(243, 233, 215, 0.38);
+background:
+linear-gradient(
+to right,
+rgba(243, 233, 215, 0.62) 0,
+rgba(243, 233, 215, 0.62) var(--buffered),
+rgba(243, 233, 215, 0.24) var(--buffered),
+rgba(243, 233, 215, 0.24) 100%
+);
 }
 
 .modal-app2 .reel-timeline2::-moz-range-progress {
@@ -784,6 +851,12 @@ width: 56px;
 .modal-app2 .reel-preview2 {
 display: none;
 }
+
+.modal-app2 .reel-watermark2 {
+top: 8px;
+right: 9px;
+font-size: 7.5px;
+}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -792,8 +865,14 @@ display: none;
 .modal-app2 .reel-timestamp2-button,
 .modal-app2 .reel-controls2,
 .modal-app2 .reel-auth2-submit,
-.modal-app2 .reel-preview2 {
+.modal-app2 .reel-preview2,
+.modal-app2 .reel-watermark2,
+.modal-app2 .reel-buffering2 {
 transition: none !important;
+}
+
+.modal-app2 .video-wrap.is-buffering .reel-buffering2 {
+animation-duration: 1.2s;
 }
 }
 `;
@@ -860,8 +939,10 @@ transition: none !important;
   var demoReelListenersAttached2 = false;
   var demoReelGlobalKeysAttached2 = false;
   var demoReelControlsHideTimer2 = null;
+  var demoReelBufferingTimer2 = null;
   var demoReelPreviewSpriteReady2 = false;
   var demoReelLastVolume2 = 1;
+  var demoReelVolumeRestored2 = false;
 
   var DEMO_REEL_FRAME_RATE2 = 24;
 
@@ -876,6 +957,8 @@ transition: none !important;
 
   var DEMO_REEL_TOKEN_KEY2 = "demoReelToken2";
   var DEMO_REEL_EXPIRY_KEY2 = "demoReelTokenExpires2";
+  var DEMO_REEL_VOLUME_KEY2 = "demoReelVolumePreference2";
+  var DEMO_REEL_MUTED_KEY2 = "demoReelMutedPreference2";
 
   var DEMO_REEL_PREVIEW_INTERVAL2 = 2;
   var DEMO_REEL_PREVIEW_WIDTH2 = 160;
@@ -929,6 +1012,55 @@ transition: none !important;
     try {
       sessionStorage.removeItem(DEMO_REEL_TOKEN_KEY2);
       sessionStorage.removeItem(DEMO_REEL_EXPIRY_KEY2);
+    } catch (error) {}
+  }
+
+  function restoreDemoReelVolumePreference2() {
+    var video = getDemoReelVideo2();
+
+    if (!video || demoReelVolumeRestored2) return;
+
+    demoReelVolumeRestored2 = true;
+
+    try {
+      var storedVolume = Number(
+        localStorage.getItem(DEMO_REEL_VOLUME_KEY2)
+      );
+      var storedMuted = localStorage.getItem(
+        DEMO_REEL_MUTED_KEY2
+      );
+
+      if (Number.isFinite(storedVolume)) {
+        storedVolume = Math.max(0, Math.min(1, storedVolume));
+        video.volume = storedVolume;
+
+        if (storedVolume > 0) {
+          demoReelLastVolume2 = storedVolume;
+        }
+      }
+
+      if (storedMuted === "1" || storedMuted === "0") {
+        video.muted = storedMuted === "1";
+      }
+    } catch (error) {}
+
+    updateDemoReelVolumeState2();
+  }
+
+  function storeDemoReelVolumePreference2() {
+    var video = getDemoReelVideo2();
+
+    if (!video || !demoReelVolumeRestored2) return;
+
+    try {
+      localStorage.setItem(
+        DEMO_REEL_VOLUME_KEY2,
+        String(Math.max(0, Math.min(1, video.volume)))
+      );
+      localStorage.setItem(
+        DEMO_REEL_MUTED_KEY2,
+        video.muted ? "1" : "0"
+      );
     } catch (error) {}
   }
 
@@ -1007,6 +1139,7 @@ transition: none !important;
 
     if (!video || !token) return;
 
+    restoreDemoReelVolumePreference2();
     attachDemoReelVideoListeners2();
     attachDemoReelControlListeners2();
 
@@ -1040,15 +1173,35 @@ transition: none !important;
 
     video.addEventListener("canplay", function () {
       video.classList.add("is-loaded");
+      hideDemoReelBuffering2();
+      updateDemoReelBufferedState2();
+    });
+
+    video.addEventListener("playing", function () {
+      hideDemoReelBuffering2();
+    });
+
+    video.addEventListener("waiting", function () {
+      scheduleDemoReelBuffering2(180);
+    });
+
+    video.addEventListener("stalled", function () {
+      scheduleDemoReelBuffering2(260);
+    });
+
+    video.addEventListener("progress", function () {
+      updateDemoReelBufferedState2();
     });
 
     video.addEventListener("loadedmetadata", function () {
       updateDemoReelControlState2();
+      updateDemoReelBufferedState2();
       updateDemoReelVolumeState2();
     });
 
     video.addEventListener("volumechange", function () {
       updateDemoReelVolumeState2();
+      storeDemoReelVolumePreference2();
     });
 
     video.addEventListener("play", function () {
@@ -1062,6 +1215,7 @@ transition: none !important;
     });
 
     video.addEventListener("pause", function () {
+      hideDemoReelBuffering2();
       updateDemoReelPlaybackState2();
       showDemoReelControls2(true);
     });
@@ -1081,8 +1235,10 @@ transition: none !important;
     });
 
     video.addEventListener("seeked", function () {
+      hideDemoReelBuffering2();
       demoReelCurrentTime2 = video.currentTime || 0;
       updateDemoReelControlState2();
+      updateDemoReelBufferedState2();
       updateDemoReelActiveTimestamp2(
         demoReelCurrentTime2,
         true
@@ -1090,6 +1246,7 @@ transition: none !important;
     });
 
     video.addEventListener("error", function () {
+      hideDemoReelBuffering2();
       if (!video.currentSrc) return;
 
       clearStoredDemoReelToken2();
@@ -1134,6 +1291,11 @@ transition: none !important;
     });
 
     wrap.addEventListener("mousemove", function () {
+      showDemoReelControls2(true);
+      scheduleDemoReelControlsHide2();
+    });
+
+    wrap.addEventListener("pointerdown", function () {
       showDemoReelControls2(true);
       scheduleDemoReelControlsHide2();
     });
@@ -1421,7 +1583,68 @@ transition: none !important;
       }
 
       wrap.classList.remove("controls-visible");
-    }, typeof delay === "number" ? delay : 1800);
+    }, typeof delay === "number" ? delay : 2300);
+  }
+
+  function scheduleDemoReelBuffering2(delay) {
+    var video = getDemoReelVideo2();
+    var wrap = getDemoReelWrap2();
+
+    if (!video || !wrap || video.paused || video.ended) return;
+
+    clearTimeout(demoReelBufferingTimer2);
+
+    demoReelBufferingTimer2 = setTimeout(function () {
+      if (!video.paused && !video.ended) {
+        wrap.classList.add("is-buffering");
+        showDemoReelControls2(true);
+      }
+    }, typeof delay === "number" ? delay : 180);
+  }
+
+  function hideDemoReelBuffering2() {
+    var wrap = getDemoReelWrap2();
+
+    clearTimeout(demoReelBufferingTimer2);
+    demoReelBufferingTimer2 = null;
+
+    if (wrap) wrap.classList.remove("is-buffering");
+  }
+
+  function updateDemoReelBufferedState2() {
+    var video = getDemoReelVideo2();
+    var timeline = document.getElementById("demoReelTimeline2");
+
+    if (!video || !timeline) return;
+
+    var duration = Number.isFinite(video.duration)
+      ? video.duration
+      : 0;
+
+    var bufferedEnd = 0;
+
+    if (duration > 0 && video.buffered && video.buffered.length) {
+      try {
+        bufferedEnd = video.buffered.end(video.buffered.length - 1);
+      } catch (error) {
+        bufferedEnd = 0;
+      }
+    }
+
+    var bufferedRatio = duration > 0
+      ? Math.max(0, Math.min(1, bufferedEnd / duration))
+      : 0;
+
+    var currentRatio = duration > 0
+      ? Math.max(0, Math.min(1, video.currentTime / duration))
+      : 0;
+
+    bufferedRatio = Math.max(bufferedRatio, currentRatio);
+
+    timeline.style.setProperty(
+      "--buffered",
+      (bufferedRatio * 100).toFixed(3) + "%"
+    );
   }
 
   function updateDemoReelPlaybackState2() {
@@ -1472,6 +1695,7 @@ transition: none !important;
         "--progress",
         (progress * 100).toFixed(3) + "%"
       );
+      updateDemoReelBufferedState2();
       timeline.setAttribute(
         "aria-valuetext",
         formatDemoReelTime2(current) +
