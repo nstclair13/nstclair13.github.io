@@ -861,11 +861,14 @@ font-size: 7.5px;
    Desktop and tablet/phone portrait remain unchanged except for the
    portrait-phone volume control noted below. */
 
-/* Phone portrait: keep the familiar speaker button as mute/unmute and
-   remove the custom volume fader entirely. The device volume buttons handle
-   level changes, which is the most reliable finger-friendly phone pattern and
-   gives the timeline the maximum available width. */
+/* Phone portrait: reclaim timeline width by taking the volume range out
+   of normal row flow. The pop-up control deliberately uses a generous
+   finger-sized hit area instead of a tiny rotated desktop slider. */
 @media (orientation: portrait) and (any-pointer: coarse) and (max-width: 600px) {
+.modal-app2 .reel-controls2-row {
+position: relative;
+}
+
 .modal-app2 #demoReelMute2 {
 width: 36px;
 height: 36px;
@@ -878,7 +881,53 @@ height: 19px;
 }
 
 .modal-app2 .reel-volume2 {
-display: none !important;
+position: absolute;
+/* After rotation, this keeps the vertical control centred over mute. */
+right: 39px;
+bottom: 66px;
+width: 96px;
+height: 40px;
+margin: 0;
+padding: 0 11px;
+box-sizing: border-box;
+transform: rotate(-90deg);
+transform-origin: center center;
+z-index: 4;
+opacity: 0;
+visibility: hidden;
+pointer-events: none;
+touch-action: none;
+background: rgba(18, 18, 18, 0.82);
+border: 1px solid rgba(243, 233, 215, 0.18);
+border-radius: 999px;
+box-shadow: 0 2px 9px rgba(0, 0, 0, 0.28);
+transition: opacity 0.12s ease;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-runnable-track {
+height: 6px;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-thumb {
+width: 16px;
+height: 16px;
+margin-top: -5px;
+}
+
+.modal-app2 .reel-volume2::-moz-range-track,
+.modal-app2 .reel-volume2::-moz-range-progress {
+height: 6px;
+}
+
+.modal-app2 .reel-volume2::-moz-range-thumb {
+width: 14px;
+height: 14px;
+}
+
+.modal-app2 .reel-controls2-row.is-volume-open2 .reel-volume2 {
+opacity: 1;
+visibility: visible;
+pointer-events: auto;
 }
 }
 
@@ -1230,6 +1279,15 @@ animation-duration: 1.2s;
     );
   }
 
+  function isDemoReelTouchDevice2() {
+    return !!(
+      (window.matchMedia &&
+        window.matchMedia("(any-pointer: coarse)").matches) ||
+      (navigator && navigator.maxTouchPoints > 0) ||
+      ("ontouchstart" in window)
+    );
+  }
+
   function showDemoReelAuth2(message) {
     var app = document.getElementById("app2");
     var error = document.getElementById("demoReelAuthError2");
@@ -1238,7 +1296,11 @@ animation-duration: 1.2s;
     if (app) app.classList.add("is-auth-mode");
     if (error) error.textContent = message || "";
 
-    if (input) {
+    // Desktop can safely autofocus for keyboard convenience.
+    // On touch devices, programmatic focus makes iOS/WebKit briefly pan/flicker
+    // the visual viewport before the on-screen keyboard settles. Let the user
+    // explicitly tap the password field instead.
+    if (input && !isDemoReelTouchDevice2()) {
       setTimeout(function () {
         try {
           input.focus({ preventScroll: true });
@@ -1412,6 +1474,48 @@ animation-duration: 1.2s;
     });
   }
 
+  function isDemoReelPhonePortrait2() {
+    return !!(
+      window.matchMedia &&
+      window.matchMedia(
+        "(orientation: portrait) and (any-pointer: coarse) and (max-width: 600px)"
+      ).matches
+    );
+  }
+
+  function setDemoReelPhoneVolumeOpen2(open) {
+    var mute = document.getElementById("demoReelMute2");
+    var volume = document.getElementById("demoReelVolume2");
+    var row = mute && mute.closest(".reel-controls2-row");
+    var phonePortrait = isDemoReelPhonePortrait2();
+    var shouldOpen = !!open && phonePortrait;
+
+    if (row) {
+      row.classList.toggle("is-volume-open2", shouldOpen);
+    }
+
+    if (mute) {
+      if (phonePortrait) {
+        mute.setAttribute("aria-label", "Volume");
+        mute.setAttribute("title", "Volume");
+        mute.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+      } else {
+        mute.setAttribute("aria-label", "Mute demo reel");
+        mute.setAttribute("title", "Mute");
+        mute.removeAttribute("aria-expanded");
+      }
+    }
+
+    if (volume) {
+      volume.setAttribute("aria-hidden", shouldOpen || !phonePortrait ? "false" : "true");
+      if (phonePortrait) {
+        volume.tabIndex = shouldOpen ? 0 : -1;
+      } else {
+        volume.removeAttribute("tabindex");
+      }
+    }
+  }
+
   function seekDemoReelTimelineFromClientX2(clientX, showPreview) {
     var video = getDemoReelVideo2();
     var timeline = document.getElementById("demoReelTimeline2");
@@ -1471,6 +1575,14 @@ animation-duration: 1.2s;
       updateDemoReelWatermarkPosition2,
       { passive: true }
     );
+    window.addEventListener(
+      "resize",
+      function () {
+        setDemoReelPhoneVolumeOpen2(false);
+      },
+      { passive: true }
+    );
+    setDemoReelPhoneVolumeOpen2(false);
     document.addEventListener(
       "fullscreenchange",
       updateDemoReelWatermarkPosition2
@@ -1663,6 +1775,17 @@ animation-duration: 1.2s;
       mute.addEventListener("click", function (event) {
         event.stopPropagation();
 
+        if (isDemoReelPhonePortrait2()) {
+          var row = mute.closest(".reel-controls2-row");
+          var isOpen = !!(
+            row && row.classList.contains("is-volume-open2")
+          );
+
+          setDemoReelPhoneVolumeOpen2(!isOpen);
+          showDemoReelControls2(true);
+          return;
+        }
+
         if (video.muted || video.volume === 0) {
           video.muted = false;
 
@@ -1699,8 +1822,32 @@ animation-duration: 1.2s;
         showDemoReelControls2(true);
       });
 
+      volume.addEventListener("change", function () {
+        if (isDemoReelPhonePortrait2()) {
+          /* Keep the pop-up open after a finger adjustment. Closing a
+             vertical slider on pointer release makes repeated tweaks far
+             too fiddly on a phone. It closes on an outside tap instead. */
+          showDemoReelControls2(true);
+        }
+      });
     }
 
+    document.addEventListener("pointerdown", function (event) {
+      if (!isDemoReelPhonePortrait2()) return;
+
+      var row = mute && mute.closest(".reel-controls2-row");
+      if (!row || !row.classList.contains("is-volume-open2")) {
+        return;
+      }
+
+      if (event.target === mute || event.target === volume ||
+          (mute && mute.contains(event.target))) {
+        return;
+      }
+
+      setDemoReelPhoneVolumeOpen2(false);
+      scheduleDemoReelControlsHide2(1200);
+    }, true);
 
     if (pip) {
       if (
@@ -1862,11 +2009,20 @@ animation-duration: 1.2s;
   function scheduleDemoReelControlsHide2(delay) {
     var video = getDemoReelVideo2();
     var wrap = getDemoReelWrap2();
+    var mute = document.getElementById("demoReelMute2");
+    var row = mute && mute.closest(".reel-controls2-row");
+    var phoneVolumeOpen = !!(
+      isDemoReelPhonePortrait2() &&
+      row &&
+      row.classList.contains("is-volume-open2")
+    );
+
     if (
       !video ||
       !wrap ||
       video.paused ||
-      demoReelTimelinePointerActive2
+      demoReelTimelinePointerActive2 ||
+      phoneVolumeOpen
     ) {
       return;
     }
