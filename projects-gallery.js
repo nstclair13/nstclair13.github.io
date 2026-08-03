@@ -3173,10 +3173,10 @@ v-on:keydown="handleProjectCardKeydown($event, project)">
   v-bind:data-image-src="project.image"
   v-bind:src="project.image"
   v-bind:alt="project.title + ' poster'"
-  v-bind:loading="projectIndex < 6 ? 'eager' : 'lazy'"
+  v-bind:loading="shouldEagerLoadGridImage(projectIndex) ? 'eager' : 'lazy'"
   decoding="async"
   draggable="false"
-  v-bind:fetchpriority="projectIndex < 6 ? 'high' : 'auto'"
+  v-bind:fetchpriority="shouldEagerLoadGridImage(projectIndex) ? 'high' : 'auto'"
   v-on:contextmenu.prevent
   v-on:dragstart.prevent
   v-on:load="markImageLoaded"
@@ -4621,6 +4621,20 @@ shouldShowSwipeHint: function() {
 
 methods: {
 
+shouldEagerLoadGridImage: function(projectIndex) {
+  var width =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    1024;
+
+  var eagerCount =
+    width <= 600 ? 2 :
+    width <= 1024 ? 4 :
+    6;
+
+  return projectIndex < eagerCount;
+},
+  
 resetGalleryView: function() {
   this.search = "";
   this.currentFilter = "ALL";
