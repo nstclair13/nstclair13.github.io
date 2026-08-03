@@ -978,6 +978,57 @@ animation-duration: 1.2s;
     return document.getElementById("demoReelPlayerShell2");
   }
 
+  // Keep the watermark inside the actual displayed picture, not merely
+  // inside the 16:9 player shell. This accounts for object-fit: contain
+  // letterboxing/pillarboxing and updates as the player changes size.
+  function updateDemoReelWatermarkPosition2() {
+    var wrap = getDemoReelWrap2();
+    var video = getDemoReelVideo2();
+    var watermark = wrap && wrap.querySelector(".reel-watermark2");
+    var controls = wrap && wrap.querySelector(".reel-controls2");
+
+    if (
+      !wrap ||
+      !video ||
+      !watermark ||
+      !video.videoWidth ||
+      !video.videoHeight
+    ) {
+      return;
+    }
+
+    var wrapWidth = wrap.clientWidth;
+    var wrapHeight = wrap.clientHeight;
+
+    if (!wrapWidth || !wrapHeight) return;
+
+    var videoAspect = video.videoWidth / video.videoHeight;
+    var wrapAspect = wrapWidth / wrapHeight;
+    var offsetX = 0;
+    var offsetY = 0;
+
+    if (videoAspect > wrapAspect) {
+      var displayedHeight = wrapWidth / videoAspect;
+      offsetY = Math.max(0, (wrapHeight - displayedHeight) / 2);
+    } else if (videoAspect < wrapAspect) {
+      var displayedWidth = wrapHeight * videoAspect;
+      offsetX = Math.max(0, (wrapWidth - displayedWidth) / 2);
+    }
+
+    var inset = wrapWidth <= 640 ? 8 : 10;
+    var controlsHeight = controls ? controls.offsetHeight : 0;
+
+    // The lower edge follows the displayed picture boundary. If there is
+    // little/no letterbox, keep it just above the custom control bar.
+    var bottomInset = Math.max(
+      offsetY + inset,
+      controlsHeight + inset
+    );
+
+    watermark.style.right = Math.round(offsetX + inset) + "px";
+    watermark.style.bottom = Math.round(bottomInset) + "px";
+  }
+
   function getStoredDemoReelToken2() {
     try {
       var token = sessionStorage.getItem(DEMO_REEL_TOKEN_KEY2);
@@ -1169,12 +1220,14 @@ animation-duration: 1.2s;
 
     video.addEventListener("loadeddata", function () {
       video.classList.add("is-loaded");
+      updateDemoReelWatermarkPosition2();
     });
 
     video.addEventListener("canplay", function () {
       video.classList.add("is-loaded");
       hideDemoReelBuffering2();
       updateDemoReelBufferedState2();
+      updateDemoReelWatermarkPosition2();
     });
 
     video.addEventListener("playing", function () {
@@ -1197,6 +1250,7 @@ animation-duration: 1.2s;
       updateDemoReelControlState2();
       updateDemoReelBufferedState2();
       updateDemoReelVolumeState2();
+      updateDemoReelWatermarkPosition2();
     });
 
     video.addEventListener("volumechange", function () {
@@ -1278,6 +1332,20 @@ animation-duration: 1.2s;
     }
 
     wrap.dataset.controlsReady = "1";
+
+    window.addEventListener(
+      "resize",
+      updateDemoReelWatermarkPosition2,
+      { passive: true }
+    );
+    document.addEventListener(
+      "fullscreenchange",
+      updateDemoReelWatermarkPosition2
+    );
+    document.addEventListener(
+      "webkitfullscreenchange",
+      updateDemoReelWatermarkPosition2
+    );
 
     if (play) {
       play.addEventListener("click", function (event) {
