@@ -60,9 +60,9 @@ will-change: opacity, transform, width;
 }
 
 #app2.is-auth-mode .modal2 {
-width: 430px;
+width: 400px;
 max-width: calc(100% - 40px);
-padding: 1rem;
+padding: 0.75rem;
 }
 
 #app2.is-open .overlay { opacity: 1; }
@@ -90,7 +90,7 @@ display: block;
 }
 
 .modal-app2 .reel-auth2-card {
-padding: 16px;
+padding: 12px;
 text-align: left;
 }
 
@@ -115,12 +115,12 @@ margin: 0;
 
 .modal-app2 .reel-auth2-form {
 display: grid;
-grid-template-columns: minmax(0, 1fr) 52px;
+grid-template-columns: minmax(0, 1fr) 44px;
 align-items: center;
 gap: 10px;
 width: 100%;
 max-width: 350px;
-margin-top: 14px;
+margin-top: 12px;
 }
 
 .modal-app2 .reel-auth2-input {
@@ -160,12 +160,12 @@ inset 0 2px 0 rgba(79, 79, 79, 0.14);
 .modal-app2 .reel-auth2-submit {
 font-family: Unbounded, sans-serif;
 box-sizing: border-box;
-width: 52px;
-height: 52px;
-min-height: 52px;
+width: 44px;
+height: 44px;
+min-height: 44px;
 padding: 0;
 border: 2px solid #4F4F4F;
-border-radius: 11px;
+border-radius: 9px;
 box-shadow:
 4px 4px 0 #4F4F4F,
 inset 0 1px 0 rgba(255, 255, 255, 0.30);
@@ -191,8 +191,8 @@ box-shadow 0.10s ease-out;
 
 .modal-app2 .reel-auth2-submit-icon {
 display: block;
-width: 29px;
-height: 29px;
+width: 24px;
+height: 24px;
 fill: currentColor;
 pointer-events: none;
 }
@@ -229,9 +229,12 @@ inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
 
 .modal-app2 .reel-auth2-error {
-min-height: 16px;
-margin-top: 9px;
+margin-top: 8px;
 color: #D66545;
+}
+
+.modal-app2 .reel-auth2-error:empty {
+display: none;
 }
 
 /* ---------- Reel Content ---------- */
@@ -745,20 +748,20 @@ padding: 0.75rem;
 }
 
 .modal-app2 .reel-auth2-form {
-grid-template-columns: minmax(0, 1fr) 48px;
+grid-template-columns: minmax(0, 1fr) 44px;
 max-width: none;
 }
 
 .modal-app2 .reel-auth2-submit {
-width: 48px;
-height: 48px;
-min-height: 48px;
-border-radius: 10px;
+width: 44px;
+height: 44px;
+min-height: 44px;
+border-radius: 9px;
 }
 
 .modal-app2 .reel-auth2-submit-icon {
-width: 27px;
-height: 27px;
+width: 24px;
+height: 24px;
 }
 
 .modal-app2 .reel-time2 {
