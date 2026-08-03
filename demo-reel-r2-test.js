@@ -941,9 +941,16 @@ touch-action: none;
 }
 
 /* Prevent iOS/Safari from auto-zooming the password field when the
-   on-screen keyboard opens. Keep page pinch-zoom/accessibility intact. */
+   on-screen keyboard opens. Keep page pinch-zoom/accessibility intact.
+   On touch devices, keep the focused field completely stationary so its
+   focus styling cannot trigger a WebKit compositing/viewport flicker. */
 .modal-app2 .reel-auth2-input {
 font-size: 16px;
+transition: none;
+}
+
+.modal-app2 .reel-auth2-input:focus-visible {
+transform: none;
 }
 }
 
@@ -2830,4 +2837,5 @@ animation-duration: 1.2s;
     submitDemoReelPassword2;
   window.triggerModal2 = triggerModal2;
 })();
+
 
