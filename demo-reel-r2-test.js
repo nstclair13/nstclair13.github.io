@@ -96,7 +96,7 @@ text-align: center;
 
 .modal-app2 .reel-auth2-title {
 font-family: Unbounded, sans-serif;
-font-size: 15px;
+font-size: 19px;
 font-weight: 700;
 text-transform: uppercase;
 letter-spacing: -0.05em;
@@ -107,7 +107,7 @@ margin: 0 0 8px;
 .modal-app2 .reel-auth2-copy,
 .modal-app2 .reel-auth2-error {
 font-family: Space Mono, sans-serif;
-font-size: 12px;
+font-size: 14px;
 line-height: 1.5;
 color: #4F4F4F;
 margin: 0;
@@ -140,32 +140,46 @@ outline: none;
 box-shadow: 0 0 0 2px rgba(214, 101, 69, 0.35);
 }
 
-/* Match the gallery's physical play-button interaction:
-   cream face, charcoal border/shadow, lift on hover, press on click. */
+/* Exact gallery play-button treatment copied into the password gate:
+   same square proportions, border, shadow, lift/press behavior and SVG symbol. */
 .modal-app2 .reel-auth2-submit {
 font-family: Unbounded, sans-serif;
-font-size: 11px;
-font-weight: 700;
-text-transform: uppercase;
-letter-spacing: -0.05em;
-padding: 10px 14px;
-background: #F3E9D7;
-color: #4F4F4F;
--webkit-text-fill-color: #4F4F4F;
-cursor: pointer;
+box-sizing: border-box;
+width: clamp(55px, 6.2vw, 65.333px);
+height: clamp(55px, 6.2vw, 65.333px);
+min-height: clamp(55px, 6.2vw, 65.333px);
+padding: 0;
+border: 2px solid #4F4F4F;
+border-radius: clamp(12px, 1.3vw, 14px);
 box-shadow:
 4px 4px 0 #4F4F4F,
 inset 0 1px 0 rgba(255, 255, 255, 0.30);
+display: flex;
+align-items: center;
+justify-content: center;
+line-height: 1;
+cursor: pointer;
+background: #F3E9D7;
+color: #4F4F4F;
+-webkit-text-fill-color: #4F4F4F;
 transform: translate(0, 0);
 -webkit-appearance: none;
 appearance: none;
 touch-action: manipulation;
 -webkit-tap-highlight-color: transparent;
 transition:
-background-color 160ms ease-out,
-color 160ms ease-out,
-transform 100ms ease-out,
-box-shadow 100ms ease-out;
+background-color 0.16s ease-out,
+color 0.16s ease-out,
+transform 0.10s ease-out,
+box-shadow 0.10s ease-out;
+}
+
+.modal-app2 .reel-auth2-submit-icon {
+display: block;
+width: clamp(32px, 3.5vw, 36.8px);
+height: clamp(32px, 3.5vw, 36.8px);
+fill: currentColor;
+pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -599,7 +613,7 @@ content: "–";
 .modal-app2 .reel-timestamps2-toggle:hover,
 .modal-app2 .reel-timestamps2-toggle:focus-visible {
 outline: none;
-color: #D66545;
+color: #4F4F4F;
 background: rgba(79, 79, 79, 0.08);
 }
 
@@ -1222,9 +1236,17 @@ transition: none !important;
             if (document.pictureInPictureElement) {
               await document.exitPictureInPicture();
             } else {
+              // Keep native/browser-supplied PiP affordances disabled during
+              // ordinary viewing. Temporarily enable the API only when the
+              // user deliberately presses our custom PiP control.
+              video.disablePictureInPicture = false;
+              video.removeAttribute("disablepictureinpicture");
               await video.requestPictureInPicture();
             }
-          } catch (error) {}
+          } catch (error) {
+            video.disablePictureInPicture = true;
+            video.setAttribute("disablepictureinpicture", "");
+          }
         });
 
         video.addEventListener("enterpictureinpicture", function () {
@@ -1233,6 +1255,8 @@ transition: none !important;
 
         video.addEventListener("leavepictureinpicture", function () {
           pip.setAttribute("aria-pressed", "false");
+          video.disablePictureInPicture = true;
+          video.setAttribute("disablepictureinpicture", "");
         });
       }
     }
