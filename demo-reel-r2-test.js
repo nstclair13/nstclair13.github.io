@@ -539,6 +539,7 @@ appearance: none;
 -webkit-appearance: none;
 background: transparent;
 cursor: pointer;
+touch-action: none;
 }
 
 .modal-app2 .reel-timeline2::-webkit-slider-runnable-track {
@@ -848,14 +849,124 @@ gap: 6px;
 width: 56px;
 }
 
-.modal-app2 .reel-preview2 {
-display: none;
-}
-
 .modal-app2 .reel-watermark2 {
 right: 10px;
 bottom: 52px;
 font-size: 7.5px;
+}
+}
+
+
+/* ---------- Touch Landscape Layouts ----------
+   Portrait layouts intentionally remain unchanged. */
+
+/* Tablet landscape: when the breakdown is open, use the reel's native
+   picture ratio and let the breakdown consume the remaining modal height. */
+@media (orientation: landscape) and (any-pointer: coarse) and (min-height: 561px) {
+#app2.is-breakdown-open:not(.is-auth-mode) .modal2 {
+width: min(1000px, calc(100% - 24px));
+max-width: calc(100% - 24px);
+height: calc(100dvh - 24px);
+max-height: calc(100dvh - 24px);
+padding: 12px;
+box-sizing: border-box;
+overflow: hidden;
+}
+
+#app2.is-breakdown-open:not(.is-auth-mode) .reel-content2 {
+height: 100%;
+min-height: 0;
+display: flex;
+flex-direction: column;
+}
+
+#app2.is-breakdown-open:not(.is-auth-mode) .video-wrap {
+flex: 0 0 auto;
+aspect-ratio: var(--reel-native-aspect2, 16 / 9);
+}
+
+#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2 {
+flex: 1 1 auto;
+min-height: 0;
+display: flex;
+flex-direction: column;
+}
+
+#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2.is-open .reel-timestamps2-list {
+flex: 1 1 auto;
+min-height: 0;
+max-height: none;
+overflow-y: auto;
+}
+}
+
+/* Phone landscape: the video owns the viewport and the breakdown becomes
+   a temporary sheet over the player rather than consuming space below it. */
+@media (orientation: landscape) and (any-pointer: coarse) and (max-height: 560px) {
+#app2:not(.is-auth-mode) .modal2 {
+width: calc(100% - 16px);
+max-width: calc(100% - 16px);
+height: calc(100dvh - 16px);
+max-height: calc(100dvh - 16px);
+padding: 8px;
+box-sizing: border-box;
+overflow: hidden;
+}
+
+#app2:not(.is-auth-mode) .reel-content2 {
+position: relative;
+height: 100%;
+min-height: 0;
+}
+
+#app2:not(.is-auth-mode) .video-wrap {
+width: 100%;
+height: 100%;
+aspect-ratio: auto;
+}
+
+#app2:not(.is-auth-mode) .reel-timestamps2 {
+position: absolute;
+left: 8px;
+right: 8px;
+top: 8px;
+bottom: auto;
+z-index: 7;
+margin-top: 0;
+padding: 10px 12px;
+max-height: calc(100% - 78px);
+display: flex;
+flex-direction: column;
+background: rgba(243, 233, 215, 0.96);
+backdrop-filter: blur(3px);
+-webkit-backdrop-filter: blur(3px);
+}
+
+#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2 {
+bottom: 62px;
+height: auto;
+}
+
+#app2.is-breakdown-open:not(.is-auth-mode) .reel-timestamps2.is-open .reel-timestamps2-list {
+flex: 1 1 auto;
+min-height: 0;
+max-height: none;
+overflow-y: auto;
+}
+
+#app2:not(.is-auth-mode) .reel-timestamps2-toggle {
+font-size: 10px;
+}
+
+#app2:not(.is-auth-mode) .reel-timestamp2-button {
+font-size: 10.5px;
+line-height: 1.25;
+padding-top: 4px;
+padding-bottom: 4px;
+}
+
+#app2:not(.is-auth-mode) .reel-timestamp2-time {
+font-size: 9px;
 }
 }
 
@@ -943,6 +1054,8 @@ animation-duration: 1.2s;
   var demoReelPreviewSpriteReady2 = false;
   var demoReelLastVolume2 = 1;
   var demoReelVolumeRestored2 = false;
+  var demoReelTimelinePointerActive2 = false;
+  var demoReelTimelinePointerId2 = null;
 
   var DEMO_REEL_FRAME_RATE2 = 24;
 
@@ -1003,6 +1116,11 @@ animation-duration: 1.2s;
     if (!wrapWidth || !wrapHeight) return;
 
     var videoAspect = video.videoWidth / video.videoHeight;
+    wrap.style.setProperty(
+      "--reel-native-aspect2",
+      String(videoAspect)
+    );
+
     var wrapAspect = wrapWidth / wrapHeight;
     var offsetX = 0;
     var offsetY = 0;
@@ -1424,18 +1542,78 @@ animation-duration: 1.2s;
         updateDemoReelActiveTimestamp2(seconds, true);
       });
 
-      timeline.addEventListener("pointermove", function (event) {
-        if (event.pointerType === "touch") return;
+      timeline.addEventListener("pointerdown", function (event) {
+        demoReelTimelinePointerActive2 = true;
+        demoReelTimelinePointerId2 = event.pointerId;
+
+        showDemoReelControls2(true);
         updateDemoReelPreview2(event);
+
+        if (timeline.setPointerCapture) {
+          try {
+            timeline.setPointerCapture(event.pointerId);
+          } catch (captureError) {}
+        }
+      });
+
+      timeline.addEventListener("pointermove", function (event) {
+        var touchLike =
+          event.pointerType && event.pointerType !== "mouse";
+
+        if (touchLike && !demoReelTimelinePointerActive2) {
+          return;
+        }
+
+        updateDemoReelPreview2(event);
+
+        if (demoReelTimelinePointerActive2) {
+          showDemoReelControls2(true);
+        }
       });
 
       timeline.addEventListener("pointerenter", function (event) {
-        if (event.pointerType === "touch") return;
+        if (event.pointerType && event.pointerType !== "mouse") {
+          return;
+        }
+
         updateDemoReelPreview2(event);
       });
 
       timeline.addEventListener("pointerleave", function () {
+        if (demoReelTimelinePointerActive2) return;
         hideDemoReelPreview2();
+      });
+
+      var finishTimelinePointer2 = function (event) {
+        if (
+          demoReelTimelinePointerId2 !== null &&
+          event.pointerId !== demoReelTimelinePointerId2
+        ) {
+          return;
+        }
+
+        var touchLike =
+          event.pointerType && event.pointerType !== "mouse";
+
+        demoReelTimelinePointerActive2 = false;
+        demoReelTimelinePointerId2 = null;
+
+        if (touchLike) {
+          hideDemoReelPreview2();
+        }
+
+        scheduleDemoReelControlsHide2();
+      };
+
+      timeline.addEventListener("pointerup", finishTimelinePointer2);
+      timeline.addEventListener("pointercancel", finishTimelinePointer2);
+      timeline.addEventListener("lostpointercapture", function () {
+        if (!demoReelTimelinePointerActive2) return;
+
+        demoReelTimelinePointerActive2 = false;
+        demoReelTimelinePointerId2 = null;
+        hideDemoReelPreview2();
+        scheduleDemoReelControlsHide2();
       });
     }
 
@@ -1640,7 +1818,14 @@ animation-duration: 1.2s;
     var video = getDemoReelVideo2();
     var wrap = getDemoReelWrap2();
 
-    if (!video || !wrap || video.paused) return;
+    if (
+      !video ||
+      !wrap ||
+      video.paused ||
+      demoReelTimelinePointerActive2
+    ) {
+      return;
+    }
 
     clearTimeout(demoReelControlsHideTimer2);
 
@@ -2071,6 +2256,63 @@ animation-duration: 1.2s;
     }
   }
 
+  function isDemoReelTouchLandscape2() {
+    return !!(
+      window.matchMedia &&
+      window.matchMedia(
+        "(orientation: landscape) and (any-pointer: coarse)"
+      ).matches
+    );
+  }
+
+  function keepDemoReelTimestampPageVisible2(list, button) {
+    if (!list || !button || !list.clientHeight) return;
+
+    var listRect = list.getBoundingClientRect();
+    var buttonRect = button.getBoundingClientRect();
+    var buttonTop =
+      list.scrollTop + (buttonRect.top - listRect.top);
+    var buttonBottom = buttonTop + buttonRect.height;
+    var viewTop = list.scrollTop;
+    var viewBottom = viewTop + list.clientHeight;
+    var tolerance = 1;
+
+    // Stay put while the active row is completely visible.
+    if (
+      buttonTop >= viewTop - tolerance &&
+      buttonBottom <= viewBottom + tolerance
+    ) {
+      return;
+    }
+
+    // Forward playback: the first row beyond the current visible group
+    // becomes the first row of the next group immediately.
+    if (buttonTop >= viewBottom - tolerance) {
+      list.scrollTop = Math.max(0, buttonTop);
+      return;
+    }
+
+    // Backward playback/scrubbing: reveal the previous group with the
+    // newly active row aligned to the bottom of the visible page.
+    if (buttonBottom <= viewTop + tolerance) {
+      list.scrollTop = Math.max(
+        0,
+        buttonBottom - list.clientHeight
+      );
+      return;
+    }
+
+    // Handles partially clipped rows caused by variable-height labels.
+    if (buttonBottom > viewBottom) {
+      list.scrollTop = Math.max(0, buttonTop);
+    } else if (buttonTop < viewTop) {
+      list.scrollTop = Math.max(
+        0,
+        buttonBottom - list.clientHeight
+      );
+    }
+  }
+
   function keepDemoReelTimestampVisible2(button) {
     var timestampContainer = document.getElementById("reelTimestamps2");
 
@@ -2081,6 +2323,11 @@ animation-duration: 1.2s;
     );
 
     if (!list) return;
+
+    if (isDemoReelTouchLandscape2()) {
+      keepDemoReelTimestampPageVisible2(list, button);
+      return;
+    }
 
     var listRect = list.getBoundingClientRect();
     var buttonRect = button.getBoundingClientRect();
@@ -2129,9 +2376,14 @@ animation-duration: 1.2s;
     timestampContainer.classList.toggle("is-open");
 
     var isOpen = timestampContainer.classList.contains("is-open");
+    var app = document.getElementById("app2");
     var toggleButton = timestampContainer.querySelector(
       ".reel-timestamps2-toggle"
     );
+
+    if (app) {
+      app.classList.toggle("is-breakdown-open", isOpen);
+    }
 
     if (toggleButton) {
       toggleButton.setAttribute(
@@ -2178,6 +2430,11 @@ animation-duration: 1.2s;
     }
 
     timestampContainer.classList.toggle("is-open", wasOpen);
+
+    var app = document.getElementById("app2");
+    if (app) {
+      app.classList.toggle("is-breakdown-open", wasOpen);
+    }
 
     var toggleButton = document.createElement("button");
     toggleButton.type = "button";
@@ -2296,6 +2553,7 @@ animation-duration: 1.2s;
       });
     } else {
       p.classList.remove("is-open");
+      p.classList.remove("is-breakdown-open");
       p.classList.add("is-closing");
 
       if (typeof window.setLiftButtonActive === "function") {
@@ -2313,6 +2571,8 @@ animation-duration: 1.2s;
         } catch (error) {}
       }
 
+      demoReelTimelinePointerActive2 = false;
+      demoReelTimelinePointerId2 = null;
       hideDemoReelPreview2();
       clearTimeout(demoReelControlsHideTimer2);
       clearTimeout(p._modalCloseTimer);
