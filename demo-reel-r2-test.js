@@ -96,19 +96,19 @@ text-align: center;
 
 .modal-app2 .reel-auth2-title {
 font-family: Unbounded, sans-serif;
-font-size: 13px;
+font-size: 15px;
 font-weight: 700;
 text-transform: uppercase;
 letter-spacing: -0.05em;
 color: #4F4F4F;
-margin: 0 0 7px;
+margin: 0 0 8px;
 }
 
 .modal-app2 .reel-auth2-copy,
 .modal-app2 .reel-auth2-error {
 font-family: Space Mono, sans-serif;
-font-size: 11px;
-line-height: 1.45;
+font-size: 12px;
+line-height: 1.5;
 color: #4F4F4F;
 margin: 0;
 }
@@ -122,15 +122,15 @@ margin-top: 14px;
 
 .modal-app2 .reel-auth2-input,
 .modal-app2 .reel-auth2-submit {
-font-family: Space Mono, sans-serif;
-font-size: 11px;
 border: 2px solid #4F4F4F;
-border-radius: 0.4rem;
+border-radius: 0.55rem;
 }
 
 .modal-app2 .reel-auth2-input {
+font-family: Space Mono, sans-serif;
+font-size: 13px;
 min-width: 0;
-padding: 9px 10px;
+padding: 11px 12px;
 background: #fff;
 color: #4F4F4F;
 outline: none;
@@ -140,37 +140,63 @@ outline: none;
 box-shadow: 0 0 0 2px rgba(214, 101, 69, 0.35);
 }
 
+/* Match the gallery's physical play-button interaction:
+   cream face, charcoal border/shadow, lift on hover, press on click. */
 .modal-app2 .reel-auth2-submit {
-padding: 9px 13px;
-background: #D66545;
-color: #F3E9D7;
+font-family: Unbounded, sans-serif;
+font-size: 11px;
 font-weight: 700;
+text-transform: uppercase;
+letter-spacing: -0.05em;
+padding: 10px 14px;
+background: #F3E9D7;
+color: #4F4F4F;
+-webkit-text-fill-color: #4F4F4F;
 cursor: pointer;
-box-shadow: 0.16rem 0.16rem 0 #4F4F4F;
+box-shadow:
+4px 4px 0 #4F4F4F,
+inset 0 1px 0 rgba(255, 255, 255, 0.30);
 transform: translate(0, 0);
+-webkit-appearance: none;
+appearance: none;
+touch-action: manipulation;
+-webkit-tap-highlight-color: transparent;
 transition:
-transform 120ms ease-out,
-box-shadow 120ms ease-out,
-background-color 120ms ease-out;
+background-color 160ms ease-out,
+color 160ms ease-out,
+transform 100ms ease-out,
+box-shadow 100ms ease-out;
 }
 
+@media (hover: hover) and (pointer: fine) {
 .modal-app2 .reel-auth2-submit:hover,
 .modal-app2 .reel-auth2-submit:focus-visible {
 outline: none;
+background: #F3E9D7;
+color: #4F4F4F;
+-webkit-text-fill-color: #4F4F4F;
 transform: translate(-1px, -1px);
-box-shadow: 0.22rem 0.22rem 0 #4F4F4F;
+box-shadow:
+5px 5px 0 #4F4F4F,
+inset 0 1px 0 rgba(255, 255, 255, 0.30);
+}
 }
 
 .modal-app2 .reel-auth2-submit:active {
-transform: translate(0.12rem, 0.12rem);
-box-shadow: 0.04rem 0.04rem 0 #4F4F4F;
+background: #F3E9D7;
+color: #4F4F4F;
+-webkit-text-fill-color: #4F4F4F;
+transform: translate(2px, 2px);
+box-shadow: inset 0 1px 0 rgba(79, 79, 79, 0.14);
 }
 
 .modal-app2 .reel-auth2-submit:disabled {
 opacity: 0.55;
 cursor: wait;
 transform: none;
-box-shadow: 0.10rem 0.10rem 0 #4F4F4F;
+box-shadow:
+2px 2px 0 #4F4F4F,
+inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
 
 .modal-app2 .reel-auth2-error {
@@ -215,6 +241,21 @@ transition: opacity 180ms ease-out;
 }
 
 .modal-app2 .video.is-loaded { opacity: 1; }
+
+/* Reel-only casual download friction. Native controls are not used, but
+   these hints also suppress browser-supplied download/PiP buttons where
+   the browser exposes them through WebKit media-control pseudo-elements. */
+.modal-app2 .video {
+-webkit-user-drag: none;
+-webkit-user-select: none;
+user-select: none;
+}
+
+.modal-app2 .video::-webkit-media-controls-download-button,
+.modal-app2 .video::-webkit-media-controls-picture-in-picture-button {
+display: none !important;
+-webkit-appearance: none !important;
+}
 
 /* ---------- Custom Player Controls ---------- */
 
@@ -304,6 +345,86 @@ font-family: Space Mono, sans-serif;
 font-size: 10px;
 color: #F3E9D7;
 white-space: nowrap;
+}
+
+.modal-app2 .reel-icon-volume-muted2 {
+display: none;
+}
+
+.modal-app2 .reel-control2-button.is-muted .reel-icon-volume-on2 {
+display: none;
+}
+
+.modal-app2 .reel-control2-button.is-muted .reel-icon-volume-muted2 {
+display: block;
+}
+
+.modal-app2 .reel-volume2 {
+--volume: 100%;
+width: 72px;
+height: 18px;
+margin: 0;
+padding: 0;
+appearance: none;
+-webkit-appearance: none;
+background: transparent;
+cursor: pointer;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-runnable-track {
+height: 4px;
+border-radius: 999px;
+background:
+linear-gradient(
+to right,
+#D66545 0,
+#D66545 var(--volume),
+rgba(243, 233, 215, 0.38) var(--volume),
+rgba(243, 233, 215, 0.38) 100%
+);
+}
+
+.modal-app2 .reel-volume2::-moz-range-track {
+height: 4px;
+border-radius: 999px;
+background: rgba(243, 233, 215, 0.38);
+}
+
+.modal-app2 .reel-volume2::-moz-range-progress {
+height: 4px;
+border-radius: 999px;
+background: #D66545;
+}
+
+.modal-app2 .reel-volume2::-webkit-slider-thumb {
+appearance: none;
+-webkit-appearance: none;
+width: 10px;
+height: 10px;
+margin-top: -3px;
+border: 2px solid #F3E9D7;
+border-radius: 50%;
+background: #D66545;
+box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.modal-app2 .reel-volume2::-moz-range-thumb {
+width: 8px;
+height: 8px;
+border: 2px solid #F3E9D7;
+border-radius: 50%;
+background: #D66545;
+box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.modal-app2 .reel-volume2:focus-visible {
+outline: none;
+}
+
+.modal-app2 .reel-volume2:focus-visible::-webkit-slider-thumb {
+box-shadow:
+0 0 0 3px rgba(214, 101, 69, 0.35),
+0 1px 2px rgba(0,0,0,0.35);
 }
 
 .modal-app2 .reel-spacer2 {
@@ -467,7 +588,8 @@ transition: background-color 120ms ease-out;
 content: "+";
 font-size: 16px;
 line-height: 1;
-color: #D66545;
+color: #4F4F4F;
+transition: color 120ms ease-out;
 }
 
 .modal-app2 .reel-timestamps2.is-open .reel-timestamps2-toggle::after {
@@ -477,8 +599,13 @@ content: "–";
 .modal-app2 .reel-timestamps2-toggle:hover,
 .modal-app2 .reel-timestamps2-toggle:focus-visible {
 outline: none;
-color: #4F4F4F;
+color: #D66545;
 background: rgba(79, 79, 79, 0.08);
+}
+
+.modal-app2 .reel-timestamps2-toggle:hover::after,
+.modal-app2 .reel-timestamps2-toggle:focus-visible::after {
+color: #D66545;
 }
 
 .modal-app2 .reel-timestamps2-list {
@@ -609,6 +736,10 @@ padding-right: 9px;
 gap: 6px;
 }
 
+.modal-app2 .reel-volume2 {
+width: 56px;
+}
+
 .modal-app2 .reel-preview2 {
 display: none;
 }
@@ -686,8 +817,12 @@ transition: none !important;
   var demoReelCurrentTime2 = 0;
   var demoReelActiveTimestampIndex2 = -1;
   var demoReelListenersAttached2 = false;
+  var demoReelGlobalKeysAttached2 = false;
   var demoReelControlsHideTimer2 = null;
   var demoReelPreviewSpriteReady2 = false;
+  var demoReelLastVolume2 = 1;
+
+  var DEMO_REEL_FRAME_RATE2 = 24;
 
   var DEMO_REEL_LOGIN_URL2 =
     "https://reel.nick-st-clair.com/login";
@@ -868,6 +1003,11 @@ transition: none !important;
 
     video.addEventListener("loadedmetadata", function () {
       updateDemoReelControlState2();
+      updateDemoReelVolumeState2();
+    });
+
+    video.addEventListener("volumechange", function () {
+      updateDemoReelVolumeState2();
     });
 
     video.addEventListener("play", function () {
@@ -928,6 +1068,8 @@ transition: none !important;
     var video = getDemoReelVideo2();
     var play = document.getElementById("demoReelPlay2");
     var timeline = document.getElementById("demoReelTimeline2");
+    var mute = document.getElementById("demoReelMute2");
+    var volume = document.getElementById("demoReelVolume2");
     var pip = document.getElementById("demoReelPip2");
     var fullscreen = document.getElementById(
       "demoReelFullscreen2"
@@ -981,21 +1123,20 @@ transition: none !important;
       if (event.code === "Space" || event.key.toLowerCase() === "k") {
         event.preventDefault();
         toggleDemoReelPlayback2();
-      } else if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        seekDemoReel2(
-          Math.max(0, (video.currentTime || 0) - 5)
-        );
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        seekDemoReel2(
-          Math.min(
-            video.duration || Infinity,
-            (video.currentTime || 0) + 5
-          )
-        );
       }
     });
+
+    // Keep the usual page context menu everywhere else on the site.
+    // Suppress it only inside the authorized reel player.
+    wrap.addEventListener("contextmenu", function (event) {
+      event.preventDefault();
+    });
+
+    video.addEventListener("dragstart", function (event) {
+      event.preventDefault();
+    });
+
+    attachDemoReelGlobalKeyListener2();
 
     if (timeline) {
       timeline.addEventListener("input", function () {
@@ -1024,6 +1165,46 @@ transition: none !important;
 
       timeline.addEventListener("pointerleave", function () {
         hideDemoReelPreview2();
+      });
+    }
+
+    if (mute) {
+      mute.addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        if (video.muted || video.volume === 0) {
+          video.muted = false;
+
+          if (video.volume === 0) {
+            video.volume = Math.max(
+              0.05,
+              Math.min(1, demoReelLastVolume2 || 1)
+            );
+          }
+        } else {
+          demoReelLastVolume2 = video.volume || demoReelLastVolume2;
+          video.muted = true;
+        }
+
+        updateDemoReelVolumeState2();
+      });
+    }
+
+    if (volume) {
+      volume.addEventListener("input", function () {
+        var nextVolume = Math.max(
+          0,
+          Math.min(1, Number(volume.value))
+        );
+
+        video.volume = nextVolume;
+        video.muted = nextVolume === 0;
+
+        if (nextVolume > 0) {
+          demoReelLastVolume2 = nextVolume;
+        }
+
+        updateDemoReelVolumeState2();
       });
     }
 
@@ -1069,6 +1250,81 @@ transition: none !important;
 
     updateDemoReelControlState2();
     updateDemoReelPlaybackState2();
+    updateDemoReelVolumeState2();
+  }
+
+  function attachDemoReelGlobalKeyListener2() {
+    if (demoReelGlobalKeysAttached2) return;
+
+    demoReelGlobalKeysAttached2 = true;
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+        return;
+      }
+
+      var app = document.getElementById("app2");
+      var video = getDemoReelVideo2();
+      var target = event.target;
+
+      if (
+        !app ||
+        !app.classList.contains("is-open") ||
+        app.classList.contains("is-auth-mode") ||
+        !video ||
+        !video.src
+      ) {
+        return;
+      }
+
+      // Password typing is the one arrow-key exception.
+      if (
+        target &&
+        (target.id === "demoReelPassword2" ||
+          (target.tagName === "INPUT" && target.type === "password") ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      stepDemoReelFrame2(event.key === "ArrowRight" ? 1 : -1);
+    }, true);
+  }
+
+  function stepDemoReelFrame2(direction) {
+    var video = getDemoReelVideo2();
+
+    if (!video || !video.src || !direction) return;
+
+    // Frame stepping always pauses first.
+    if (!video.paused) video.pause();
+
+    var current = Number.isFinite(video.currentTime)
+      ? video.currentTime
+      : 0;
+
+    var duration = Number.isFinite(video.duration)
+      ? video.duration
+      : Infinity;
+
+    var frameDuration = 1 / DEMO_REEL_FRAME_RATE2;
+    var target = current + (direction > 0 ? frameDuration : -frameDuration);
+
+    target = Math.max(0, Math.min(duration, target));
+
+    demoReelCurrentTime2 = target;
+
+    try {
+      video.currentTime = target;
+    } catch (error) {}
+
+    updateDemoReelControlState2();
+    updateDemoReelActiveTimestamp2(target, true);
+    updateDemoReelPlaybackState2();
+    showDemoReelControls2(true);
   }
 
   function toggleDemoReelPlayback2() {
@@ -1178,6 +1434,50 @@ transition: none !important;
         formatDemoReelTime2(current) +
         " / " +
         formatDemoReelTime2(duration);
+    }
+  }
+
+  function updateDemoReelVolumeState2() {
+    var video = getDemoReelVideo2();
+    var mute = document.getElementById("demoReelMute2");
+    var volume = document.getElementById("demoReelVolume2");
+
+    if (!video) return;
+
+    var rawVolume = Number.isFinite(video.volume)
+      ? Math.max(0, Math.min(1, video.volume))
+      : 1;
+
+    var muted = video.muted || rawVolume === 0;
+    var shownVolume = muted ? 0 : rawVolume;
+
+    if (!muted && rawVolume > 0) {
+      demoReelLastVolume2 = rawVolume;
+    }
+
+    if (mute) {
+      mute.classList.toggle("is-muted", muted);
+      mute.setAttribute(
+        "aria-label",
+        muted ? "Unmute demo reel" : "Mute demo reel"
+      );
+      mute.setAttribute(
+        "title",
+        muted ? "Unmute" : "Mute"
+      );
+      mute.setAttribute("aria-pressed", muted ? "true" : "false");
+    }
+
+    if (volume) {
+      volume.value = String(shownVolume);
+      volume.style.setProperty(
+        "--volume",
+        (shownVolume * 100).toFixed(1) + "%"
+      );
+      volume.setAttribute(
+        "aria-valuetext",
+        Math.round(shownVolume * 100) + "%"
+      );
     }
   }
 
