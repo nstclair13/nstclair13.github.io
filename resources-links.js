@@ -717,7 +717,9 @@ translate: none !important;
     "linkedinjobpostings":
       "The giant general-purpose job board. Filters and alerts are useful, even if digging through promoted listings occasionally tests your patience.",
     "saltyanimatorssalaryspreadsheet":
-      "Anonymous salary data shared by people working across animation and VFX. Extremely useful context before a negotiation or relocation."
+      "Anonymous salary data shared by people working across animation and VFX. Extremely useful context before a negotiation or relocation.",
+    "saltyanimatorssuccessfulexitcollectionspreadsheet":
+      "Anonymous data shared by people working across animation and VFX who have successfully exited the industry for something new. Highly useful context if you are looking to transition away from VFX or Animation."
   };
 
   function getResourceTooltipKey(text) {
