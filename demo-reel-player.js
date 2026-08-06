@@ -1084,6 +1084,8 @@ animation-duration: 1.2s;
   var demoReelTimelinePointerId2 = null;
   var demoReelTimelinePointerType2 = "";
   var demoReelTimelineTouchSeeking2 = false;
+  var demoReelTimelineScrubbing2 = false;
+  var demoReelTimelineWasPlaying2 = false;
 
   var DEMO_REEL_FRAME_RATE2 = 24;
 
@@ -1101,7 +1103,9 @@ animation-duration: 1.2s;
   var DEMO_REEL_VOLUME_KEY2 = "demoReelVolumePreference2";
   var DEMO_REEL_MUTED_KEY2 = "demoReelMutedPreference2";
 
-  var DEMO_REEL_PREVIEW_INTERVAL2 = 2;
+  // One-second preview spacing matches the finished family-site player and
+  // makes hover/scrub look-ahead noticeably more precise around shot cuts.
+  var DEMO_REEL_PREVIEW_INTERVAL2 = 1;
   var DEMO_REEL_PREVIEW_WIDTH2 = 160;
   var DEMO_REEL_PREVIEW_HEIGHT2 = 90;
   var DEMO_REEL_PREVIEW_COLUMNS2 = 9;
@@ -1552,6 +1556,58 @@ animation-duration: 1.2s;
     }
   }
 
+  function beginDemoReelTimelineScrub2() {
+    var video = getDemoReelVideo2();
+    var wrap = getDemoReelWrap2();
+
+    if (!video || !video.src || demoReelTimelineScrubbing2) return;
+
+    demoReelTimelineScrubbing2 = true;
+    demoReelTimelineWasPlaying2 = !video.paused && !video.ended;
+
+    // Holding the frame still while dragging makes the thumbnail preview and
+    // the eventual seek target much easier to read. Resume automatically only
+    // when playback was running before the scrub began.
+    if (demoReelTimelineWasPlaying2) {
+      video.pause();
+    }
+
+    if (wrap) wrap.classList.add("is-scrubbing");
+    showDemoReelControls2(true);
+  }
+
+  function finishDemoReelTimelineScrub2(hidePreview) {
+    var video = getDemoReelVideo2();
+    var wrap = getDemoReelWrap2();
+
+    if (!demoReelTimelineScrubbing2) {
+      if (hidePreview) hideDemoReelPreview2();
+      return;
+    }
+
+    demoReelTimelineScrubbing2 = false;
+    if (wrap) wrap.classList.remove("is-scrubbing");
+
+    if (hidePreview) hideDemoReelPreview2();
+
+    var shouldResume = !!(
+      video &&
+      video.src &&
+      demoReelTimelineWasPlaying2
+    );
+
+    demoReelTimelineWasPlaying2 = false;
+
+    if (shouldResume) {
+      var playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(function () {});
+      }
+    } else {
+      showDemoReelControls2(true);
+    }
+  }
+
   function attachDemoReelControlListeners2() {
     var wrap = getDemoReelWrap2();
     var video = getDemoReelVideo2();
@@ -1660,6 +1716,15 @@ animation-duration: 1.2s;
           return;
         }
 
+        // Pointer seeking is owned by the clientX calculation below. Ignoring
+        // native range input during an active pointer keeps hover preview,
+        // click, and drag on the exact same timeline geometry.
+        if (demoReelTimelinePointerActive2) return;
+
+        if (!demoReelTimelineScrubbing2) {
+          beginDemoReelTimelineScrub2();
+        }
+
         var seconds =
           (Number(timeline.value) / 1000) * video.duration;
 
@@ -1667,16 +1732,6 @@ animation-duration: 1.2s;
         demoReelCurrentTime2 = seconds;
         updateDemoReelControlState2();
         updateDemoReelActiveTimestamp2(seconds, true);
-
-        if (
-          demoReelTimelinePointerActive2 &&
-          demoReelTimelinePointerType2 &&
-          demoReelTimelinePointerType2 !== "mouse"
-        ) {
-          demoReelTimelineTouchSeeking2 = true;
-          updateDemoReelPreviewFromTimeline2();
-          showDemoReelControls2(true);
-        }
       });
 
       timeline.addEventListener("pointerdown", function (event) {
@@ -1686,14 +1741,21 @@ animation-duration: 1.2s;
         demoReelTimelineTouchSeeking2 =
           demoReelTimelinePointerType2 !== "mouse";
 
+        beginDemoReelTimelineScrub2();
         showDemoReelControls2(true);
 
-        if (demoReelTimelinePointerType2 === "mouse") {
-          updateDemoReelPreview2(event);
-        } else {
-          if (event.cancelable) event.preventDefault();
-          seekDemoReelTimelineFromClientX2(event.clientX, true);
+        // Prevent the browser range control from independently choosing a
+        // slightly different point on its inset track. One clientX mapping now
+        // drives preview, click, and drag for mouse, pen, and touch.
+        if (event.cancelable) event.preventDefault();
+
+        try {
+          timeline.focus({ preventScroll: true });
+        } catch (focusError) {
+          timeline.focus();
         }
+
+        seekDemoReelTimelineFromClientX2(event.clientX, true);
 
         if (timeline.setPointerCapture) {
           try {
@@ -1703,21 +1765,16 @@ animation-duration: 1.2s;
       });
 
       timeline.addEventListener("pointermove", function (event) {
-        var touchLike =
-          event.pointerType && event.pointerType !== "mouse";
-
-        if (touchLike) {
-          if (!demoReelTimelinePointerActive2) return;
-
+        if (demoReelTimelinePointerActive2) {
           if (event.cancelable) event.preventDefault();
           seekDemoReelTimelineFromClientX2(event.clientX, true);
           return;
         }
 
-        updateDemoReelPreview2(event);
-
-        if (demoReelTimelinePointerActive2) {
-          showDemoReelControls2(true);
+        // Desktop look-ahead remains hover-only: moving across the timeline
+        // previews without pausing or seeking until the pointer goes down.
+        if (!event.pointerType || event.pointerType === "mouse") {
+          updateDemoReelPreview2(event);
         }
       });
 
@@ -1750,23 +1807,32 @@ animation-duration: 1.2s;
         demoReelTimelinePointerType2 = "";
         demoReelTimelineTouchSeeking2 = false;
 
-        if (touchLike) {
-          hideDemoReelPreview2();
-        }
-
+        // Keep a desktop hover preview visible while the mouse remains over
+        // the timeline. Touch/pen previews disappear when the drag is released.
+        finishDemoReelTimelineScrub2(!!touchLike);
         scheduleDemoReelControlsHide2();
       };
+
+      timeline.addEventListener("change", function () {
+        // Covers non-pointer range changes from accessibility/browser input.
+        if (!demoReelTimelinePointerActive2) {
+          finishDemoReelTimelineScrub2(true);
+        }
+      });
 
       timeline.addEventListener("pointerup", finishTimelinePointer2);
       timeline.addEventListener("pointercancel", finishTimelinePointer2);
       timeline.addEventListener("lostpointercapture", function () {
         if (!demoReelTimelinePointerActive2) return;
 
+        var hidePreview = demoReelTimelinePointerType2 !== "mouse";
+
         demoReelTimelinePointerActive2 = false;
         demoReelTimelinePointerId2 = null;
         demoReelTimelinePointerType2 = "";
         demoReelTimelineTouchSeeking2 = false;
-        hideDemoReelPreview2();
+
+        finishDemoReelTimelineScrub2(hidePreview);
         scheduleDemoReelControlsHide2();
       });
     }
@@ -1897,6 +1963,20 @@ animation-duration: 1.2s;
 
     document.addEventListener("fullscreenchange", function () {
       updateDemoReelFullscreenButton2();
+    });
+    document.addEventListener("webkitfullscreenchange", function () {
+      updateDemoReelFullscreenButton2();
+    });
+
+    // Native iPhone video fullscreen does not reliably fire the document-level
+    // fullscreen events, so track the WebKit video events as well.
+    video.addEventListener("webkitbeginfullscreen", function () {
+      updateDemoReelFullscreenButton2();
+      updateDemoReelWatermarkPosition2();
+    });
+    video.addEventListener("webkitendfullscreen", function () {
+      updateDemoReelFullscreenButton2();
+      updateDemoReelWatermarkPosition2();
     });
 
     updateDemoReelControlState2();
@@ -2322,22 +2402,46 @@ animation-duration: 1.2s;
     if (!wrap || !video) return;
 
     try {
-      if (document.fullscreenElement) {
-        await document.exitFullscreen();
-      } else if (wrap.requestFullscreen) {
+      var fullscreenElement =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        null;
+
+      if (fullscreenElement) {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        return;
+      }
+
+      if (wrap.requestFullscreen) {
         await wrap.requestFullscreen();
+      } else if (wrap.webkitRequestFullscreen) {
+        wrap.webkitRequestFullscreen();
       } else if (video.webkitEnterFullscreen) {
+        // iPhone Safari/WebKit enters native video fullscreen through the
+        // HTMLVideoElement API. Keep this directly inside the button gesture.
         video.webkitEnterFullscreen();
+      } else if (video.requestFullscreen) {
+        await video.requestFullscreen();
       }
     } catch (error) {}
   }
 
   function updateDemoReelFullscreenButton2() {
     var button = document.getElementById("demoReelFullscreen2");
+    var wrap = getDemoReelWrap2();
+    var video = getDemoReelVideo2();
 
     if (!button) return;
 
-    var active = !!document.fullscreenElement;
+    var active = !!(
+      (wrap && document.fullscreenElement === wrap) ||
+      (wrap && document.webkitFullscreenElement === wrap) ||
+      (video && video.webkitDisplayingFullscreen === true)
+    );
 
     button.setAttribute("aria-pressed", active ? "true" : "false");
     button.setAttribute(
