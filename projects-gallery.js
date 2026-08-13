@@ -3,6 +3,8 @@
 
 const galleryStyles = document.createElement("style");
 galleryStyles.innerHTML = `
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+
 
 #app3 {
 font-family: Space Mono, sans-serif;
