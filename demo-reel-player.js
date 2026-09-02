@@ -1407,6 +1407,13 @@ animation-duration: 1.2s;
 
     video.addEventListener("progress", function () {
       updateDemoReelBufferedState2();
+
+      // A stalled network request does not necessarily mean playback is
+      // starved. If the browser has playable future data again, make sure a
+      // spinner raised by an earlier waiting/stalled event cannot linger.
+      if (video.readyState >= 3) {
+        hideDemoReelBuffering2();
+      }
     });
 
     video.addEventListener("loadedmetadata", function () {
@@ -1443,6 +1450,10 @@ animation-duration: 1.2s;
     });
 
     video.addEventListener("timeupdate", function () {
+      // If currentTime is advancing, playback is not visibly buffering. This
+      // also clears a stale spinner if a browser fired `stalled` while it
+      // still had enough media buffered to continue playing.
+      hideDemoReelBuffering2();
       demoReelCurrentTime2 = video.currentTime || 0;
       updateDemoReelControlState2();
       updateDemoReelActiveTimestamp2(
@@ -2128,9 +2139,19 @@ animation-duration: 1.2s;
     clearTimeout(demoReelBufferingTimer2);
 
     demoReelBufferingTimer2 = setTimeout(function () {
-      if (!video.paused && !video.ended) {
+      // `stalled` only means the browser stopped receiving media data; it can
+      // fire while plenty of already-buffered video remains playable. Only
+      // show the spinner when playback is still active AND the media element
+      // no longer has future decoded data available (readyState < 3).
+      if (
+        !video.paused &&
+        !video.ended &&
+        (video.seeking || video.readyState < 3)
+      ) {
         wrap.classList.add("is-buffering");
         showDemoReelControls2(true);
+      } else {
+        wrap.classList.remove("is-buffering");
       }
     }, typeof delay === "number" ? delay : 180);
   }
